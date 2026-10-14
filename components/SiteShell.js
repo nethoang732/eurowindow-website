@@ -1,10 +1,26 @@
 'use client';
 
 import { useEffect, useRef } from 'react';
+import Lenis from 'lenis';
 
 export default function SiteShell() {
   const rootRef = useRef(null);
   const basePath = process.env.NEXT_PUBLIC_BASE_PATH || '';
+
+  useEffect(() => {
+    const lenis = new Lenis({
+      autoRaf: true,
+      smoothWheel: true,
+      syncTouch: false,
+      respectReducedMotion: true
+    });
+    window.__EUROWINDOW_LENIS__ = lenis;
+
+    return () => {
+      lenis.destroy();
+      if (window.__EUROWINDOW_LENIS__ === lenis) delete window.__EUROWINDOW_LENIS__;
+    };
+  }, []);
 
   useEffect(() => {
     let cancelled = false;
