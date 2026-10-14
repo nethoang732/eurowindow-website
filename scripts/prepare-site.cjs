@@ -100,6 +100,21 @@ const motion = `
 @media(prefers-reduced-motion:reduce){.home-section-motion,.home-motion-item{opacity:1;transform:none;transition:none}.home-parallax{translate:none;will-change:auto}.hero-image img{animation:none}.reveal{opacity:1;transform:none;transition:none}.category-card:hover,.project-card:hover,.product-card:hover,.article-card:hover{transform:none;box-shadow:none}}
 `;
 
-fs.writeFileSync(path.join(publicDir, 'site.css'), style[1] + motion);
+const blueTheme = `
+/* Cool sapphire palette shared by every route. */
+:root{--navy:#102b4c;--blue:#1d4d7c;--blue2:#3975a7;--gold:#79a9d6;--gold2:#d4e7f8;--cream:#f3f7fb;--white:#fff;--ink:#17283b;--muted:#64778b;--line:#dce6f0}
+body{background:var(--cream);color:var(--ink)}
+::selection{background:var(--gold2);color:var(--navy)}
+.button:hover{background:#a9c9e8;border-color:#a9c9e8}
+.projects-section{background:#e9f0f7}
+.project-image{background:#d6e1ec}
+.detail-image{background:#e3ebf3}
+.detail-label{background:#e1edf8;color:#244d75}
+.sample-note{background:#edf4fa;color:#526b84}
+.category-section{background:#fff}
+#main [style*="#d8d2c4"]{background:linear-gradient(135deg,#dce8f3,#f1f6fb)!important}
+`;
+
+fs.writeFileSync(path.join(publicDir, 'site.css'), style[1] + blueTheme + motion);
 fs.writeFileSync(path.join(publicDir, 'site-shell.html'), body[1]);
 fs.writeFileSync(path.join(publicDir, 'site-script.js'), script);
