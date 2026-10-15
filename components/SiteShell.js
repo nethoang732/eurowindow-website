@@ -25,7 +25,7 @@ export default function SiteShell() {
   useEffect(() => {
     let cancelled = false;
 
-    fetch(`${basePath}/site-shell.html`)
+    fetch(`${basePath}/site-shell.html?v=homepage-copy-1`)
       .then((response) => {
         if (!response.ok) throw new Error(`Unable to load site shell (${response.status})`);
         return response.text();

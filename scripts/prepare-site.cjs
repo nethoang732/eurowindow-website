@@ -178,8 +178,12 @@ body{font-size:15px}
 #main.home-page .project-grid>.project-card{min-width:0;align-self:stretch}
 #main.home-page .project-grid>.project-card:nth-child(2),#main.home-page .project-grid>.project-card:nth-child(3){margin-top:0!important}
 #main.home-page .project-grid>.project-card .project-image{height:clamp(280px,27vw,390px)}
+#main.home-page .hero h1{font-size:clamp(44px,5.6vw,90px);max-width:1320px}
+#main.home-page .hero-content{padding:150px 0 86px}
 @media(max-width:1000px){#main.home-page .project-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
-@media(max-width:700px){#main.home-page .project-grid{grid-template-columns:1fr}#main.home-page .project-grid>.project-card:nth-child(3){display:block}#main.home-page .project-grid>.project-card .project-image{height:360px}}
+@media(max-width:700px){#main.home-page .project-grid{grid-template-columns:1fr}#main.home-page .project-grid>.project-card:nth-child(3){display:block}#main.home-page .project-grid>.project-card .project-image{height:360px}#main.home-page .hero h1{font-size:clamp(40px,10.5vw,56px);max-width:100%}#main.home-page .hero-content{padding:112px 0 76px}}
+@media(max-height:700px) and (max-width:700px){#main.home-page .hero-content{padding:88px 0 55px}}
+@media(max-height:820px) and (min-width:701px){#main.home-page .hero h1{font-size:clamp(42px,5vw,72px)}#main.home-page .hero-content{padding:118px 0 68px}}
 #main [style*="#d8d2c4"]{background:linear-gradient(135deg,#dce8f3,#f1f6fb)!important}
 `;
 
