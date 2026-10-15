@@ -2,6 +2,7 @@ import SiteShell from '../../components/SiteShell';
 
 const routes = [
   '', 'gioi-thieu', 'san-pham', 'he-nhom', 'du-an', 'tin-tuc', 'lien-he', 'bao-gia',
+  'san-pham/cua-nhom', 'san-pham/cua-upvc', 'san-pham/cua-go', 'san-pham/cua-cuon', 'san-pham/cua-thong-minh-the-he-moi',
   'san-pham/cua-di-mo-quay', 'san-pham/cua-di-mo-truot', 'san-pham/cua-xep-truot',
   'san-pham/cua-so-mo-quay', 'san-pham/cua-so-mo-hat', 'san-pham/vach-kinh-mat-dung',
   'he-nhom/ea45', 'he-nhom/ea65', 'he-nhom/ea70', 'he-nhom/ea90', 'he-nhom/ea95',

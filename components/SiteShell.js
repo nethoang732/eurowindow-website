@@ -25,7 +25,7 @@ export default function SiteShell() {
   useEffect(() => {
     let cancelled = false;
 
-    fetch(`${basePath}/site-shell.html?v=homepage-video-fix-1`)
+    fetch(`${basePath}/site-shell.html?v=aluminum-catalog-tabs-21`)
       .then((response) => {
         if (!response.ok) throw new Error(`Unable to load site shell (${response.status})`);
         return response.text();
@@ -35,12 +35,12 @@ export default function SiteShell() {
         rootRef.current.innerHTML = markup;
         window.__EUROWINDOW_BASE_PATH__ = basePath;
         const script = document.createElement('script');
-        script.src = `${basePath}/site-script.js?v=homepage-video-fix-1`;
+        script.src = `${basePath}/site-script.js?v=aluminum-catalog-tabs-21`;
         rootRef.current.appendChild(script);
       })
       .catch((error) => {
         if (!cancelled && rootRef.current) {
-          rootRef.current.textContent = `Không thể tải website: ${error.message}`;
+          rootRef.current.textContent = `Kh\u00f4ng th\u1ec3 t\u1ea3i website: ${error.message}`;
         }
       });
 

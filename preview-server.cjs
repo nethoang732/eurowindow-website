@@ -3,14 +3,78 @@ const fs = require('fs');
 const path = require('path');
 
 const root = path.join(__dirname, 'dist');
-const mime = { '.html': 'text/html; charset=utf-8', '.txt': 'text/plain; charset=utf-8', '.xml': 'application/xml; charset=utf-8' };
+const publicRoot = path.join(__dirname, 'public');
+const mime = {
+  '.html': 'text/html; charset=utf-8',
+  '.css': 'text/css; charset=utf-8',
+  '.js': 'text/javascript; charset=utf-8',
+  '.png': 'image/png',
+  '.jpg': 'image/jpeg',
+  '.jpeg': 'image/jpeg',
+  '.webp': 'image/webp',
+  '.svg': 'image/svg+xml',
+  '.mp4': 'video/mp4',
+  '.txt': 'text/plain; charset=utf-8',
+  '.xml': 'application/xml; charset=utf-8'
+};
+
+function findFile(base, pathname) {
+  const target = path.resolve(base, `.${pathname}`);
+  const insideBase = target.startsWith(`${base}${path.sep}`);
+  return insideBase && fs.existsSync(target) && fs.statSync(target).isFile() ? target : null;
+}
 
 http.createServer((req, res) => {
-  const pathname = decodeURIComponent(new URL(req.url, 'http://localhost').pathname);
-  const requested = path.join(root, pathname.replace(/^\/+/, ''));
-  const target = requested.startsWith(root) && fs.existsSync(requested) && fs.statSync(requested).isFile()
-    ? requested
-    : path.join(root, 'index.html');
-  res.writeHead(200, { 'Content-Type': mime[path.extname(target)] || 'application/octet-stream' });
+  let pathname;
+  try {
+    pathname = decodeURIComponent(new URL(req.url, 'http://localhost').pathname);
+  } catch {
+    res.writeHead(400);
+    res.end('Bad request');
+    return;
+  }
+  const target = findFile(root, pathname) || findFile(publicRoot, pathname) || path.join(root, 'index.html');
+  const stat = fs.statSync(target);
+  const contentType = mime[path.extname(target)] || 'application/octet-stream';
+  const range = req.headers.range;
+  if (range) {
+    const match = /^bytes=(\d*)-(\d*)$/.exec(range);
+    if (!match || (!match[1] && !match[2])) {
+      res.writeHead(416, { 'Content-Range': `bytes */${stat.size}`, 'Cache-Control': 'no-store' });
+      res.end();
+      return;
+    }
+    const start = match[1] ? Number(match[1]) : Math.max(0, stat.size - Number(match[2]));
+    const end = match[2] ? Number(match[2]) : stat.size - 1;
+    if (start >= stat.size || end < start) {
+      res.writeHead(416, { 'Content-Range': `bytes */${stat.size}`, 'Cache-Control': 'no-store' });
+      res.end();
+      return;
+    }
+    const last = Math.min(end, stat.size - 1);
+    res.writeHead(206, {
+      'Content-Type': contentType,
+      'Content-Length': last - start + 1,
+      'Content-Range': `bytes ${start}-${last}/${stat.size}`,
+      'Accept-Ranges': 'bytes',
+      'Cache-Control': 'no-store'
+    });
+    fs.createReadStream(target, { start, end: last }).pipe(res);
+    return;
+  }
+  res.writeHead(200, {
+    'Content-Type': contentType,
+    'Content-Length': stat.size,
+    'Accept-Ranges': 'bytes',
+    'Cache-Control': 'no-store'
+  });
+  if (path.extname(target) === '.html') {
+    const html = fs.readFileSync(target, 'utf8').replace(
+      '</head>',
+      '  <link rel="stylesheet" href="/site.css?v=header-logo-size-2">\n</head>'
+    );
+    res.end(html);
+    return;
+  }
   fs.createReadStream(target).pipe(res);
 }).listen(4173, '127.0.0.1', () => console.log('Eurowindow preview: http://localhost:4173'));
