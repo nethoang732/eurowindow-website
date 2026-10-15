@@ -113,6 +113,45 @@ body{background:var(--cream);color:var(--ink)}
 .brand-image img{width:100%;height:100%;object-fit:contain}
 .footer .brand-image{width:220px;height:54px;filter:brightness(0) invert(1)}
 @media(max-width:700px){.brand-image{width:min(62vw,220px);height:48px}.footer .brand-image{width:210px;height:50px}.nav{color:#fff}.site-header.scrolled .nav{color:var(--navy)}}
+/* Slightly larger type across the site for more comfortable reading. */
+body{font-size:16px}
+.eyebrow{font-size:11px}
+.button{font-size:12px}
+.nav,.head-cta{font-size:11px}
+.hero-copy{font-size:16px}
+.section-head h2{font-size:clamp(36px,5.2vw,68px)}
+.section-head p,.intro-copy p{font-size:16px}
+.intro-copy h2{font-size:clamp(44px,5.8vw,78px)}
+.intro-caption{font-size:12px}
+.stat span{font-size:11px}
+.category-info small,.project-meta,.value-no,.story-kicker,.crumb{font-size:10px}
+.category-info p,.system-card p,.project-card p,.value-item p,.product-body p,.article-body p,.process-step p,.spec-row{font-size:13px}
+.system-card a{font-size:11px}
+.project-card h3{font-size:26px}
+.craft-copy h2{font-size:clamp(40px,5.2vw,68px)}
+.story-copy h2{font-size:clamp(44px,5.5vw,75px)}
+.quote-grid h2{font-size:clamp(40px,5.2vw,68px)}
+.footer-copy,.footer-links{font-size:13px}
+.footer h4{font-size:11px}
+.footer-bottom,.form-note{font-size:11px}
+.filter{font-size:11px}
+.product-body small,.detail-label,.article-body small,.contact-card small{font-size:10px}
+.page-hero h1{font-size:clamp(44px,7.2vw,86px)}
+@media(max-width:700px){
+body{font-size:15px}
+.nav{font-size:10px}
+.hero h1{font-size:clamp(46px,13.5vw,72px)}
+.hero-copy{font-size:14px}
+.section-head h2{font-size:44px}
+.intro-copy h2{font-size:50px}
+.stat span{font-size:9px}
+.category-info h3{font-size:28px}
+.category-info p,.system-card p,.project-card p,.value-item p,.product-body p,.article-body p,.process-step p{font-size:12px}
+.story-copy h2,.quote-grid h2{font-size:47px}
+.page-hero h1{font-size:48px}
+.product-body h3,.article-body h3{font-size:18px}
+.process-step h3{font-size:17px}
+}
 .projects-section{background:#e9f0f7}
 .project-image{background:#d6e1ec}
 .detail-image{background:#e3ebf3}
