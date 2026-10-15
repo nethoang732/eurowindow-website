@@ -3,7 +3,8 @@ const basePath = process.env.NEXT_PUBLIC_BASE_PATH ||
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  output: 'export',
+  // Keep local development on the normal Next.js server; export only for production builds.
+  ...(process.env.NODE_ENV === 'production' ? { output: 'export' } : {}),
   trailingSlash: true,
   basePath,
   assetPrefix: basePath ? `${basePath}/` : undefined,
