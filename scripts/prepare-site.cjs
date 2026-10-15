@@ -112,6 +112,7 @@ body{background:var(--cream);color:var(--ink)}
 .detail-label{background:#e1edf8;color:#244d75}
 .sample-note{background:#edf4fa;color:#526b84}
 .category-section{background:#fff}
+.project-grid>.project-card:nth-child(2),.project-grid>.project-card:nth-child(3){margin-top:0}
 #main [style*="#d8d2c4"]{background:linear-gradient(135deg,#dce8f3,#f1f6fb)!important}
 `;
 
