@@ -174,7 +174,12 @@ body{font-size:15px}
 .detail-label{background:#e1edf8;color:#244d75}
 .sample-note{background:#edf4fa;color:#526b84}
 .category-section{background:#fff}
-.project-grid>.project-card:nth-child(2),.project-grid>.project-card:nth-child(3){margin-top:0!important;align-self:start}
+#main.home-page .project-grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:20px;align-items:stretch}
+#main.home-page .project-grid>.project-card{min-width:0;align-self:stretch}
+#main.home-page .project-grid>.project-card:nth-child(2),#main.home-page .project-grid>.project-card:nth-child(3){margin-top:0!important}
+#main.home-page .project-grid>.project-card .project-image{height:clamp(280px,27vw,390px)}
+@media(max-width:1000px){#main.home-page .project-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:700px){#main.home-page .project-grid{grid-template-columns:1fr}#main.home-page .project-grid>.project-card:nth-child(3){display:block}#main.home-page .project-grid>.project-card .project-image{height:360px}}
 #main [style*="#d8d2c4"]{background:linear-gradient(135deg,#dce8f3,#f1f6fb)!important}
 `;
 
