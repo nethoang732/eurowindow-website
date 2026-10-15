@@ -180,6 +180,10 @@ body{font-size:15px}
 #main.home-page .project-grid>.project-card .project-image{height:clamp(280px,27vw,390px)}
 #main.home-page .hero h1{font-size:clamp(44px,5.6vw,90px);max-width:1320px}
 #main.home-page .hero-content{padding:150px 0 86px}
+#main.home-page .hero-image{opacity:.9}
+#main.home-page .hero-image:after{background:linear-gradient(90deg,rgba(5,24,46,.52) 0%,rgba(5,24,46,.3) 48%,rgba(5,24,46,.08) 100%),linear-gradient(0deg,rgba(5,24,46,.4) 0%,transparent 60%)}
+#main.home-page .hero-video{position:absolute;inset:0;overflow:hidden;pointer-events:none}
+#main.home-page .hero-video iframe{position:absolute;left:50%;top:50%;width:100vw;height:56.25vw;min-width:177.78vh;min-height:100vh;transform:translate(-50%,-50%);border:0}
 @media(max-width:1000px){#main.home-page .project-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:700px){#main.home-page .project-grid{grid-template-columns:1fr}#main.home-page .project-grid>.project-card:nth-child(3){display:block}#main.home-page .project-grid>.project-card .project-image{height:360px}#main.home-page .hero h1{font-size:clamp(40px,10.5vw,56px);max-width:100%}#main.home-page .hero-content{padding:112px 0 76px}}
 @media(max-height:700px) and (max-width:700px){#main.home-page .hero-content{padding:88px 0 55px}}
