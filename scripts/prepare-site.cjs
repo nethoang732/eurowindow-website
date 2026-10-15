@@ -107,8 +107,9 @@ const blueTheme = `
 body{background:var(--cream);color:var(--ink)}
 ::selection{background:var(--gold2);color:var(--navy)}
 .button:hover{background:#a9c9e8;border-color:#a9c9e8}
-.site-header,.site-header.scrolled{background:#fff;color:var(--navy);border-color:var(--line);box-shadow:0 8px 30px #0c2b5010}
-.site-header .head-cta,.site-header.scrolled .head-cta{color:var(--navy)}
+.site-header.scrolled{background:#fff;color:var(--navy);border-color:var(--line);box-shadow:0 8px 30px #0c2b5010}
+.site-header:not(.scrolled) .brand-image img{filter:brightness(0) invert(1)}
+.site-header.scrolled .head-cta{color:var(--navy)}
 .brand-image{width:clamp(190px,20vw,258px);height:58px;display:flex;align-items:center;flex:none}
 .brand-image img{width:100%;height:100%;object-fit:contain}
 .footer .brand-image{width:220px;height:54px;filter:brightness(0) invert(1)}
