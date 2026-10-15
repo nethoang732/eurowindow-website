@@ -25,7 +25,7 @@ export default function SiteShell() {
   useEffect(() => {
     let cancelled = false;
 
-    fetch(`${basePath}/site-shell.html?v=homepage-copy-1`)
+    fetch(`${basePath}/site-shell.html?v=homepage-hero-1943e9c`)
       .then((response) => {
         if (!response.ok) throw new Error(`Unable to load site shell (${response.status})`);
         return response.text();
@@ -35,7 +35,7 @@ export default function SiteShell() {
         rootRef.current.innerHTML = markup;
         window.__EUROWINDOW_BASE_PATH__ = basePath;
         const script = document.createElement('script');
-        script.src = `${basePath}/site-script.js`;
+        script.src = `${basePath}/site-script.js?v=homepage-hero-1943e9c`;
         rootRef.current.appendChild(script);
       })
       .catch((error) => {
