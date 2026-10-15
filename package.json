@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
+    "predev": "node scripts/prepare-site.cjs",
     "dev": "next dev",
     "prebuild": "node scripts/prepare-site.cjs",
     "build": "next build",
