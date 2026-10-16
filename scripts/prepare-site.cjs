@@ -28,6 +28,21 @@ const basePatch = `
 `;
 
 let script = body[2];
+script = script.replaceAll('infoew@eurowindow.biz', 'info@example.com');
+script = script.replaceAll('kênh chính thức', 'kênh tư vấn');
+const aluminumPage = fs.readFileSync(path.join(root, 'scripts', 'aluminum-page.js'), 'utf8');
+const productPages = fs.readFileSync(path.join(root, 'scripts', 'product-pages.js'), 'utf8');
+const productPagesWithCatalog = productPages.replace('</section><section class="aluminum-overview">', '</section>${productCatalogSection(slug)}<section class="aluminum-overview">');
+const productCatalogs = fs.readFileSync(path.join(root, 'scripts', 'product-catalogs.js'), 'utf8');
+script = script.replace('  function render(){', `${aluminumPage}\n${productPagesWithCatalog}\n${productCatalogs}\n  function render(){`);
+script = script.replace('const render=()=>{const items=catalog[group].items', 'if(!tabs||!filters||!grid)return;const render=()=>{const items=catalog[group].items');
+script = script.replace('  function productDetail(slug){', "  function productDetail(slug){if(slug==='cua-nhom')return officialAluminumPage();if(productPageContent[slug])return officialProductPage(slug);");
+script = script.replace("else if(p==='/san-pham')html=productsPage();", "else if(p==='/san-pham')html=officialProductListingPage();");
+script = script.replace("document.querySelector('#productGrid').innerHTML=list.map(c=>productCard({...c,tag:c.tag})).join('');", "document.querySelector('#productGrid').innerHTML=list.map(c=>productCard({...c,tag:c.tag,desc:productListingCopy[c.slug]||c.desc})).join('');");
+script = script.replace('  function aluminumCatalogCard(item){', '  function legacyAluminumCatalogCard(item){');
+script = script.replace("options=['T?t c?',", "options=['Tất cả',");
+script = script.replace("document.title=(titles[p]||slugTitle)+' | Eurowindow';", "document.title=(p==='/san-pham/cua-nhom'?'Cửa nhôm Eurowindow: Cửa đi, cửa sổ & vách kính':(p==='/san-pham'?'Sản phẩm Eurowindow':(productPageContent[p.split('/').pop()]?.title||titles[p]||slugTitle)))+' | Eurowindow';");
+script = script.replace("meta.content=(titles[p]||slugTitle)+' — giải pháp cửa nhôm kính và tư vấn theo nhu cầu công trình từ Eurowindow.';", "meta.content=p==='/san-pham/cua-nhom'?'Khám phá cửa nhôm kính Eurowindow: cửa đi, cửa sổ, cửa mở quay, mở trượt và vách kính. Tư vấn cấu hình, lắp đặt và báo giá theo công trình.':(productPageContent[p.split('/').pop()]?.intro||titles[p]||slugTitle);");
 script = script.replace('  const img=', `${basePatch}\n  const img=`);
 script = script.replace("  function render(){let p=location.pathname.replace(/\\/$/,'')||'/';", "  function render(){let p=stripBase(location.pathname.replace(/\\/$/,'')||'/');");
 script = script.replace("document.querySelector('#main').innerHTML=html;const titles=", "document.querySelector('#main').innerHTML=html;prefixLinks();const titles=");
@@ -205,6 +220,37 @@ body{font-size:15px}
 #main [style*="#d8d2c4"]{background:linear-gradient(135deg,#dce8f3,#f1f6fb)!important}
 `;
 
-fs.writeFileSync(path.join(publicDir, 'site.css'), style[1] + blueTheme + motion);
-fs.writeFileSync(path.join(publicDir, 'site-shell.html'), body[1]);
+const aluminumStyles = `
+.official-aluminum-catalog .door-catalog-info{background:#f3f6f9}
+.official-aluminum-catalog .door-catalog-info h3{text-align:left;min-height:52px;font-size:15px;line-height:1.45}
+.official-aluminum-catalog .door-catalog-info .button{margin:0 0 14px;background:var(--navy);border-color:var(--navy)}
+.official-aluminum-catalog .door-catalog-visual{background:#f8fafc}
+.official-aluminum-catalog .door-catalog-visual{height:clamp(330px,22vw,370px);padding:14px}
+.official-aluminum-catalog .door-catalog-visual img{display:block;width:min(100%,300px)!important;height:min(100%,300px)!important;object-fit:contain!important;object-position:center}
+.aluminum-card-summary{margin:0 0 14px;color:var(--muted);font-size:13px;line-height:1.55}
+.aluminum-source-link,.aluminum-inline-source a,.aluminum-source-note a{color:#174f84;text-decoration:underline;text-underline-offset:3px}
+.aluminum-inline-source,.aluminum-source-note{display:none}
+.aluminum-source-link{display:inline-block;margin-top:13px;font-size:12px;font-weight:600}
+.aluminum-inline-source,.aluminum-source-note{margin:20px 0 0;color:var(--muted);font-size:13px;line-height:1.65}
+.aluminum-benefits{background:#edf3f8}
+.aluminum-benefit-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:15px}
+.aluminum-benefit-grid article{padding:25px;background:#fff;border-top:3px solid #246da8}
+.aluminum-benefit-grid h3{margin:0 0 10px;color:var(--navy);font-size:18px}
+.aluminum-benefit-grid p{margin:0;color:var(--muted);font-size:13px;line-height:1.7}
+.aluminum-pricing{background:#fff}
+.aluminum-price-scroll{overflow-x:auto}
+.aluminum-pricing table{width:100%;border-collapse:collapse;min-width:680px}
+.aluminum-pricing th,.aluminum-pricing td{padding:16px 18px;text-align:left;border-bottom:1px solid var(--line);font-size:14px}
+.aluminum-pricing th{background:var(--navy);color:#fff;font-weight:700}
+.aluminum-pricing tr:nth-child(even) td{background:#f3f6f9}
+.aluminum-pricing td:last-child{font-weight:700;color:var(--navy)}
+.page-hero-compact{padding:112px 0 22px}.page-hero-compact .crumb{margin-bottom:12px}.page-hero-compact h1{margin:10px 0 0;font-size:clamp(42px,6vw,72px)}@media(max-width:700px){.page-hero-compact{padding:96px 0 18px}.page-hero-compact h1{font-size:48px}}.aluminum-faq{background:#edf3f8}.aluminum-faq-list{display:grid;grid-template-columns:1fr 1fr;gap:14px}.aluminum-faq-item{padding:22px 24px;background:#fff;border-left:3px solid #246da8}.aluminum-faq-item h3{margin:0 0 9px;color:var(--navy);font-size:17px}.aluminum-faq-item p{margin:0;color:var(--muted);font-size:14px;line-height:1.7}.aluminum-pricing .detail-copy{max-width:900px;margin:0 0 22px;color:var(--muted);line-height:1.8}@media(max-width:700px){.aluminum-faq-list{grid-template-columns:1fr}.aluminum-faq-item{padding:18px}}
+@media(max-width:900px){.aluminum-benefit-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:700px){.aluminum-benefit-grid{grid-template-columns:1fr}.official-aluminum-catalog .door-catalog-visual{height:300px;padding:12px}.official-aluminum-catalog .door-catalog-visual img{width:min(100%,276px)!important;height:min(100%,276px)!important}.official-aluminum-catalog .door-catalog-info h3{min-height:0}}
+.aluminum-overview{padding:100px 0;background:#fff}.aluminum-overview-intro{max-width:860px;margin:0 auto 46px;text-align:center}.aluminum-overview-intro h2{margin:16px 0;color:var(--navy);font:500 clamp(35px,4.6vw,58px) var(--display);line-height:1.1;letter-spacing:-.04em}.aluminum-overview-intro p{margin:0;color:var(--muted);font-size:16px;line-height:1.8}.aluminum-overview-layout{display:grid;grid-template-columns:minmax(0,.88fr) minmax(0,1.12fr);gap:clamp(32px,6vw,78px);align-items:start}.aluminum-overview-image{height:100%;min-height:510px;margin:0;background:#edf2f5}.aluminum-overview-image img{width:100%;height:100%;object-fit:cover}.aluminum-overview-copy>p{margin:0;color:var(--muted);font-size:15px;line-height:1.85}.aluminum-overview-points{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:26px 0}.aluminum-overview-points article{padding:18px;background:#f3f6f8;border-left:3px solid #246da8}.aluminum-overview-points h3,.aluminum-overview-subtitle{margin:0 0 7px;color:var(--navy);font-size:17px}.aluminum-overview-points p{margin:0;color:var(--muted);font-size:13px;line-height:1.65}.aluminum-overview-subtitle{margin-top:30px;font:600 24px var(--display)}.aluminum-overview-list{display:grid;gap:9px;margin:15px 0;padding:0;list-style:none;color:var(--muted);font-size:14px;line-height:1.65}.aluminum-overview-list li{position:relative;padding-left:18px}.aluminum-overview-list li:before{content:'•';position:absolute;left:0;color:#246da8;font-weight:700}.aluminum-overview-list strong{color:var(--navy)}.aluminum-overview-note{margin-top:22px!important;padding:14px 16px;border-left:3px solid var(--gold);background:#f6f1e6;font-size:13px!important}@media(max-width:800px){.aluminum-overview-layout{grid-template-columns:1fr}.aluminum-overview-image{min-height:360px;max-height:460px}.aluminum-overview-intro{text-align:left}.aluminum-overview-points{grid-template-columns:1fr 1fr}}@media(max-width:520px){.aluminum-overview{padding:68px 0}.aluminum-overview-intro{margin-bottom:28px}.aluminum-overview-intro p{font-size:14px}.aluminum-overview-image{min-height:290px}.aluminum-overview-points{grid-template-columns:1fr}.aluminum-overview-copy>p{font-size:14px}.aluminum-overview-subtitle{font-size:22px}}
+`;
+fs.writeFileSync(path.join(publicDir, 'site.css'), style[1] + blueTheme + motion + aluminumStyles);
+fs.writeFileSync(path.join(publicDir, 'site-shell.html'), body[1].replaceAll('infoew@eurowindow.biz', 'info@example.com').replaceAll('kênh chính thức', 'kênh tư vấn'));
 fs.writeFileSync(path.join(publicDir, 'site-script.js'), script);
+
+

@@ -2,7 +2,7 @@ const http = require('http');
 const fs = require('fs');
 const path = require('path');
 
-const root = path.join(__dirname, 'dist');
+const root = path.join(__dirname, 'out');
 const publicRoot = path.join(__dirname, 'public');
 const mime = {
   '.html': 'text/html; charset=utf-8',
@@ -21,7 +21,10 @@ const mime = {
 function findFile(base, pathname) {
   const target = path.resolve(base, `.${pathname}`);
   const insideBase = target.startsWith(`${base}${path.sep}`);
-  return insideBase && fs.existsSync(target) && fs.statSync(target).isFile() ? target : null;
+  if (!insideBase || !fs.existsSync(target)) return null;
+  if (fs.statSync(target).isFile()) return target;
+  const index = path.join(target, 'index.html');
+  return fs.existsSync(index) && fs.statSync(index).isFile() ? index : null;
 }
 
 http.createServer((req, res) => {
