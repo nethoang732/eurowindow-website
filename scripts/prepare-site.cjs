@@ -32,7 +32,7 @@ script = script.replaceAll('infoew@eurowindow.biz', 'info@example.com');
 script = script.replaceAll('kênh chính thức', 'kênh tư vấn');
 const aluminumPage = fs.readFileSync(path.join(root, 'scripts', 'aluminum-page.js'), 'utf8');
 const productPages = fs.readFileSync(path.join(root, 'scripts', 'product-pages.js'), 'utf8');
-const productPagesWithCatalog = productPages.replace('</section>${productGuideSections(content,slug)}', '</section>${productCatalogSection(slug)}${productGuideSections(content,slug)}');
+const productPagesWithCatalog = productPages.replace('</section>${productGuideSections(content,slug)}', '</section>${productCatalogSection(slug)}${productOverviewSection(content,slug)}${productGuideSections(content,slug)}');
 if (productPagesWithCatalog === productPages) throw new Error('Could not insert product catalog sections into product pages');
 const productCatalogs = fs.readFileSync(path.join(root, 'scripts', 'product-catalogs.js'), 'utf8');
 script = script.replace('  function render(){', `${aluminumPage}\n${productPagesWithCatalog}\n${productCatalogs}\n  function render(){`);
@@ -225,16 +225,18 @@ body{font-size:15px}
 const aluminumStyles = `
 .product-family-catalog .door-catalog-grid{align-items:stretch}
 .product-family-catalog .door-catalog-card{display:flex;flex-direction:column;height:100%}
-.product-family-catalog .door-catalog-visual{height:clamp(280px,25vw,340px);padding:16px;background:#f8fafc}
-.product-family-catalog .door-catalog-visual img{display:block;width:100%;height:100%;object-fit:contain;object-position:center}
+.product-family-catalog .door-catalog-visual{height:clamp(330px,22vw,370px);padding:14px;background:#f8fafc}
+.product-family-catalog .door-catalog-visual img{display:block;width:min(100%,300px);height:min(100%,300px);object-fit:contain;object-position:center}
 .product-family-catalog .door-catalog-info{display:flex;flex:1;flex-direction:column}
-.product-family-catalog .door-catalog-info .button{align-self:center}
+.product-family-catalog .door-catalog-info{background:#f3f6f9}
+.product-family-catalog .door-catalog-info h3{text-align:left;min-height:52px;font-size:15px;line-height:1.45}
+.product-family-catalog .door-catalog-info .button{align-self:flex-start;margin:0 0 14px;background:var(--navy);border-color:var(--navy)}
 .product-guide{background:#edf3f8}
 .product-guide .aluminum-benefit-grid article{background:#fff}
 .product-guide-label{display:block;margin-bottom:10px;color:#3479b8;font-size:9px;font-weight:700;letter-spacing:.12em}
 .product-guide-subhead{margin:52px 0 22px}
 .product-guide-subhead h3{margin:12px 0 0;color:var(--navy);font-size:clamp(27px,3vw,38px);line-height:1.15}
-@media(max-width:700px){.product-family-catalog .door-catalog-visual{height:280px;padding:12px}.product-guide-subhead{margin-top:36px}}
+@media(max-width:700px){.product-family-catalog .door-catalog-visual{height:300px;padding:12px}.product-family-catalog .door-catalog-visual img{width:min(100%,276px);height:min(100%,276px)}.product-family-catalog .door-catalog-info h3{min-height:0}.product-guide-subhead{margin-top:36px}}
 .official-aluminum-catalog .door-catalog-info{background:#f3f6f9}
 .official-aluminum-catalog .door-catalog-info h3{text-align:left;min-height:52px;font-size:15px;line-height:1.45}
 .official-aluminum-catalog .door-catalog-info .button{margin:0 0 14px;background:var(--navy);border-color:var(--navy)}

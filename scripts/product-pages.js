@@ -84,6 +84,12 @@
   function compactProductHero(title){return pageHero('Sản phẩm',title,'').replace('<section class="page-hero">','<section class="page-hero page-hero-compact">').replace('<p></p>','')}
   function displayProductName(title){return title.toLocaleLowerCase('vi').replace(/\bupvc\b/g,'uPVC').replace(/\beurowindow\b/g,'Eurowindow')}
   function productInquiryForm(options){const old='<option>Cửa đi</option><option>Cửa sổ</option><option>Vách kính & mặt dựng</option><option>Khác</option>';const choices=options.map(option=>`<option>${option}</option>`).join('');return form(true).replace(old,choices)}
+  function productOverviewSection(content,slug){
+    const row=productCatalogRows(slug)[0];
+    if(!row)return '';
+    const image=productCatalogImage(row[1]);
+    return `<section class="aluminum-overview product-overview"><div class="wrap aluminum-overview-grid"><div class="aluminum-overview-image"><img loading="lazy" src="${image}" alt="${row[0]}" onerror="this.onerror=null;this.src='https://storage.sudospaces.com/eurowindow/2026/07/san-pham-kinh-cua-eurowindow-dam-bao-do-an-toan-phu-hop-voi-nhieu-hang-muc-cong-trinh.jpg.webp'"></div><div class="aluminum-overview-copy"><span class="eyebrow">LỰA CHỌN GIẢI PHÁP</span><h2>${displayProductName(content.title)} cho công trình của bạn</h2><p>${content.intro}</p><p>${content.body}</p></div></div></section>`;
+  }
   function productGuideSections(content,slug){
     const points=content.points.map(([title,text])=>`<article class="product-guide-card"><span class="product-guide-label">TIÊU CHÍ CHỌN</span><h3>${title}</h3><p>${text}</p></article>`).join('');
     const applications=content.applications.map(([title,text])=>`<article class="product-guide-card"><span class="product-guide-label">THEO KHÔNG GIAN</span><h3>${title}</h3><p>${text}</p></article>`).join('');
