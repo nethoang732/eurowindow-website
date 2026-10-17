@@ -31,6 +31,9 @@ let script = body[2];
 script = script.replaceAll('infoew@eurowindow.biz', 'info@example.com');
 script = script.replaceAll('Chọn cửa phù hợp', 'Chọn Cửa phù hợp');
 script = script.replaceAll('kênh chính thức', 'kênh tư vấn');
+const featuredSystemPattern = /<section class="section system-section">[\s\S]*?<\/section>/;
+if (!featuredSystemPattern.test(script)) throw new Error('Could not find the featured systems section');
+script = script.replace(featuredSystemPattern, '${featuredAluminumSystems()}');
 let aluminumPage = fs.readFileSync(path.join(root, 'scripts', 'aluminum-page.js'), 'utf8');
 const aluminumGuide = `
   function aluminumGuideSection(){
@@ -55,6 +58,20 @@ aluminumPage = aluminumPage.replace('  function officialAluminumPage(){', `${alu
 const aluminumSectionsPattern = /<section class="aluminum-overview">[\s\S]*?<\/section><section class="section aluminum-benefits">[\s\S]*?<\/section>/;
 if (!aluminumSectionsPattern.test(aluminumPage)) throw new Error('Could not find the aluminum overview and project sections');
 aluminumPage = aluminumPage.replace(aluminumSectionsPattern, '${aluminumGuideSection()}');
+aluminumPage += `
+  function featuredAluminumSystems(){
+    const grouped=new Map();
+    aluminumProducts.forEach(item=>{if(!grouped.has(item.system))grouped.set(item.system,[]);grouped.get(item.system).push(item)});
+    systems.splice(0,systems.length,...[...grouped.entries()].map(([system,items])=>{
+      const name=system.replace(/^Hệ\\s+/,'');
+      const types=[...new Set(items.map(item=>item.type))].join(' & ');
+      const openings=[...new Set(items.map(item=>item.opening))].join(', ');
+      const slug=name.toLocaleLowerCase('vi').replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');
+      return {slug,name,type:types,desc:types+'; các kiểu mở gồm '+openings+'.',image:items[0].image,spec:system};
+    }));
+    return '<section class="section system-section"><div class="wrap"><div class="section-head"><div><span class="eyebrow">03 / NỀN TẢNG</span><h2 class="serif">Các hệ cửa nổi bật</h2></div></div><div class="system-track">'+systems.map(system=>'<article class="system-card reveal"><a href="/he-nhom/'+system.slug+'"><img loading="lazy" alt="Hệ cửa '+system.name+'" src="'+system.image+'"><h3>'+system.name+'</h3><p>'+system.desc+'</p><span>Xem chi tiết <span>↗</span></span></a></article>').join('')+'</div></div></section>';
+  }
+`;
 const productPages = fs.readFileSync(path.join(root, 'scripts', 'product-pages.js'), 'utf8');
 const productPagesWithCatalog = productPages.replace('</section>${productGuideSections(content,slug)}', '</section>${productCatalogSection(slug)}${productGuideSections(content,slug)}');
 if (productPagesWithCatalog === productPages) throw new Error('Could not insert product catalog sections into product pages');
@@ -62,6 +79,10 @@ const productCatalogs = fs.readFileSync(path.join(root, 'scripts', 'product-cata
 script = script.replace('  function render(){', `${aluminumPage}\n${productPagesWithCatalog}\n${productCatalogs}\n  function render(){`);
 script = script.replace('const render=()=>{const items=catalog[group].items', 'if(!tabs||!filters||!grid)return;const render=()=>{const items=catalog[group].items');
 script = script.replace("function wireProductCatalog(){const root=document.querySelector('.door-catalog');", "function wireProductCatalog(){if(document.querySelector('[data-product-family-catalog]')){wireProductFamilyCatalog();return}const root=document.querySelector('.official-aluminum-catalog');");
+script = script.replace("const catalog=window.__EURO_ALUMINUM_CATALOG__;if(!catalog)return;let group='type',filter='all';", "const catalog=window.__EURO_ALUMINUM_CATALOG__;if(!catalog)return;const requestedSystem=new URLSearchParams(location.search).get('he');let group=requestedSystem?'system':'type',filter=requestedSystem||'all';");
+script = script.replace('href="/bao-gia">Trao đổi cùng tư vấn viên', 'href="/san-pham/cua-nhom?he=${encodeURIComponent(\'Hệ \'+s.name)}">Xem sản phẩm thuộc hệ này');
+script = script.replace('function systemsPage(){return `', 'function systemsPage(){featuredAluminumSystems();return `');
+script = script.replace('function systemDetail(slug){let s=systems.find', 'function systemDetail(slug){featuredAluminumSystems();let s=systems.find');
 script = script.replace('  function productDetail(slug){', "  function productDetail(slug){if(slug==='cua-nhom')return officialAluminumPage();if(productPageContent[slug])return officialProductPage(slug);");
 script = script.replace("else if(p==='/san-pham')html=productsPage();", "else if(p==='/san-pham')html=officialProductListingPage();");
 script = script.replace("document.querySelector('#productGrid').innerHTML=list.map(c=>productCard({...c,tag:c.tag})).join('');", "document.querySelector('#productGrid').innerHTML=list.map(c=>productCard({...c,tag:c.tag,desc:productListingCopy[c.slug]||c.desc})).join('');");
@@ -70,6 +91,7 @@ script = script.replace("options=['T?t c?',", "options=['Tất cả',");
 script = script.replace("document.title=(titles[p]||slugTitle)+' | Eurowindow';", "document.title=(p==='/san-pham/cua-nhom'?'Cửa nhôm Eurowindow: Cửa đi, cửa sổ & vách kính':(p==='/san-pham'?'Sản phẩm Eurowindow':(productPageContent[p.split('/').pop()]?.title||titles[p]||slugTitle)))+' | Eurowindow';");
 script = script.replace("meta.content=(titles[p]||slugTitle)+' — giải pháp cửa nhôm kính và tư vấn theo nhu cầu công trình từ Eurowindow.';", "meta.content=p==='/san-pham/cua-nhom'?'Khám phá cửa nhôm kính Eurowindow: cửa đi, cửa sổ, cửa mở quay, mở trượt và vách kính. Tư vấn cấu hình, lắp đặt và báo giá theo công trình.':(productPageContent[p.split('/').pop()]?.intro||titles[p]||slugTitle);");
 script = script.replace('  const img=', `${basePatch}\n  const img=`);
+script = script.replace('const pics=(obj,w=1000)=>img(obj.image,w);', "const pics=(obj,w=1000)=>obj.image.startsWith('http')?obj.image:img(obj.image,w);");
 script = script.replace("  function render(){let p=location.pathname.replace(/\\/$/,'')||'/';", "  function render(){let p=stripBase(location.pathname.replace(/\\/$/,'')||'/');");
 script = script.replace("document.querySelector('#main').innerHTML=html;const titles=", "document.querySelector('#main').innerHTML=html;prefixLinks();const titles=");
 script = script.replace("a.getAttribute('href')===p|| (p.startsWith(a.getAttribute('href')+'/')", "stripBase(a.getAttribute('href'))===p|| (p.startsWith(stripBase(a.getAttribute('href'))+'/')");
@@ -247,6 +269,9 @@ body{font-size:15px}
 `;
 
 const aluminumStyles = `
+.system-track{grid-template-columns:repeat(4,minmax(0,1fr))}
+@media(max-width:900px){.system-track{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:520px){.system-track{grid-template-columns:1fr}}
 .product-family-catalog .door-catalog-grid{align-items:stretch}
 .product-family-catalog .door-catalog-card{display:flex;flex-direction:column;height:100%}
 .product-family-catalog .door-catalog-visual{height:clamp(330px,22vw,370px);padding:14px;background:#f8fafc}

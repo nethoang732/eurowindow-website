@@ -5,7 +5,7 @@ const routes = [
   'san-pham/cua-nhom', 'san-pham/cua-upvc', 'san-pham/cua-go', 'san-pham/cua-cuon', 'san-pham/cua-thong-minh-the-he-moi',
   'san-pham/cua-di-mo-quay', 'san-pham/cua-di-mo-truot', 'san-pham/cua-xep-truot',
   'san-pham/cua-so-mo-quay', 'san-pham/cua-so-mo-hat', 'san-pham/vach-kinh-mat-dung',
-  'he-nhom/ea45', 'he-nhom/ea65', 'he-nhom/ea70', 'he-nhom/ea90', 'he-nhom/ea95',
+  'he-nhom/ea55-ea60i', 'he-nhom/ea70', 'he-nhom/ea95-ea95i', 'he-nhom/fa52',
   'du-an/biet-thu-ven-song', 'du-an/nha-vuon-an-yen', 'du-an/khong-gian-do-thi',
   'du-an/villa-an-vien', 'du-an/nha-ben-doi', 'du-an/residence-horizon',
   'tin-tuc/chon-cua-nhom-cho-cong-trinh', 'tin-tuc/anh-sang-tu-nhien-trong-nha',
