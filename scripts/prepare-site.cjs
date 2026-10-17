@@ -37,6 +37,7 @@ if (productPagesWithCatalog === productPages) throw new Error('Could not insert 
 const productCatalogs = fs.readFileSync(path.join(root, 'scripts', 'product-catalogs.js'), 'utf8');
 script = script.replace('  function render(){', `${aluminumPage}\n${productPagesWithCatalog}\n${productCatalogs}\n  function render(){`);
 script = script.replace('const render=()=>{const items=catalog[group].items', 'if(!tabs||!filters||!grid)return;const render=()=>{const items=catalog[group].items');
+script = script.replace("function wireProductCatalog(){const root=document.querySelector('.door-catalog');", "function wireProductCatalog(){if(document.querySelector('[data-product-family-catalog]')){wireProductFamilyCatalog();return}const root=document.querySelector('.official-aluminum-catalog');");
 script = script.replace('  function productDetail(slug){', "  function productDetail(slug){if(slug==='cua-nhom')return officialAluminumPage();if(productPageContent[slug])return officialProductPage(slug);");
 script = script.replace("else if(p==='/san-pham')html=productsPage();", "else if(p==='/san-pham')html=officialProductListingPage();");
 script = script.replace("document.querySelector('#productGrid').innerHTML=list.map(c=>productCard({...c,tag:c.tag})).join('');", "document.querySelector('#productGrid').innerHTML=list.map(c=>productCard({...c,tag:c.tag,desc:productListingCopy[c.slug]||c.desc})).join('');");
