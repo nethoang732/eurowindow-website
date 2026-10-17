@@ -232,26 +232,34 @@ const aluminumStyles = `
 .product-family-catalog .door-catalog-info h3{text-align:left;min-height:52px;font-size:15px;line-height:1.45}
 .product-family-catalog .door-catalog-info .button{align-self:flex-start;margin:0 0 14px;background:var(--navy);border-color:var(--navy)}
 .product-guide{background:#edf3f8}
-.product-guide .aluminum-benefit-grid article{background:#fff}
-.product-guide-layout{display:grid;grid-template-columns:minmax(300px,.9fr) minmax(0,1.1fr);gap:30px;align-items:stretch}
-.product-guide-gallery{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,.8fr);grid-template-rows:repeat(2,minmax(0,1fr));gap:14px;min-height:640px}
+.product-guide-layout{display:grid;grid-template-columns:minmax(360px,.95fr) minmax(0,1.05fr);gap:clamp(24px,3vw,42px);align-items:stretch}
+.product-guide-gallery{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,.85fr);grid-template-rows:repeat(2,minmax(0,1fr));gap:12px;min-height:560px}
 .product-guide-gallery-item{position:relative;min-width:0;min-height:0;margin:0;overflow:hidden;background:#dfe8ef}
 .product-guide-gallery-item:first-child{grid-row:span 2}
 .product-guide-gallery-item img{display:block;width:100%;height:100%;object-fit:cover;transition:transform .6s cubic-bezier(.2,.7,.2,1)}
 .product-guide-gallery-item:hover img{transform:scale(1.035)}
 .product-guide-gallery-item:after{position:absolute;inset:45% 0 0;content:"";background:linear-gradient(transparent,#071c33a8);pointer-events:none}
-.product-guide-gallery-item figcaption{position:absolute;z-index:1;left:18px;right:18px;bottom:16px;color:#fff;font-size:11px;font-weight:600;line-height:1.4}
-.product-guide-gallery-count-2{grid-template-columns:1fr 1fr;grid-template-rows:minmax(360px,1fr);min-height:420px}
+.product-guide-gallery-item figcaption{position:absolute;z-index:1;left:16px;right:16px;bottom:15px;color:#fff;font-size:11px;font-weight:600;line-height:1.4}
+.product-guide-gallery-count-2{grid-template-columns:1.15fr .85fr;grid-template-rows:minmax(400px,1fr);min-height:420px}
 .product-guide-gallery-count-2 .product-guide-gallery-item:first-child{grid-row:auto}
-.product-guide-gallery-count-1{grid-template-columns:1fr;grid-template-rows:minmax(480px,1fr);min-height:500px}
+.product-guide-gallery-count-1{grid-template-columns:1fr;grid-template-rows:minmax(440px,1fr);min-height:460px}
 .product-guide-gallery-count-1 .product-guide-gallery-item:first-child{grid-row:auto}
-.product-guide-layout .aluminum-benefit-grid{grid-template-columns:repeat(2,minmax(0,1fr));align-content:start;gap:12px}
-.product-guide-layout .aluminum-benefit-grid article{padding:21px}
-.product-guide-label{display:block;margin-bottom:10px;color:#3479b8;font-size:9px;font-weight:700;letter-spacing:.12em}
+.product-guide-copy{display:flex;flex-direction:column;justify-content:center;gap:24px}
+.product-guide-topic+.product-guide-topic{padding-top:20px;border-top:1px solid #cbd8e4}
+.product-guide-label{display:block;margin-bottom:12px;color:#3479b8;font-size:9px;font-weight:700;letter-spacing:.13em}
+.product-guide-point-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.product-guide-point{min-width:0;padding:15px 16px 16px;background:#fff;border-top:2px solid #2873b7}
+.product-guide-point h3,.product-guide-application h3{margin:0 0 6px;color:var(--navy);font-size:14px;line-height:1.35}
+.product-guide-point p,.product-guide-application p{margin:0;color:var(--muted);font-size:12px;line-height:1.6}
+.product-guide-application-list{display:grid}
+.product-guide-application{display:grid;grid-template-columns:20px minmax(0,1fr);gap:10px;padding:10px 0;border-bottom:1px solid #d4dee7}
+.product-guide-application:first-child{padding-top:0}
+.product-guide-application:last-child{padding-bottom:0;border-bottom:0}
+.product-guide-application-mark{width:7px;height:7px;margin:5px 0 0 3px;background:#2b78b7;transform:rotate(45deg)}
 .product-guide-subhead{margin:52px 0 22px}
 .product-guide-subhead h3{margin:12px 0 0;color:var(--navy);font-size:clamp(27px,3vw,38px);line-height:1.15}
-@media(max-width:1000px){.product-guide-layout{grid-template-columns:1fr}.product-guide-gallery{min-height:500px}}
-@media(max-width:700px){.product-family-catalog .door-catalog-visual{height:300px;padding:12px}.product-family-catalog .door-catalog-visual img{width:min(100%,276px);height:min(100%,276px)}.product-family-catalog .door-catalog-info h3{min-height:0}.product-guide-gallery{grid-template-columns:1.1fr .9fr;grid-template-rows:repeat(2,minmax(150px,1fr));min-height:320px;gap:9px}.product-guide-gallery-item:first-child{grid-row:span 2}.product-guide-gallery-count-2{grid-template-rows:minmax(270px,1fr);min-height:280px}.product-guide-gallery-count-2 .product-guide-gallery-item:first-child{grid-row:auto}.product-guide-gallery-count-1{grid-template-columns:1fr;grid-template-rows:minmax(300px,1fr);min-height:310px}.product-guide-layout .aluminum-benefit-grid{grid-template-columns:1fr}.product-guide-layout .aluminum-benefit-grid article{padding:19px}.product-guide-gallery-item figcaption{left:12px;right:12px;bottom:11px;font-size:10px}.product-guide-subhead{margin-top:36px}}
+@media(max-width:1000px){.product-guide-layout{grid-template-columns:1fr}.product-guide-gallery{min-height:440px}.product-guide-copy{display:grid;grid-template-columns:1fr 1fr;gap:22px;align-items:start}.product-guide-topic+.product-guide-topic{padding:0 0 0 22px;border-top:0;border-left:1px solid #cbd8e4}}
+@media(max-width:700px){.product-family-catalog .door-catalog-visual{height:300px;padding:12px}.product-family-catalog .door-catalog-visual img{width:min(100%,276px);height:min(100%,276px)}.product-family-catalog .door-catalog-info h3{min-height:0}.product-guide-gallery{grid-template-columns:1.1fr .9fr;grid-template-rows:repeat(2,minmax(135px,1fr));min-height:290px;gap:8px}.product-guide-gallery-item:first-child{grid-row:span 2}.product-guide-gallery-count-2{grid-template-rows:minmax(230px,1fr);min-height:240px}.product-guide-gallery-count-2 .product-guide-gallery-item:first-child{grid-row:auto}.product-guide-gallery-count-1{grid-template-columns:1fr;grid-template-rows:minmax(270px,1fr);min-height:280px}.product-guide-copy{grid-template-columns:1fr;gap:18px}.product-guide-topic+.product-guide-topic{padding:18px 0 0;border-top:1px solid #cbd8e4;border-left:0}.product-guide-point-grid{gap:8px}.product-guide-point{padding:13px}.product-guide-point h3,.product-guide-application h3{font-size:13px}.product-guide-point p,.product-guide-application p{font-size:11px}.product-guide-gallery-item figcaption{left:11px;right:11px;bottom:10px;font-size:10px}.product-guide-subhead{margin-top:36px}}
 .official-aluminum-catalog .door-catalog-info{background:#f3f6f9}
 .official-aluminum-catalog .door-catalog-info h3{text-align:left;min-height:52px;font-size:15px;line-height:1.45}
 .official-aluminum-catalog .door-catalog-info .button{margin:0 0 14px;background:var(--navy);border-color:var(--navy)}
