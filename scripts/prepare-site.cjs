@@ -87,26 +87,7 @@ aluminumPage += `
     if(!section)return;
     const track=section.querySelector('.system-track'),control=section.querySelector('.system-marquee-control');
     if(!track||!control)return;
-    track.querySelectorAll('.system-card[inert]').forEach(card=>card.remove());
-    let sliding=false;
-    const slideNext=()=>{
-      if(sliding||section.classList.contains('is-paused'))return;
-      const first=track.firstElementChild;if(!first)return;
-      const gap=parseFloat(getComputedStyle(track).gap)||0;
-      const distance=first.getBoundingClientRect().width+gap;
-      sliding=true;
-      track.style.transition='transform .72s cubic-bezier(.22,1,.36,1)';
-      track.style.transform='translateX(-'+distance+'px)';
-      let fallback;
-      const finish=event=>{if(event&&event.target!==track)return;clearTimeout(fallback);track.removeEventListener('transitionend',finish);track.style.setProperty('transition','none','important');track.appendChild(track.firstElementChild);track.style.transform='translateX(0)';requestAnimationFrame(()=>{track.style.removeProperty('transition');sliding=false})};
-      track.addEventListener('transitionend',finish,{once:true});
-      fallback=setTimeout(finish,850);
-    };
-    const timer=setInterval(slideNext,3000);
-    setTimeout(slideNext,900);
-    control.addEventListener('click',()=>{const paused=section.classList.toggle('is-paused');control.setAttribute('aria-pressed',String(paused));control.setAttribute('aria-label',paused?'Tiếp tục trình chiếu':'Tạm dừng trình chiếu');control.textContent=paused?'Tiếp tục':'Tạm dừng';if(!paused)slideNext()});
-    section.addEventListener('keydown',event=>{if(event.key==='ArrowRight'){event.preventDefault();slideNext()}else if(event.key==='ArrowLeft'){event.preventDefault();if(!sliding){const last=track.lastElementChild;if(last){track.style.setProperty('transition','none','important');track.insertBefore(last,track.firstElementChild);track.style.transform='translateX(0)';requestAnimationFrame(()=>track.style.removeProperty('transition'))}}}});
-    section.dataset.slideTimer=String(timer);
+    control.addEventListener('click',()=>{const paused=section.classList.toggle('is-paused');control.setAttribute('aria-pressed',String(paused));control.setAttribute('aria-label',paused?'Tiếp tục chuyển động':'Tạm dừng chuyển động');control.textContent=paused?'Tiếp tục':'Tạm dừng'});
   }
 `;
 const productPages = fs.readFileSync(path.join(root, 'scripts', 'product-pages.js'), 'utf8');
@@ -309,12 +290,13 @@ body{font-size:15px}
 
 const aluminumStyles = `
 .system-marquee{overflow:hidden;position:relative}
-.system-track{display:flex;flex-wrap:nowrap!important;grid-template-columns:none;width:max-content;gap:14px;overflow:visible;padding:0;transform:translateX(0);transition:transform .72s cubic-bezier(.22,1,.36,1)}
+.system-track{display:flex;flex-wrap:nowrap!important;grid-template-columns:none;width:max-content;gap:14px;overflow:visible;padding:0;animation:system-scroll-right 110s linear infinite!important;animation-duration:110s!important;animation-iteration-count:infinite!important;will-change:transform}
+.system-section.is-paused .system-track{animation-play-state:paused!important}
 .system-card{flex:0 0 clamp(245px,23vw,320px)}
 .system-card small{display:block;color:var(--gold2);font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;margin-top:12px}
 .system-marquee-control{margin-top:18px;border:1px solid #ffffff55;background:transparent;color:#fff;padding:9px 13px;font:600 11px var(--display);cursor:pointer}
 .system-marquee-control:hover,.system-marquee-control:focus-visible{background:#ffffff18}
-@media(prefers-reduced-motion:reduce){.system-track{transition-duration:.72s!important}}
+@keyframes system-scroll-right{from{transform:translateX(-50%)}to{transform:translateX(0)}}
 .product-family-catalog .door-catalog-grid{align-items:stretch}
 .product-family-catalog .door-catalog-card{display:flex;flex-direction:column;height:100%}
 .product-family-catalog .door-catalog-visual{height:clamp(330px,22vw,370px);padding:14px;background:#f8fafc}
