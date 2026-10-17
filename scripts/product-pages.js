@@ -92,10 +92,12 @@
   }
   function productGuideSections(content,slug){
     const rows=productCatalogRows(slug);
-    const guideCard=([title,text],label,index)=>{const row=rows[index%Math.max(rows.length,1)];const image=row?productCatalogImage(row[1]):'';const visual=row?`<div class="product-guide-card-image"><img loading="lazy" src="${image}" alt="${row[0]}" onerror="this.onerror=null;this.src='https://storage.sudospaces.com/eurowindow/2026/07/san-pham-kinh-cua-eurowindow-dam-bao-do-an-toan-phu-hop-voi-nhieu-hang-muc-cong-trinh.jpg.webp'"></div>`:'';return `<article class="product-guide-card">${visual}<span class="product-guide-label">${label}</span><h3>${title}</h3><p>${text}</p></article>`};
-    const points=content.points.map((item,index)=>guideCard(item,'TIÊU CHÍ CHỌN',index)).join('');
-    const applications=content.applications.map((item,index)=>guideCard(item,'THEO KHÔNG GIAN',index+content.points.length)).join('');
-    return `<section class="section product-guide"><div class="wrap"><div class="section-head"><div><span class="eyebrow">THÔNG TIN SẢN PHẨM</span><h2 class="serif">Chọn ${displayProductName(content.title)} phù hợp với công trình</h2></div></div><div class="aluminum-benefit-grid">${points}${applications}</div></div></section>`;
+    const images=[...new Map(rows.map(row=>[row[1],row])).values()].slice(0,3);
+    const gallery=images.length?`<div class="product-guide-gallery product-guide-gallery-count-${images.length}">${images.map(row=>`<figure class="product-guide-gallery-item"><img loading="lazy" src="${productCatalogImage(row[1])}" alt="${row[0]}" onerror="this.onerror=null;this.src='https://storage.sudospaces.com/eurowindow/2026/07/san-pham-kinh-cua-eurowindow-dam-bao-do-an-toan-phu-hop-voi-nhieu-hang-muc-cong-trinh.jpg.webp'"><figcaption>${row[0]}</figcaption></figure>`).join('')}</div>`:'';
+    const guideCard=([title,text],label)=>`<article class="product-guide-card"><span class="product-guide-label">${label}</span><h3>${title}</h3><p>${text}</p></article>`;
+    const points=content.points.map(item=>guideCard(item,'TIÊU CHÍ CHỌN')).join('');
+    const applications=content.applications.map(item=>guideCard(item,'THEO KHÔNG GIAN')).join('');
+    return `<section class="section product-guide"><div class="wrap"><div class="section-head"><div><span class="eyebrow">THÔNG TIN SẢN PHẨM</span><h2 class="serif">Chọn ${displayProductName(content.title)} phù hợp với công trình</h2></div></div><div class="product-guide-layout">${gallery}<div class="aluminum-benefit-grid">${points}${applications}</div></div></div></section>`;
   }
   function officialProductPage(slug){
     const content=productPageContent[slug];
