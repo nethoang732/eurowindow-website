@@ -284,14 +284,13 @@ body{font-size:15px}
 
 const aluminumStyles = `
 .system-marquee{overflow:hidden;position:relative}
-.system-track{display:flex;grid-template-columns:none;width:max-content;gap:14px;overflow:visible;padding:0;animation:system-scroll-right 72s linear infinite}
+.system-track{display:flex;flex-wrap:nowrap!important;grid-template-columns:none;width:max-content;gap:14px;overflow:visible;padding:0;animation:system-scroll-right 72s linear infinite!important;animation-duration:72s!important;animation-iteration-count:infinite!important}
 .system-section.is-paused .system-track,.system-marquee:hover .system-track,.system-marquee:focus-within .system-track{animation-play-state:paused}
 .system-card{flex:0 0 clamp(245px,23vw,320px)}
 .system-card small{display:block;color:var(--gold2);font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;margin-top:12px}
 .system-marquee-control{margin-top:18px;border:1px solid #ffffff55;background:transparent;color:#fff;padding:9px 13px;font:600 11px var(--display);cursor:pointer}
 .system-marquee-control:hover,.system-marquee-control:focus-visible{background:#ffffff18}
 @keyframes system-scroll-right{from{transform:translateX(-50%)}to{transform:translateX(0)}}
-@media(prefers-reduced-motion:reduce){.system-track{animation:none;transform:none;flex-wrap:wrap;width:100%}.system-card[aria-hidden="true"]{display:none}}
 .product-family-catalog .door-catalog-grid{align-items:stretch}
 .product-family-catalog .door-catalog-card{display:flex;flex-direction:column;height:100%}
 .product-family-catalog .door-catalog-visual{height:clamp(330px,22vw,370px);padding:14px;background:#f8fafc}
