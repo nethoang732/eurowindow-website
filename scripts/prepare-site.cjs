@@ -87,7 +87,33 @@ aluminumPage += `
     if(!section)return;
     const track=section.querySelector('.system-track'),control=section.querySelector('.system-marquee-control');
     if(!track||!control)return;
-    control.addEventListener('click',()=>{const paused=section.classList.toggle('is-paused');control.setAttribute('aria-pressed',String(paused));control.setAttribute('aria-label',paused?'Tiếp tục chuyển động':'Tạm dừng chuyển động');control.textContent=paused?'Tiếp tục':'Tạm dừng'});
+    track.querySelectorAll('.system-card[inert]').forEach(card=>card.remove());
+    let timer=null,moving=false;
+    const schedule=()=>{clearTimeout(timer);if(!section.classList.contains('is-paused'))timer=setTimeout(slide,3000)};
+    const slide=()=>{
+      if(moving||section.classList.contains('is-paused'))return;
+      const last=track.lastElementChild;if(!last)return;
+      const gap=parseFloat(getComputedStyle(track).gap)||0;
+      const distance=last.getBoundingClientRect().width+gap;
+      moving=true;
+      track.style.setProperty('transition','none','important');
+      track.insertBefore(last,track.firstElementChild);
+      track.style.transform='translateX(-'+distance+'px)';
+      track.getBoundingClientRect();
+      requestAnimationFrame(()=>{
+        track.style.removeProperty('transition');
+        track.style.transform='translateX(0)';
+      });
+      let fallback;
+      const finish=event=>{
+        if(event&&(event.target!==track||event.propertyName!=='transform'))return;
+        clearTimeout(fallback);track.removeEventListener('transitionend',finish);moving=false;schedule();
+      };
+      track.addEventListener('transitionend',finish);
+      fallback=setTimeout(finish,900);
+    };
+    control.addEventListener('click',()=>{const paused=section.classList.toggle('is-paused');control.setAttribute('aria-pressed',String(paused));control.setAttribute('aria-label',paused?'Tiếp tục trình chiếu':'Tạm dừng trình chiếu');control.textContent=paused?'Tiếp tục':'Tạm dừng';if(paused)clearTimeout(timer);else if(!moving)schedule()});
+    schedule();
   }
 `;
 const productPages = fs.readFileSync(path.join(root, 'scripts', 'product-pages.js'), 'utf8');
@@ -290,13 +316,12 @@ body{font-size:15px}
 
 const aluminumStyles = `
 .system-marquee{overflow:hidden;position:relative}
-.system-track{display:flex;flex-wrap:nowrap!important;grid-template-columns:none;width:max-content;gap:14px;overflow:visible;padding:0;animation:system-scroll-right 110s linear infinite!important;animation-duration:110s!important;animation-iteration-count:infinite!important;will-change:transform}
-.system-section.is-paused .system-track{animation-play-state:paused!important}
+.system-track{display:flex;flex-wrap:nowrap!important;grid-template-columns:none;width:max-content;gap:14px;overflow:visible;padding:0;transform:translateX(0);transition:transform .72s cubic-bezier(.22,1,.36,1)}
 .system-card{flex:0 0 clamp(245px,23vw,320px)}
 .system-card small{display:block;color:var(--gold2);font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;margin-top:12px}
 .system-marquee-control{margin-top:18px;border:1px solid #ffffff55;background:transparent;color:#fff;padding:9px 13px;font:600 11px var(--display);cursor:pointer}
 .system-marquee-control:hover,.system-marquee-control:focus-visible{background:#ffffff18}
-@keyframes system-scroll-right{from{transform:translateX(-50%)}to{transform:translateX(0)}}
+@media(prefers-reduced-motion:reduce){.system-track{transition-duration:.72s!important}}
 .product-family-catalog .door-catalog-grid{align-items:stretch}
 .product-family-catalog .door-catalog-card{display:flex;flex-direction:column;height:100%}
 .product-family-catalog .door-catalog-visual{height:clamp(330px,22vw,370px);padding:14px;background:#f8fafc}
