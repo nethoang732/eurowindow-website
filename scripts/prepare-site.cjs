@@ -90,7 +90,7 @@ aluminumPage += `
     track.querySelectorAll('.system-card[inert]').forEach(card=>card.remove());
     let sliding=false;
     const slideNext=()=>{
-      if(sliding||section.classList.contains('is-paused')||section.matches(':hover'))return;
+      if(sliding||section.classList.contains('is-paused'))return;
       const first=track.firstElementChild;if(!first)return;
       const gap=parseFloat(getComputedStyle(track).gap)||0;
       const distance=first.getBoundingClientRect().width+gap;
@@ -102,7 +102,8 @@ aluminumPage += `
       track.addEventListener('transitionend',finish,{once:true});
       fallback=setTimeout(finish,850);
     };
-    const timer=setInterval(slideNext,3600);
+    const timer=setInterval(slideNext,3000);
+    setTimeout(slideNext,900);
     control.addEventListener('click',()=>{const paused=section.classList.toggle('is-paused');control.setAttribute('aria-pressed',String(paused));control.setAttribute('aria-label',paused?'Tiếp tục trình chiếu':'Tạm dừng trình chiếu');control.textContent=paused?'Tiếp tục':'Tạm dừng';if(!paused)slideNext()});
     section.addEventListener('keydown',event=>{if(event.key==='ArrowRight'){event.preventDefault();slideNext()}else if(event.key==='ArrowLeft'){event.preventDefault();if(!sliding){const last=track.lastElementChild;if(last){track.style.setProperty('transition','none','important');track.insertBefore(last,track.firstElementChild);track.style.transform='translateX(0)';requestAnimationFrame(()=>track.style.removeProperty('transition'))}}}});
     section.dataset.slideTimer=String(timer);
