@@ -29,10 +29,34 @@ const basePatch = `
 
 let script = body[2];
 script = script.replaceAll('infoew@eurowindow.biz', 'info@example.com');
+script = script.replaceAll('Chọn cửa phù hợp', 'Chọn Cửa phù hợp');
 script = script.replaceAll('kênh chính thức', 'kênh tư vấn');
-const aluminumPage = fs.readFileSync(path.join(root, 'scripts', 'aluminum-page.js'), 'utf8');
+let aluminumPage = fs.readFileSync(path.join(root, 'scripts', 'aluminum-page.js'), 'utf8');
+const aluminumGuide = `
+  function aluminumGuideSection(){
+    const points=[
+      ['Cửa đi nhôm kính','Mở quay tạo lối đi rộng. Mở trượt tiết kiệm chỗ; xếp trượt giúp mở gần hết ô cửa.'],
+      ['Cửa sổ nhôm kính','Chọn mở quay, mở hất, quay lật hoặc mở trượt theo vị trí cửa và nhu cầu thông gió.'],
+      ['Cửa nhôm cầu cách nhiệt','Phù hợp vị trí chịu nắng nhiều hoặc khi gia chủ muốn giảm truyền nhiệt qua khung cửa.'],
+      ['Vách kính mặt tiền','Dùng cho mặt tiền cần nhiều ánh sáng. Kích thước và kết cấu cần tính theo tải trọng gió của công trình.']
+    ];
+    const applications=[
+      ['Nhà phố','Nhà mặt phố thường cần giảm tiếng ồn và hạn chế nắng gắt. Cửa trượt hữu ích ở nơi không đủ chỗ cho cánh mở.'],
+      ['Biệt thự','Cửa mở rộng hoặc xếp trượt nối phòng khách với sân vườn. Chọn kính và phụ kiện theo kích thước cửa.'],
+      ['Chung cư','Kiểm tra quy định của tòa nhà trước khi thay cửa. Chọn kiểu mở và kính phù hợp với hướng căn hộ, tiếng ồn và nhu cầu thông gió.'],
+      ['Mặt tiền hiện đại','Vách kính giúp mặt tiền sáng và thoáng. Thiết kế cần tính tải trọng gió, thoát nước và cách bảo trì.']
+    ];
+    const rows=aluminumProducts.map(item=>[item.name,item.image,item.type,item.opening,item.system]);
+    const intro=['Cửa đi phục vụ lối ra vào; cửa sổ lấy sáng và thông gió; vách kính mở rộng tầm nhìn ở mặt tiền hoặc không gian chung.', 'Khung có cầu cách nhiệt giúp giảm truyền nhiệt qua thanh nhôm. Khả năng cách âm, cách nhiệt còn tùy loại kính, gioăng, độ kín và chất lượng lắp đặt.'];
+    return productGuideLayout('Cửa nhôm Eurowindow',points,applications,rows,intro);
+  }
+`;
+aluminumPage = aluminumPage.replace('  function officialAluminumPage(){', `${aluminumGuide}\n  function officialAluminumPage(){`);
+const aluminumSectionsPattern = /<section class="aluminum-overview">[\s\S]*?<\/section><section class="section aluminum-benefits">[\s\S]*?<\/section>/;
+if (!aluminumSectionsPattern.test(aluminumPage)) throw new Error('Could not find the aluminum overview and project sections');
+aluminumPage = aluminumPage.replace(aluminumSectionsPattern, '${aluminumGuideSection()}');
 const productPages = fs.readFileSync(path.join(root, 'scripts', 'product-pages.js'), 'utf8');
-const productPagesWithCatalog = productPages.replace('</section>${productGuideSections(content,slug)}', '</section>${productCatalogSection(slug)}${productOverviewSection(content,slug)}${productGuideSections(content,slug)}');
+const productPagesWithCatalog = productPages.replace('</section>${productGuideSections(content,slug)}', '</section>${productCatalogSection(slug)}${productGuideSections(content,slug)}');
 if (productPagesWithCatalog === productPages) throw new Error('Could not insert product catalog sections into product pages');
 const productCatalogs = fs.readFileSync(path.join(root, 'scripts', 'product-catalogs.js'), 'utf8');
 script = script.replace('  function render(){', `${aluminumPage}\n${productPagesWithCatalog}\n${productCatalogs}\n  function render(){`);
