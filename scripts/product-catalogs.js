@@ -26,12 +26,18 @@
       ...aluminumProducts.filter(item=>item.type==='Vách kính').map(item=>[item.name,item.image,'Vách nhôm kính',item.opening])
     ]
   };
-  function productCatalogSection(slug){
+  function productCatalogRows(slug){
     let rows=productCatalogData[slug];
     if(!rows&&slug==='cua-xep-truot') rows=aluminumProducts.filter(item=>item.type==='Cửa đi'&&item.opening==='Xếp trượt').map(item=>[item.name,item.image,'Cửa đi',item.opening]);
     if(!rows&&slug.startsWith('cua-di-')) rows=aluminumProducts.filter(item=>item.type==='Cửa đi'&&(slug==='cua-di-mo-quay'?item.opening.includes('quay'):slug==='cua-di-mo-truot'?item.opening==='Mở trượt':item.opening==='Xếp trượt')).map(item=>[item.name,item.image,'Cửa đi',item.opening]);
     if(!rows&&slug.startsWith('cua-so-')) rows=aluminumProducts.filter(item=>item.type==='Cửa sổ'&&(slug==='cua-so-mo-quay'?item.opening.includes('quay'):item.opening==='Mở hất')).map(item=>[item.name,item.image,'Cửa sổ',item.opening]);
-    if(!rows?.length)return '';
+    return rows||[];
+  }
+  function productCatalogImage(image){return image.startsWith('http')?image:'https://storage.sudospaces.com/eurowindow/'+image}
+  function productCatalogSection(slug){
+    const rows=productCatalogRows(slug);
+    if(!rows.length)return '';
     const title=productPageContent[slug].title;
-    return '<section class="door-catalog product-family-catalog"><div class="wrap"><div class="section-head door-catalog-heading"><div><span class="eyebrow">DANH MỤC SẢN PHẨM</span><h2 class="serif">Các mẫu '+title.toLowerCase()+'</h2></div><p>Mẫu mã và cấu hình được xác nhận theo nhu cầu, kích thước và điều kiện thực tế của công trình.</p></div><div class="door-catalog-grid">'+rows.map(row=>{const name=row[0],image=row[1],type=row[2],opening=row[3];const src=image.startsWith('http')?image:'https://storage.sudospaces.com/eurowindow/'+image;return '<article class="door-catalog-card"><div class="door-catalog-visual"><img loading="lazy" src="'+src+'" alt="'+name+'"></div><div class="door-catalog-info"><h3>'+name+'</h3><a class="button" href="/bao-gia?san-pham='+encodeURIComponent(name)+'">Liên hệ báo giá</a><ul class="door-catalog-meta"><li>Danh mục: '+type+'</li><li>Kiểu mở / cấu hình: '+opening+'</li></ul></div></article>';}).join('')+'</div></div></section>';
+    const headingTitle=title.toLocaleLowerCase('vi').replace(/\bupvc\b/g,'uPVC').replace(/\beurowindow\b/g,'Eurowindow');
+    return '<section class="door-catalog product-family-catalog"><div class="wrap"><div class="section-head door-catalog-heading"><div><span class="eyebrow">DANH MỤC SẢN PHẨM</span><h2 class="serif">Các mẫu '+headingTitle+'</h2></div><p>Mẫu mã và cấu hình được xác nhận theo nhu cầu, kích thước và điều kiện thực tế của công trình.</p></div><div class="door-catalog-grid">'+rows.map(row=>{const name=row[0],image=row[1],type=row[2],opening=row[3];return '<article class="door-catalog-card"><div class="door-catalog-visual"><img loading="lazy" src="'+productCatalogImage(image)+'" alt="'+name+'"></div><div class="door-catalog-info"><h3>'+name+'</h3><a class="button" href="/bao-gia?san-pham='+encodeURIComponent(name)+'">Liên hệ báo giá</a><ul class="door-catalog-meta"><li>Danh mục: '+type+'</li><li>Kiểu mở / cấu hình: '+opening+'</li></ul></div></article>';}).join('')+'</div></div></section>';
   }
