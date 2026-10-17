@@ -82,7 +82,31 @@ aluminumPage += `
     const renderCards=duplicate=>cards.map(item=>'<article class="system-card reveal"'+(duplicate?' aria-hidden="true" inert':'')+'><a href="'+item.href+'"><img loading="lazy" alt="'+item.type+' '+item.name+'" src="'+item.image+'"><small>'+item.type+'</small><h3>'+item.name+'</h3><p>'+item.desc+'</p><span>Xem chi tiết <span>↗</span></span></a></article>').join('');
     return '<section class="section system-section"><div class="wrap"><div class="section-head"><div><span class="eyebrow">03 / NỀN TẢNG</span><h2 class="serif">Các hệ cửa nổi bật</h2></div></div><div class="system-marquee"><div class="system-track">'+renderCards(false)+renderCards(true)+'</div></div><button class="system-marquee-control" type="button" aria-pressed="false" aria-label="Tạm dừng chuyển động">Tạm dừng</button></div></section>';
   }
-  function wireFeaturedSystemMarquee(){const section=document.querySelector('.system-section');if(!section)return;const control=section.querySelector('.system-marquee-control');if(!control)return;control.addEventListener('click',()=>{const paused=section.classList.toggle('is-paused');control.setAttribute('aria-pressed',String(paused));control.setAttribute('aria-label',paused?'Tiếp tục chuyển động':'Tạm dừng chuyển động');control.textContent=paused?'Tiếp tục':'Tạm dừng'})}
+  function wireFeaturedSystemMarquee(){
+    const section=document.querySelector('.system-section');
+    if(!section)return;
+    const track=section.querySelector('.system-track'),control=section.querySelector('.system-marquee-control');
+    if(!track||!control)return;
+    track.querySelectorAll('.system-card[inert]').forEach(card=>card.remove());
+    let sliding=false;
+    const slideNext=()=>{
+      if(sliding||section.classList.contains('is-paused')||section.matches(':hover'))return;
+      const first=track.firstElementChild;if(!first)return;
+      const gap=parseFloat(getComputedStyle(track).gap)||0;
+      const distance=first.getBoundingClientRect().width+gap;
+      sliding=true;
+      track.style.transition='transform .72s cubic-bezier(.22,1,.36,1)';
+      track.style.transform='translateX(-'+distance+'px)';
+      let fallback;
+      const finish=event=>{if(event&&event.target!==track)return;clearTimeout(fallback);track.removeEventListener('transitionend',finish);track.style.setProperty('transition','none','important');track.appendChild(track.firstElementChild);track.style.transform='translateX(0)';requestAnimationFrame(()=>{track.style.removeProperty('transition');sliding=false})};
+      track.addEventListener('transitionend',finish,{once:true});
+      fallback=setTimeout(finish,850);
+    };
+    const timer=setInterval(slideNext,3600);
+    control.addEventListener('click',()=>{const paused=section.classList.toggle('is-paused');control.setAttribute('aria-pressed',String(paused));control.setAttribute('aria-label',paused?'Tiếp tục trình chiếu':'Tạm dừng trình chiếu');control.textContent=paused?'Tiếp tục':'Tạm dừng';if(!paused)slideNext()});
+    section.addEventListener('keydown',event=>{if(event.key==='ArrowRight'){event.preventDefault();slideNext()}else if(event.key==='ArrowLeft'){event.preventDefault();if(!sliding){const last=track.lastElementChild;if(last){track.style.setProperty('transition','none','important');track.insertBefore(last,track.firstElementChild);track.style.transform='translateX(0)';requestAnimationFrame(()=>track.style.removeProperty('transition'))}}}});
+    section.dataset.slideTimer=String(timer);
+  }
 `;
 const productPages = fs.readFileSync(path.join(root, 'scripts', 'product-pages.js'), 'utf8');
 const productPagesWithCatalog = productPages.replace('</section>${productGuideSections(content,slug)}', '</section>${productCatalogSection(slug)}${productGuideSections(content,slug)}');
@@ -284,13 +308,12 @@ body{font-size:15px}
 
 const aluminumStyles = `
 .system-marquee{overflow:hidden;position:relative}
-.system-track{display:flex;flex-wrap:nowrap!important;grid-template-columns:none;width:max-content;gap:14px;overflow:visible;padding:0;animation:system-scroll-right 72s linear infinite!important;animation-duration:72s!important;animation-iteration-count:infinite!important}
-.system-section.is-paused .system-track,.system-marquee:hover .system-track,.system-marquee:focus-within .system-track{animation-play-state:paused}
+.system-track{display:flex;flex-wrap:nowrap!important;grid-template-columns:none;width:max-content;gap:14px;overflow:visible;padding:0;transform:translateX(0);transition:transform .72s cubic-bezier(.22,1,.36,1)}
 .system-card{flex:0 0 clamp(245px,23vw,320px)}
 .system-card small{display:block;color:var(--gold2);font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;margin-top:12px}
 .system-marquee-control{margin-top:18px;border:1px solid #ffffff55;background:transparent;color:#fff;padding:9px 13px;font:600 11px var(--display);cursor:pointer}
 .system-marquee-control:hover,.system-marquee-control:focus-visible{background:#ffffff18}
-@keyframes system-scroll-right{from{transform:translateX(-50%)}to{transform:translateX(0)}}
+@media(prefers-reduced-motion:reduce){.system-track{transition-duration:.72s!important}}
 .product-family-catalog .door-catalog-grid{align-items:stretch}
 .product-family-catalog .door-catalog-card{display:flex;flex-direction:column;height:100%}
 .product-family-catalog .door-catalog-visual{height:clamp(330px,22vw,370px);padding:14px;background:#f8fafc}
