@@ -231,6 +231,7 @@ const aluminumStyles = `
 .product-family-catalog .door-catalog-info .button{align-self:center}
 .product-guide{background:#edf3f8}
 .product-guide .aluminum-benefit-grid article{background:#fff}
+.product-guide-label{display:block;margin-bottom:10px;color:#3479b8;font-size:9px;font-weight:700;letter-spacing:.12em}
 .product-guide-subhead{margin:52px 0 22px}
 .product-guide-subhead h3{margin:12px 0 0;color:var(--navy);font-size:clamp(27px,3vw,38px);line-height:1.15}
 @media(max-width:700px){.product-family-catalog .door-catalog-visual{height:280px;padding:12px}.product-guide-subhead{margin-top:36px}}

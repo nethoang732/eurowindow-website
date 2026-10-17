@@ -85,10 +85,9 @@
   function displayProductName(title){return title.toLocaleLowerCase('vi').replace(/\bupvc\b/g,'uPVC').replace(/\beurowindow\b/g,'Eurowindow')}
   function productInquiryForm(options){const old='<option>Cửa đi</option><option>Cửa sổ</option><option>Vách kính & mặt dựng</option><option>Khác</option>';const choices=options.map(option=>`<option>${option}</option>`).join('');return form(true).replace(old,choices)}
   function productGuideSections(content,slug){
-    const points=content.points.map(([title,text])=>`<article><h3>${title}</h3><p>${text}</p></article>`).join('');
-    const applications=content.applications.map(([title,text])=>`<article><h3>${title}</h3><p>${text}</p></article>`).join('');
-    if(slug==='cua-upvc')return `<section class="section product-guide"><div class="wrap"><div class="section-head"><div><span class="eyebrow">TƯ VẤN CHỌN CỬA uPVC</span><h2 class="serif">Điều cần biết khi chọn cửa uPVC</h2></div></div><div class="aluminum-benefit-grid">${points}</div><div class="product-guide-subhead"><span class="eyebrow">CHỌN THEO VỊ TRÍ</span><h3 class="serif">Chọn cửa phù hợp với từng không gian</h3></div><div class="aluminum-benefit-grid">${applications}</div></div></section>`;
-    return `<section class="aluminum-overview"><div class="wrap"><div class="section-head"><div><span class="eyebrow">THÔNG TIN SẢN PHẨM</span><h2 class="serif">Điều cần biết khi chọn ${displayProductName(content.title)}</h2></div></div><div class="aluminum-benefit-grid">${points}</div></div></section><section class="section aluminum-benefits"><div class="wrap"><div class="section-head"><div><span class="eyebrow">CHỌN THEO VỊ TRÍ</span><h2 class="serif">Dùng đúng cửa cho từng không gian</h2></div></div><div class="aluminum-benefit-grid">${applications}</div></div></section>`;
+    const points=content.points.map(([title,text])=>`<article class="product-guide-card"><span class="product-guide-label">TIÊU CHÍ CHỌN</span><h3>${title}</h3><p>${text}</p></article>`).join('');
+    const applications=content.applications.map(([title,text])=>`<article class="product-guide-card"><span class="product-guide-label">THEO KHÔNG GIAN</span><h3>${title}</h3><p>${text}</p></article>`).join('');
+    return `<section class="section product-guide"><div class="wrap"><div class="section-head"><div><span class="eyebrow">THÔNG TIN SẢN PHẨM</span><h2 class="serif">Chọn ${displayProductName(content.title)} phù hợp với công trình</h2></div></div><div class="aluminum-benefit-grid">${points}${applications}</div></div></section>`;
   }
   function officialProductPage(slug){
     const content=productPageContent[slug];
