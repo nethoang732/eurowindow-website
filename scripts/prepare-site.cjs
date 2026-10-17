@@ -79,38 +79,64 @@ aluminumPage += `
         cards.push({name:variant,type:label,desc:type+' · '+configuration,image:productCatalogImage(image),href:'/san-pham/'+slug+'?he='+encodeURIComponent(variant)});
       });
     });
-    const renderCards=duplicate=>cards.map(item=>'<article class="system-card reveal"'+(duplicate?' aria-hidden="true" inert':'')+'><a href="'+item.href+'"><img loading="lazy" alt="'+item.type+' '+item.name+'" src="'+item.image+'"><small>'+item.type+'</small><h3>'+item.name+'</h3><p>'+item.desc+'</p><span>Xem chi tiết <span>↗</span></span></a></article>').join('');
-    return '<section class="section system-section"><div class="wrap"><div class="section-head"><div><span class="eyebrow">03 / NỀN TẢNG</span><h2 class="serif">Các hệ cửa nổi bật</h2></div></div><div class="system-marquee"><div class="system-track">'+renderCards(false)+renderCards(true)+'</div></div><button class="system-marquee-control" type="button" aria-pressed="false" aria-label="Tạm dừng chuyển động">Tạm dừng</button></div></section>';
+    cards.splice(0,cards.length,
+      {name:'Cửa nhôm',type:'Nhôm kính',desc:'Cửa đi, cửa sổ và vách kính theo hệ nhôm, kiểu mở và cấu hình phù hợp công trình.',image:'/images/door-reference/nhom-Cua-nhom-mo-quay-2-canh--1.jpg',href:'/san-pham/cua-nhom/'},
+      {name:'Cửa uPVC',type:'uPVC',desc:'Cửa đi và cửa sổ uPVC với nhiều kiểu mở cho nhà ở và công trình.',image:productCatalogImage(productCatalogData['cua-upvc'][0][1]),href:'/san-pham/cua-upvc/'},
+      {name:'Cửa gỗ',type:'Gỗ tự nhiên & công nghiệp',desc:'Các dòng cửa gỗ với lựa chọn vật liệu và bề mặt hoàn thiện đa dạng.',image:productCatalogImage(productCatalogData['cua-go'][0][1]),href:'/san-pham/cua-go/'},
+      {name:'Cửa cuốn',type:'Cửa cuốn',desc:'Giải pháp cửa cuốn cho lối ra vào cần đóng mở gọn và thuận tiện.',image:productCatalogImage(productCatalogData['cua-cuon'][0][1]),href:'/san-pham/cua-cuon/'},
+      {name:'Cửa thông minh',type:'Tích hợp công nghệ',desc:'Các giải pháp cửa tự động và sản phẩm tích hợp công nghệ cho nhu cầu sử dụng tiện nghi.',image:productCatalogImage(productCatalogData['cua-thong-minh-the-he-moi'][0][1]),href:'/san-pham/cua-thong-minh-the-he-moi/'}
+    );    const renderCards=duplicate=>cards.map(item=>'<article class="system-card reveal"'+(duplicate?' aria-hidden="true" inert':'')+'><a href="'+item.href+'"><img loading="lazy" alt="'+item.type+' '+item.name+'" src="'+item.image+'"><small>'+item.type+'</small><h3>'+item.name+'</h3><p>'+item.desc+'</p><span>Xem chi tiết <span>↗</span></span></a></article>').join('');
+    return '<section class="section system-section"><div class="wrap"><div class="section-head"><div><span class="eyebrow">03 / SẢN PHẨM</span><h2 class="serif">Các dòng cửa nổi bật</h2></div></div><div class="system-marquee"><div class="system-track">'+renderCards(false)+renderCards(true)+'</div></div><button class="system-marquee-control" type="button" aria-pressed="false" aria-label="Tạm dừng chuyển động">Tạm dừng</button></div></section>';
   }
   function wireFeaturedSystemMarquee(){
+    if(window.__EUROWINDOW_SYSTEM_RESIZE__)removeEventListener('resize',window.__EUROWINDOW_SYSTEM_RESIZE__);
     const section=document.querySelector('.system-section');
     if(!section)return;
     const track=section.querySelector('.system-track'),control=section.querySelector('.system-marquee-control');
     if(!track||!control)return;
-    track.querySelectorAll('.system-card[inert]').forEach(card=>card.remove());
-    let timer=null,moving=false;
-    const schedule=()=>{clearTimeout(timer);if(!section.classList.contains('is-paused'))timer=setTimeout(slide,3000)};
-    const slide=()=>{
-      if(moving||section.classList.contains('is-paused'))return;
-      const last=track.lastElementChild;if(!last)return;
-      const gap=parseFloat(getComputedStyle(track).gap)||0;
-      const distance=last.getBoundingClientRect().width+gap;
-      moving=true;
-      track.style.setProperty('transition','none','important');
-      track.insertBefore(last,track.firstElementChild);
-      track.style.transform='translateX(-'+distance+'px)';
-      track.getBoundingClientRect();
-      requestAnimationFrame(()=>{
-        track.style.removeProperty('transition');
-        track.style.transform='translateX(0)';
-      });
+    const originals=[...track.children].filter(card=>!card.hasAttribute('inert'));
+    if(!originals.length)return;
+    const makeLoop=()=>originals.map(card=>{const clone=card.cloneNode(true);clone.removeAttribute('inert');clone.setAttribute('aria-hidden','true');clone.classList.remove('reveal','visible');clone.querySelectorAll('a,button,[tabindex]').forEach(el=>el.tabIndex=-1);return clone});
+    track.replaceChildren(...makeLoop(),...originals,...makeLoop());
+    let timer=null,moving=false,drag=null,suppressClick=false,position=0,cycleWidth=0,dragFrame=0;
+    const gap=()=>parseFloat(getComputedStyle(track).gap)||0;
+    const measure=()=>{cycleWidth=originals.reduce((sum,card)=>sum+card.getBoundingClientRect().width,0)+gap()*originals.length;return cycleWidth};
+    const distance=card=>(card?.getBoundingClientRect().width||0)+gap();
+    const wrap=value=>{if(!cycleWidth)return value;while(value>=0)value-=cycleWidth;while(value< -2*cycleWidth)value+=cycleWidth;return value};
+    const schedule=()=>{clearTimeout(timer);if(!section.classList.contains('is-paused'))timer=setTimeout(slide,5000)};
+    const animateTo=(target,duration)=>{
+      moving=true;track.style.transition='transform '+duration+'ms cubic-bezier(.22,1,.36,1)';track.style.transform='translate3d('+target+'px,0,0)';
       let fallback;
-      const finish=event=>{
-        if(event&&(event.target!==track||event.propertyName!=='transform'))return;
-        clearTimeout(fallback);track.removeEventListener('transitionend',finish);moving=false;schedule();
-      };
-      track.addEventListener('transitionend',finish);
-      fallback=setTimeout(finish,900);
+      const finish=event=>{if(event&&(event.target!==track||event.propertyName!=='transform'))return;clearTimeout(fallback);track.removeEventListener('transitionend',finish);position=wrap(target);track.style.transition='none';track.style.transform='translate3d('+position+'px,0,0)';track.getBoundingClientRect();track.style.removeProperty('transition');moving=false;track.classList.remove('is-sliding');schedule()};
+      track.addEventListener('transitionend',finish);fallback=setTimeout(finish,duration+120);
+    };
+    const onPointerMove=event=>{
+      if(!drag||event.pointerId!==drag.pointerId)return;
+      const dx=event.clientX-drag.x,dy=event.clientY-drag.y,now=performance.now();
+      if(!drag.active&&Math.abs(dy)>Math.abs(dx)+5){window.removeEventListener('pointermove',onPointerMove);window.removeEventListener('pointerup',onPointerUp);window.removeEventListener('pointercancel',onPointerCancel);drag=null;schedule();return}
+      if(Math.abs(dx)<4&&!drag.active)return;
+      if(!drag.active){drag.active=true;track.classList.add('is-dragging');track.style.transition='none';suppressClick=true;try{track.setPointerCapture(event.pointerId)}catch{}}
+      event.preventDefault();drag.velocity=(event.clientX-drag.lastX)/Math.max(1,now-drag.lastTime);drag.lastX=event.clientX;drag.lastTime=now;
+      position=wrap(drag.startPosition+dx);if(!dragFrame)dragFrame=requestAnimationFrame(()=>{dragFrame=0;track.style.transform='translate3d('+position+'px,0,0)'});
+    };
+    const onPointerUp=event=>{
+      if(!drag||event.pointerId!==drag.pointerId)return;
+      const current=drag;drag=null;window.removeEventListener('pointermove',onPointerMove);window.removeEventListener('pointerup',onPointerUp);window.removeEventListener('pointercancel',onPointerCancel);track.classList.remove('is-dragging');
+      if(!current.active){schedule();return}
+      if(dragFrame){cancelAnimationFrame(dragFrame);dragFrame=0;track.style.transform='translate3d('+position+'px,0,0)'}
+      const step=distance(originals[0]),momentum=Math.max(-step*1.5,Math.min(step*1.5,current.velocity*220));
+      const target=Math.round((position+momentum+cycleWidth)/step)*step-cycleWidth;
+      track.classList.add('is-sliding');animateTo(target,Math.min(620,380+Math.abs(current.velocity)*180));setTimeout(()=>{suppressClick=false},0);
+    };
+    const onPointerCancel=event=>{if(drag)drag.velocity=0;onPointerUp(event)};
+    track.addEventListener('pointerdown',event=>{if(event.button!==0||moving||track.children.length<2)return;clearTimeout(timer);drag={pointerId:event.pointerId,x:event.clientX,y:event.clientY,lastX:event.clientX,lastTime:performance.now(),startPosition:position,velocity:0,active:false};window.addEventListener('pointermove',onPointerMove,{passive:false});window.addEventListener('pointerup',onPointerUp);window.addEventListener('pointercancel',onPointerCancel)});
+    track.addEventListener('click',event=>{if(suppressClick){event.preventDefault();event.stopImmediatePropagation()}},true);
+    measure();position=-cycleWidth;track.style.transition='none';track.style.transform='translate3d('+position+'px,0,0)';track.getBoundingClientRect();track.style.removeProperty('transition');
+    window.__EUROWINDOW_SYSTEM_RESIZE__=()=>{const phase=(position+cycleWidth)/cycleWidth;measure();position=wrap(-cycleWidth+phase*cycleWidth);if(!moving&&!drag)track.style.transform='translate3d('+position+'px,0,0)'};
+    addEventListener('resize',window.__EUROWINDOW_SYSTEM_RESIZE__,{passive:true});
+    const slide=()=>{
+      if(moving||drag||section.classList.contains('is-paused'))return;
+      track.classList.add('is-sliding');animateTo(position+distance(originals[originals.length-1]),720);
     };
     control.addEventListener('click',()=>{const paused=section.classList.toggle('is-paused');control.setAttribute('aria-pressed',String(paused));control.setAttribute('aria-label',paused?'Tiếp tục trình chiếu':'Tạm dừng trình chiếu');control.textContent=paused?'Tiếp tục':'Tạm dừng';if(paused)clearTimeout(timer);else if(!moving)schedule()});
     schedule();
@@ -131,7 +157,8 @@ script = script.replace('function systemDetail(slug){let s=systems.find', 'funct
 script = script.replace('  function productDetail(slug){', "  function productDetail(slug){if(slug==='cua-nhom')return officialAluminumPage();if(productPageContent[slug])return officialProductPage(slug);");
 script = script.replace("else if(p==='/san-pham')html=productsPage();", "else if(p==='/san-pham')html=officialProductListingPage();");
 script = script.replace("document.querySelector('#productGrid').innerHTML=list.map(c=>productCard({...c,tag:c.tag})).join('');", "document.querySelector('#productGrid').innerHTML=list.map(c=>productCard({...c,tag:c.tag,desc:productListingCopy[c.slug]||c.desc})).join('');");
-script = script.replace('wireProductGallery();wireProductCatalog()', 'wireProductGallery();wireProductCatalog();wireFeaturedSystemMarquee()');
+script = script.replace('wireProductGallery();wireProductCatalog()', 'wireProductGallery();wireProductCatalog();wireProductListingImages();wireFeaturedSystemMarquee()');
+script = script.replace(".join('');observe()}));wireProductGallery()", ".join('');observe();wireProductListingImages()}));wireProductGallery()");
 script = script.replace('  function aluminumCatalogCard(item){', '  function legacyAluminumCatalogCard(item){');
 script = script.replace("options=['T?t c?',", "options=['Tất cả',");
 script = script.replace("document.title=(titles[p]||slugTitle)+' | Eurowindow';", "document.title=(p==='/san-pham/cua-nhom'?'Cửa nhôm Eurowindow: Cửa đi, cửa sổ & vách kính':(p==='/san-pham'?'Sản phẩm Eurowindow':(productPageContent[p.split('/').pop()]?.title||titles[p]||slugTitle)))+' | Eurowindow';");
@@ -315,8 +342,12 @@ body{font-size:15px}
 `;
 
 const aluminumStyles = `
+.system-card img{object-fit:contain;object-position:center;background:#f3f6f8}
+.detail-gallery .gallery-slide img{object-fit:contain;object-position:center;background:#0c2b50}
 .system-marquee{overflow:hidden;position:relative}
 .system-track{display:flex;flex-wrap:nowrap!important;grid-template-columns:none;width:max-content;gap:14px;overflow:visible;padding:0;transform:translateX(0);transition:transform .72s cubic-bezier(.22,1,.36,1)}
+.system-track{touch-action:pan-y;cursor:grab}.system-track:active{cursor:grabbing}.system-track a{-webkit-user-drag:none;user-select:none}
+.system-track.is-dragging,.system-track.is-sliding{will-change:transform}
 .system-card{flex:0 0 clamp(245px,23vw,320px)}
 .system-card small{display:block;color:var(--gold2);font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;margin-top:12px}
 .system-marquee-control{margin-top:18px;border:1px solid #ffffff55;background:transparent;color:#fff;padding:9px 13px;font:600 11px var(--display);cursor:pointer}

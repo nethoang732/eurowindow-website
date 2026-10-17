@@ -106,7 +106,9 @@
   function officialProductPage(slug){
     const content=productPageContent[slug];
     const rows=productCatalogRows(slug);
-    const gallery=rows.slice(0,3).map(([name,image,type,opening])=>({name,image:productCatalogImage(image),caption:type+' · '+opening}));
+    const uniqueImageRows=[...new Map(rows.filter(([,image])=>image).map(row=>[row[1],row])).values()];
+    const galleryRows=uniqueImageRows.length>3?uniqueImageRows.slice(0,7):rows.slice(0,3);
+    const gallery=galleryRows.map(([name,image,type,opening])=>({name,image:productCatalogImage(image),caption:type+' · '+opening}));
     if(gallery.length<3){
       categories.filter(item=>item.slug!==slug).slice(0,3-gallery.length).forEach((item,index)=>gallery.push({name:content.title,image:img(item.image,1400),caption:'Ứng dụng · '+content.title+' '+(index+1)}));
     }
@@ -124,4 +126,23 @@
     const qs=new URLSearchParams(location.search).get('danh-muc');
     const shown=(qs?categories.filter(item=>item.slug===qs):categories);
     return `${compactProductHero('Sản phẩm Eurowindow')}<section class="section"><div class="wrap"><div class="listing-tools product-listing-tools"><div class="filters" id="productFilters"><button class="filter ${qs?'':'active'}" data-cat="all">Tất cả</button>${categories.map(item=>`<button class="filter ${qs===item.slug?'active':''}" data-cat="${item.slug}">${item.name}</button>`).join('')}</div></div><div class="product-grid" id="productGrid">${shown.map(item=>productCard({...item,desc:productListingCopy[item.slug]||item.desc})).join('')}</div></div></section><section class="quote-band"><div class="wrap quote-grid"><div><span class="eyebrow">TƯ VẤN SẢN PHẨM</span><h2 class="serif">Tìm Cửa phù hợp<br><span class="gold">với công trình của bạn</span></h2><p>Chia sẻ loại cửa đang tìm và nhu cầu sử dụng để bắt đầu trao đổi.</p></div>${productInquiryForm(categories.map(item=>item.name))}</div></section>`;
+  }
+  function wireProductListingImages(){
+    const grid=document.querySelector('#productGrid');
+    if(!grid)return;
+    grid.querySelectorAll('.product-card').forEach(card=>{
+      const photo=card.querySelector('.product-photo'),image=photo?.querySelector('img');
+      if(!photo||!image||photo.dataset.featureImageReady)return;
+      const slug=card.getAttribute('href')?.split('/').filter(Boolean).pop();
+      const rows=productCatalogRows(slug);
+      const chosenImages={
+        'cua-nhom':['Cửa nhôm hai cánh mở quay','/images/door-reference/nhom-Cua-nhom-mo-quay-2-canh--1.jpg'],
+        'cua-upvc':['Cửa sổ uPVC hai cánh quay lật','/images/door-reference/upvc-Cua-so-uPVC-mo-quay-lat.jpg']
+      };
+      const [name,src]=chosenImages[slug]||rows.find(([,path])=>path)||[];
+      if(!src)return;
+      image.src=src.startsWith('/')||src.startsWith('http')?src:productCatalogImage(src);
+      if(name)image.alt=name;
+      photo.dataset.featureImageReady='true';
+    });
   }
