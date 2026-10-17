@@ -233,10 +233,12 @@ const aluminumStyles = `
 .product-family-catalog .door-catalog-info .button{align-self:flex-start;margin:0 0 14px;background:var(--navy);border-color:var(--navy)}
 .product-guide{background:#edf3f8}
 .product-guide .aluminum-benefit-grid article{background:#fff}
+.product-guide-card-image{height:145px;margin:-25px -25px 18px;overflow:hidden;background:#e7eef4}
+.product-guide-card-image img{display:block;width:100%;height:100%;object-fit:cover;object-position:center}
 .product-guide-label{display:block;margin-bottom:10px;color:#3479b8;font-size:9px;font-weight:700;letter-spacing:.12em}
 .product-guide-subhead{margin:52px 0 22px}
 .product-guide-subhead h3{margin:12px 0 0;color:var(--navy);font-size:clamp(27px,3vw,38px);line-height:1.15}
-@media(max-width:700px){.product-family-catalog .door-catalog-visual{height:300px;padding:12px}.product-family-catalog .door-catalog-visual img{width:min(100%,276px);height:min(100%,276px)}.product-family-catalog .door-catalog-info h3{min-height:0}.product-guide-subhead{margin-top:36px}}
+@media(max-width:700px){.product-family-catalog .door-catalog-visual{height:300px;padding:12px}.product-family-catalog .door-catalog-visual img{width:min(100%,276px);height:min(100%,276px)}.product-family-catalog .door-catalog-info h3{min-height:0}.product-guide-card-image{height:170px}.product-guide-subhead{margin-top:36px}}
 .official-aluminum-catalog .door-catalog-info{background:#f3f6f9}
 .official-aluminum-catalog .door-catalog-info h3{text-align:left;min-height:52px;font-size:15px;line-height:1.45}
 .official-aluminum-catalog .door-catalog-info .button{margin:0 0 14px;background:var(--navy);border-color:var(--navy)}

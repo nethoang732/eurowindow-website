@@ -91,8 +91,10 @@
     return `<section class="aluminum-overview product-overview"><div class="wrap aluminum-overview-grid"><div class="aluminum-overview-image"><img loading="lazy" src="${image}" alt="${row[0]}" onerror="this.onerror=null;this.src='https://storage.sudospaces.com/eurowindow/2026/07/san-pham-kinh-cua-eurowindow-dam-bao-do-an-toan-phu-hop-voi-nhieu-hang-muc-cong-trinh.jpg.webp'"></div><div class="aluminum-overview-copy"><span class="eyebrow">LỰA CHỌN GIẢI PHÁP</span><h2>${displayProductName(content.title)} cho công trình của bạn</h2><p>${content.intro}</p><p>${content.body}</p></div></div></section>`;
   }
   function productGuideSections(content,slug){
-    const points=content.points.map(([title,text])=>`<article class="product-guide-card"><span class="product-guide-label">TIÊU CHÍ CHỌN</span><h3>${title}</h3><p>${text}</p></article>`).join('');
-    const applications=content.applications.map(([title,text])=>`<article class="product-guide-card"><span class="product-guide-label">THEO KHÔNG GIAN</span><h3>${title}</h3><p>${text}</p></article>`).join('');
+    const rows=productCatalogRows(slug);
+    const guideCard=([title,text],label,index)=>{const row=rows[index%Math.max(rows.length,1)];const image=row?productCatalogImage(row[1]):'';const visual=row?`<div class="product-guide-card-image"><img loading="lazy" src="${image}" alt="${row[0]}" onerror="this.onerror=null;this.src='https://storage.sudospaces.com/eurowindow/2026/07/san-pham-kinh-cua-eurowindow-dam-bao-do-an-toan-phu-hop-voi-nhieu-hang-muc-cong-trinh.jpg.webp'"></div>`:'';return `<article class="product-guide-card">${visual}<span class="product-guide-label">${label}</span><h3>${title}</h3><p>${text}</p></article>`};
+    const points=content.points.map((item,index)=>guideCard(item,'TIÊU CHÍ CHỌN',index)).join('');
+    const applications=content.applications.map((item,index)=>guideCard(item,'THEO KHÔNG GIAN',index+content.points.length)).join('');
     return `<section class="section product-guide"><div class="wrap"><div class="section-head"><div><span class="eyebrow">THÔNG TIN SẢN PHẨM</span><h2 class="serif">Chọn ${displayProductName(content.title)} phù hợp với công trình</h2></div></div><div class="aluminum-benefit-grid">${points}${applications}</div></div></section>`;
   }
   function officialProductPage(slug){
