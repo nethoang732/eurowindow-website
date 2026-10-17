@@ -3,16 +3,16 @@
   // not published as a separate asset.
   const productCatalogData={
     'cua-upvc':[
-      ['Cửa đi uPVC 1 cánh mở quay ngoài','2026/09/cua-di-upvc-1-canh-mo-quay-ra-ngoai.jpg.webp','Cửa đi','Mở quay ngoài','1 cánh'],
-      ['Cửa đi uPVC 2 cánh mở quay ngoài','2026/09/cua-di-upvc-2-canh-mo-quay-ra-ngoai.jpg.webp','Cửa đi','Mở quay ngoài','2 cánh'],
-      ['Cửa đi uPVC 2 cánh mở trượt','2026/09/cua-di-upvc-2-canh-mo-truot.jpg.webp','Cửa đi','Mở trượt','2 cánh'],
-      ['Cửa đi uPVC 4 cánh xếp trượt','2026/09/cua-di-upvc-4-canh-xep-truot.jpg.webp','Cửa đi','Xếp trượt','4 cánh'],
-      ['Cửa đi uPVC 6 cánh xếp trượt','2026/09/cua-di-upvc-4-canh-xep-truot.jpg.webp','Cửa đi','Xếp trượt','6 cánh'],
-      ['Cửa sổ uPVC 4 cánh mở trượt','2026/10/cua-so-upvc-5.jpg.webp','Cửa sổ','Mở trượt','4 cánh'],
-      ['Cửa sổ uPVC 2 cánh mở trượt','2026/10/cua-so-upvc-5.jpg.webp','Cửa sổ','Mở trượt','2 cánh'],
-      ['Cửa sổ uPVC 1 cánh mở quay ngoài','2026/10/cua-so-upvc-5.jpg.webp','Cửa sổ','Mở quay ngoài','1 cánh'],
-      ['Cửa sổ uPVC 2 cánh quay lật trong','2026/10/cua-so-upvc-5.jpg.webp','Cửa sổ','Quay lật trong','2 cánh'],
-      ['Cửa sổ uPVC mở hất','2026/10/cua-so-upvc-5.jpg.webp','Cửa sổ','Mở hất','1 cánh']
+      ['Cửa đi uPVC 1 cánh mở quay ngoài','2026/09/cua-di-upvc-1-canh-mo-quay-ra-ngoai.jpg.webp','Cửa đi','Mở quay ngoài','Cửa đi mở quay'],
+      ['Cửa đi uPVC 2 cánh mở quay ngoài','2026/09/cua-di-upvc-2-canh-mo-quay-ra-ngoai.jpg.webp','Cửa đi','Mở quay ngoài','Cửa đi mở quay'],
+      ['Cửa đi uPVC 2 cánh mở trượt','2026/09/cua-di-upvc-2-canh-mo-truot.jpg.webp','Cửa đi','Mở trượt','Cửa đi mở trượt'],
+      ['Cửa đi uPVC 4 cánh xếp trượt','2026/09/cua-di-upvc-4-canh-xep-truot.jpg.webp','Cửa đi','Xếp trượt','Cửa đi xếp trượt'],
+      ['Cửa đi uPVC 6 cánh xếp trượt','2026/09/cua-di-upvc-4-canh-xep-truot.jpg.webp','Cửa đi','Xếp trượt','Cửa đi xếp trượt'],
+      ['Cửa sổ uPVC 4 cánh mở trượt','2026/10/cua-so-upvc-5.jpg.webp','Cửa sổ','Mở trượt','Cửa sổ mở trượt'],
+      ['Cửa sổ uPVC 2 cánh mở trượt','2026/10/cua-so-upvc-5.jpg.webp','Cửa sổ','Mở trượt','Cửa sổ mở trượt'],
+      ['Cửa sổ uPVC 1 cánh mở quay ngoài','2026/10/cua-so-upvc-5.jpg.webp','Cửa sổ','Mở quay ngoài','Cửa sổ mở quay'],
+      ['Cửa sổ uPVC 2 cánh quay lật trong','2026/10/cua-so-upvc-5.jpg.webp','Cửa sổ','Quay lật trong','Cửa sổ quay lật'],
+      ['Cửa sổ uPVC mở hất','2026/10/cua-so-upvc-5.jpg.webp','Cửa sổ','Mở hất','Cửa sổ mở hất']
     ],
     'cua-go':[
       ['Cửa gỗ tự nhiên','2026/09/cua-go-tu-nhien-eurowindow.jpg.webp','Gỗ tự nhiên','Gỗ sồi, lim Nam Phi, gõ đỏ','Gỗ tự nhiên'],
@@ -61,10 +61,6 @@
     if(!rows.length)return '';
     const title=productPageContent[slug].title;
     const headingTitle=title.toLocaleLowerCase('vi').replace(/\bupvc\b/g,'uPVC').replace(/\beurowindow\b/g,'Eurowindow');
-    const hasTypes=new Set(rows.map(row=>row[2])).size>1;
-    const hasVariants=new Set(rows.map(row=>row[4])).size>1;
-    const groups=[...(hasTypes?[['type','THEO LOẠI SẢN PHẨM',2]]:[]),...(hasVariants?[['variant','THEO DÒNG SẢN PHẨM',4]]:[])];
-    if(groups.length<2)groups.push(['configuration','THEO KIỂU MỞ / CẤU HÌNH',3]);
-    return '<section class="door-catalog product-family-catalog" data-product-family-catalog><div class="wrap"><div class="section-head door-catalog-heading"><div><span class="eyebrow">DANH MỤC SẢN PHẨM</span><h2 class="serif">Các mẫu '+headingTitle+'</h2></div><p>Chọn nhóm sản phẩm hoặc cấu hình để xem các mẫu phù hợp.</p></div><div class="door-catalog-tabs" role="tablist" aria-label="Phân loại sản phẩm">'+groups.map((group,index)=>'<button type="button" role="tab" aria-selected="'+(index===0)+'" class="door-catalog-tab '+(index===0?'active':'')+'" data-family-tab="'+group[0]+'">'+group[1]+'</button>').join('')+'</div><div class="door-catalog-filters" data-family-filters></div><div class="door-catalog-grid" data-family-grid>'+rows.map(productFamilyCard).join('')+'</div></div></section>';
+    return '<section class="door-catalog product-family-catalog" data-product-family-catalog><div class="wrap"><div class="section-head door-catalog-heading"><div><span class="eyebrow">DANH MỤC SẢN PHẨM</span><h2 class="serif">Các mẫu '+headingTitle+'</h2></div><p>Chọn dòng sản phẩm để xem các mẫu phù hợp.</p></div><div class="door-catalog-tabs" role="tablist" aria-label="Phân loại sản phẩm"><button type="button" role="tab" aria-selected="true" class="door-catalog-tab active">THEO DÒNG SẢN PHẨM</button></div><div class="door-catalog-filters" data-family-filters></div><div class="door-catalog-grid" data-family-grid>'+rows.map(productFamilyCard).join('')+'</div></div></section>';
   }
-  function wireProductFamilyCatalog(){const root=document.querySelector('[data-product-family-catalog]');if(!root)return;const rows=productCatalogRows(location.pathname.replace(/\/$/,'').split('/').pop());const tabs=root.querySelectorAll('[data-family-tab]'),filters=root.querySelector('[data-family-filters]'),grid=root.querySelector('[data-family-grid]');let group=tabs[0]?.dataset.familyTab||'type',filter='all';const render=()=>{const index={type:2,variant:4,configuration:3}[group];const options=['Tất cả',...new Set(rows.map(row=>row[index]))];tabs.forEach(button=>{const active=button.dataset.familyTab===group;button.classList.toggle('active',active);button.setAttribute('aria-selected',String(active))});filters.innerHTML=options.map((label,i)=>'<button type="button" class="door-catalog-filter '+(((filter==='all'&&i===0)||filter===label)?'active':'')+'" data-family-filter="'+(i===0?'all':label)+'">'+label+'</button>').join('');grid.innerHTML=(filter==='all'?rows:rows.filter(row=>row[index]===filter)).map(productFamilyCard).join('');filters.querySelectorAll('[data-family-filter]').forEach(button=>button.addEventListener('click',()=>{filter=button.dataset.familyFilter;render()}))};tabs.forEach(button=>button.addEventListener('click',()=>{group=button.dataset.familyTab;filter='all';render()}));render()}
+  function wireProductFamilyCatalog(){const root=document.querySelector('[data-product-family-catalog]');if(!root)return;const rows=productCatalogRows(location.pathname.replace(/\/$/,'').split('/').pop());const filters=root.querySelector('[data-family-filters]'),grid=root.querySelector('[data-family-grid]');let filter='all';const render=()=>{const options=['Tất cả',...new Set(rows.map(row=>row[4]))];filters.innerHTML=options.map((label,i)=>'<button type="button" class="door-catalog-filter '+(((filter==='all'&&i===0)||filter===label)?'active':'')+'" data-family-filter="'+(i===0?'all':label)+'">'+label+'</button>').join('');grid.innerHTML=(filter==='all'?rows:rows.filter(row=>row[4]===filter)).map(productFamilyCard).join('');filters.querySelectorAll('[data-family-filter]').forEach(button=>button.addEventListener('click',()=>{filter=button.dataset.familyFilter;render()}))};render()}
