@@ -30,25 +30,30 @@
     ['Mái che','Vách kính','Cố định','2021/12/maiche-medium.jpg.webp','vach-kinh-nhom/mai-che.html']
   ];
   const aluminumLocalImages=[
-    null,
+    '/images/eurowindow-products/cua-di-nhom-mo-quay-trong-1-canh-eurowindow.webp',
     '/images/door-reference/nhom-Cua-nhom-mo-quay-2-canh.jpg',
     '/images/door-reference/nhom-Cua-nhom-mo-quay-2-canh--1.jpg',
-    null,
+    '/images/eurowindow-products/cua-di-nhom-mo-quay-ngoai-1-canh-eurowindow.webp',
     '/images/door-reference/nhom-Cua-nhom-mo-truot-2-canh.jpg',
     '/images/door-reference/nhom-Cua-nhom-mo-truot-4-canh-clean.png',
-    null,
-    null,
+    '/images/eurowindow-products/cua-di-nhom-xep-truot-4-canh-eurowindow.webp',
+    '/images/eurowindow-products/cua-so-nhom-mo-quay-trong-1-canh-eurowindow.webp',
     '/images/door-reference/nhom-Cua-so-nhom-mo-quay-2-canh.jpg',
-    null,
+    '/images/eurowindow-products/cua-so-nhom-mo-quay-ngoai-1-canh-eurowindow.webp',
     '/images/door-reference/nhom-Cua-so-nhom-mo-quay-2-canh.jpg',
     '/images/door-reference/nhom-Cua-so-nhom-mo-trout-2-canh.jpg',
     '/images/door-reference/nhom-Cua-so-nhom-mo-hat-1-canh.jpg',
-    null
+    '/images/eurowindow-products/cua-so-nhom-quay-lat-trong-eurowindow.webp',
+    '/images/eurowindow-products/vach-nhom-kinh-stick-eurowindow.webp',
+    '/images/eurowindow-products/vach-nhom-kinh-spider-eurowindow.webp',
+    '/images/eurowindow-products/vach-nhom-kinh-semi-unitized-eurowindow.webp',
+    '/images/eurowindow-products/vach-nhom-kinh-unitized-eurowindow.webp',
+    '/images/eurowindow-products/mai-che-kinh-eurowindow.webp'
   ];
   const aluminumProducts=aluminumProductRows.map(([name,type,opening,image],index)=>({name,type,opening,image:aluminumLocalImages[index]||aluminumImageBase+image,system:aluminumSystem(type,opening),filter:type}));
   // The system tab reuses every existing product card; its filters are the assigned systems.
   const aluminumProfiles=aluminumProducts.map(item=>({...item,filter:item.system}));
-  function aluminumCatalogCard(item){const detail='/san-pham/chi-tiet/'+productChildSlug(item.name)+'/';return `<article class="door-catalog-card"><a class="door-catalog-visual" href="${detail}" aria-label="Xem chi tiết ${item.name}"><img loading="lazy" src="${item.image}" alt="${item.name}"></a><div class="door-catalog-info"><h3><a href="${detail}">${item.name}</a></h3>${item.summary?`<p class="aluminum-card-summary">${item.summary}</p>`:''}<a class="button" href="${detail}">Xem chi tiết</a><ul class="door-catalog-meta"><li>Hệ sản phẩm: ${item.system}</li><li>Loại cửa: ${item.type}</li><li>Cơ chế đóng mở: ${item.opening}</li></ul></div></article>`}
+  function aluminumCatalogCard(item){return `<article class="door-catalog-card"><div class="door-catalog-visual"><img loading="lazy" src="${item.image}" alt="${item.name}"></div><div class="door-catalog-info"><h3>${item.name}</h3>${item.summary?`<p class="aluminum-card-summary">${item.summary}</p>`:''}<ul class="door-catalog-meta"><li>Hệ sản phẩm: ${item.system}</li><li>Loại cửa: ${item.type}</li><li>Cơ chế đóng mở: ${item.opening}</li></ul></div></article>`}
   function officialAluminumCatalog(){const catalog={system:{label:'THEO HỆ SẢN PHẨM',items:aluminumProfiles},type:{label:'THEO LOẠI CỬA',items:aluminumProducts},opening:{label:'THEO CƠ CHẾ ĐÓNG MỞ',items:aluminumProducts.map(item=>({...item,filter:item.opening}))}};window.__EURO_ALUMINUM_CATALOG__=catalog;const group='type',items=catalog[group].items,filters=['Tất cả',...new Set(items.map(item=>item.filter))];return `<section class="door-catalog official-aluminum-catalog"><div class="wrap"><div class="section-head door-catalog-heading"><div><span class="eyebrow">02 / DANH MỤC CỬA NHÔM</span><h2 class="serif">Các dòng sản phẩm</h2></div><p>Xem các mẫu cửa đi, cửa sổ và vách kính theo kiểu mở hoặc hệ nhôm.</p></div><div class="door-catalog-tabs" role="tablist" aria-label="Phân loại cửa nhôm">${Object.entries(catalog).map(([key,data])=>`<button type="button" role="tab" aria-selected="${key===group}" class="door-catalog-tab ${key===group?'active':''}" data-catalog-tab="${key}">${data.label}</button>`).join('')}</div><div class="door-catalog-filters" data-catalog-filters>${filters.map((filter,i)=>`<button type="button" class="door-catalog-filter ${i===0?'active':''}" data-catalog-filter="${i===0?'all':filter}">${filter}</button>`).join('')}</div><div class="door-catalog-grid" data-catalog-grid>${items.map(aluminumCatalogCard).join('')}</div></div></section>`}
   function officialAluminumPage(){
     const gallery=[

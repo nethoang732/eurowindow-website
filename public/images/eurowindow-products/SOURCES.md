@@ -43,3 +43,21 @@ Tên ảnh cửa theo thứ tự loại cửa – vật liệu – kiểu mở �
 | `vach-truot-doc-tu-dong-biet-thu-eurowindow.webp`, `vach-truot-doc-tu-dong-thiet-ke-eurowindow.webp`, `vach-truot-doc-tu-dong-ve-sinh-kinh-eurowindow.webp` | T? li?u ?? l?u trong th? m?c h?nh ?nh s?n ph?m |
 | `cua-mai-kinh-skylight-lay-sang-eurowindow.webp`, `cua-mai-kinh-skylight-kinh-hop-eurowindow.webp`, `cua-mai-kinh-skylight-dong-co-eurowindow.webp` | T? li?u ?? l?u trong th? m?c h?nh ?nh s?n ph?m |
 | `cua-mai-kinh-skylight-cong-trinh-eurowindow.webp`, `cua-mai-kinh-skylight-khu-nghi-duong-eurowindow.webp` | T? li?u ?? l?u trong th? m?c h?nh ?nh s?n ph?m |
+
+## Ảnh cửa nhôm và vách kính bổ sung
+
+Các ảnh dưới đây được lưu cục bộ từ kho ảnh sản phẩm Eurowindow. Tên tệp giữ nguyên loại cửa, kiểu mở, số cánh hoặc hệ vách để tránh dùng nhầm ảnh giữa các mẫu.
+
+| Tệp | Trang sản phẩm Eurowindow |
+| --- | --- |
+| `cua-di-nhom-mo-quay-trong-1-canh-eurowindow.webp` | [Cửa đi nhôm 1 cánh mở quay trong](https://eurowindow.biz/cua-vach-nhom/cua-di-nhom/cua-di-nhom-1-canh-mo-quay-trong.html) |
+| `cua-di-nhom-mo-quay-ngoai-1-canh-eurowindow.webp` | [Cửa đi nhôm 1 cánh mở quay ngoài](https://eurowindow.biz/cua-vach-nhom/cua-di-nhom/cua-di-nhom-1-canh-mo-quay-ngoai.html) |
+| `cua-di-nhom-xep-truot-4-canh-eurowindow.webp` | [Cửa đi nhôm 4 cánh xếp trượt](https://eurowindow.biz/cua-vach-nhom/cua-di-nhom/cua-di-nhom-4-canh-xep-truot.html) |
+| `cua-so-nhom-mo-quay-trong-1-canh-eurowindow.webp` | [Cửa sổ nhôm 1 cánh mở quay trong](https://eurowindow.biz/cua-vach-nhom/cua-so-nhom/cua-so-nhom-1-canh-mo-quay-trong.html) |
+| `cua-so-nhom-mo-quay-ngoai-1-canh-eurowindow.webp` | [Cửa sổ nhôm 1 cánh mở quay ngoài](https://eurowindow.biz/cua-vach-nhom/cua-so-nhom/cua-so-nhom-1-canh-mo-quay-ngoai.html) |
+| `cua-so-nhom-quay-lat-trong-eurowindow.webp` | [Cửa sổ nhôm mở quay lật trong](https://eurowindow.biz/cua-vach-nhom/cua-so-nhom/cua-so-nhom-mo-quay-lat-trong.html) |
+| `vach-nhom-kinh-stick-eurowindow.webp` | [Vách nhôm kính lớn hệ Stick](https://eurowindow.biz/cua-vach-nhom/vach-kinh-nhom/vach-nhom-kinh-lon-he-stick.html) |
+| `vach-nhom-kinh-spider-eurowindow.webp` | [Vách nhôm kính lớn hệ Spider](https://eurowindow.biz/cua-vach-nhom/vach-kinh-nhom/vach-nhom-kinh-lon-he-spider.html) |
+| `vach-nhom-kinh-semi-unitized-eurowindow.webp` | [Vách nhôm kính hệ Semi-Unitized](https://eurowindow.biz/cua-vach-nhom/vach-kinh-nhom/vach-nhom-kinh-he-semi-unitized.html) |
+| `vach-nhom-kinh-unitized-eurowindow.webp` | [Vách nhôm kính lớn hệ Unitized](https://eurowindow.biz/cua-vach-nhom/vach-kinh-nhom/vach-nhom-kinh-lon-he-unitized.html) |
+| `mai-che-kinh-eurowindow.webp` | [Mái che kính](https://eurowindow.biz/cua-vach-nhom/vach-kinh-nhom/mai-che.html) |

@@ -15,11 +15,13 @@ export default function RootLayout({ children }) {
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
-        <link rel="stylesheet" href={`${basePath}/site.css?v=product-pages-62`} />
+        <link rel="stylesheet" href={`${basePath}/site.css?v=website-refresh-2026-10-18`} />
+        <link rel="stylesheet" href={`${basePath}/site-navigation.css?v=website-refresh-2026-10-18`} />
+        <link rel="stylesheet" href={`${basePath}/site-product-pages.css?v=full-site-visual-fix-2026-10-18`} />
       </head>
       <body>
         {children}
-        <script src={`${basePath}/site-script.js?v=product-pages-61`} defer />
+        <script src={`${basePath}/site-script.js?v=full-site-visual-fix-2026-10-18`} defer />
       </body>
     </html>
   );

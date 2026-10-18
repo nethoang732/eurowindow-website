@@ -2,6 +2,7 @@ node_modules/
 .npm-cache/
 .next/
 out/
+.backups/
 public/site-shell.html
 public/site.css
 public/site-script.js

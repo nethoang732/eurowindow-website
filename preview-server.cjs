@@ -14,13 +14,14 @@ const mime = {
   '.webp': 'image/webp',
   '.svg': 'image/svg+xml',
   '.mp4': 'video/mp4',
+  '.pdf': 'application/pdf',
   '.txt': 'text/plain; charset=utf-8',
   '.xml': 'application/xml; charset=utf-8'
 };
 
 function findFile(base, pathname) {
   const target = path.resolve(base, `.${pathname}`);
-  const insideBase = target.startsWith(`${base}${path.sep}`);
+  const insideBase = target === base || target.startsWith(`${base}${path.sep}`);
   if (!insideBase || !fs.existsSync(target)) return null;
   if (fs.statSync(target).isFile()) return target;
   const index = path.join(target, 'index.html');
@@ -36,7 +37,8 @@ http.createServer((req, res) => {
     res.end('Bad request');
     return;
   }
-  const target = findFile(root, pathname) || findFile(publicRoot, pathname) || path.join(root, 'index.html');
+  const matchedTarget = findFile(root, pathname) || findFile(publicRoot, pathname);
+  const target = matchedTarget || path.join(root, '404.html');
   const stat = fs.statSync(target);
   const contentType = mime[path.extname(target)] || 'application/octet-stream';
   const range = req.headers.range;
@@ -65,7 +67,7 @@ http.createServer((req, res) => {
     fs.createReadStream(target, { start, end: last }).pipe(res);
     return;
   }
-  res.writeHead(200, {
+  res.writeHead(matchedTarget ? 200 : 404, {
     'Content-Type': contentType,
     'Content-Length': stat.size,
     'Accept-Ranges': 'bytes',

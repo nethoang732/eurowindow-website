@@ -53,8 +53,7 @@
     return rows||[];
   }
   function productCatalogImage(image){return image.startsWith('/')||image.startsWith('http')?image:'https://storage.sudospaces.com/eurowindow/'+image}
-  function productChildSlug(name){return name.toLocaleLowerCase('vi').normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/đ/g,'d').replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'')}
-  function productFamilyCard(row){const [name,image,type,configuration,variant]=row;const detail='/san-pham/chi-tiet/'+productChildSlug(name)+'/';return '<article class="door-catalog-card"><a class="door-catalog-visual" href="'+detail+'" aria-label="Xem chi tiết '+name+'"><img loading="lazy" src="'+productCatalogImage(image)+'" alt="'+name+'"></a><div class="door-catalog-info"><h3><a href="'+detail+'">'+name+'</a></h3><a class="button" href="'+detail+'">Xem chi tiết</a><ul class="door-catalog-meta"><li>Danh mục: '+type+'</li><li>Kiểu mở / cấu hình: '+configuration+'</li></ul></div></article>'}
+  function productFamilyCard(row){const [name,image,type,configuration]=row;return '<article class="door-catalog-card"><div class="door-catalog-visual"><img loading="lazy" src="'+productCatalogImage(image)+'" alt="'+name+'"></div><div class="door-catalog-info"><h3>'+name+'</h3><ul class="door-catalog-meta"><li>Danh mục: '+type+'</li><li>Kiểu mở / cấu hình: '+configuration+'</li></ul></div></article>'}
   function productCatalogSection(slug){
     const rows=productCatalogRows(slug);
     if(!rows.length)return '';

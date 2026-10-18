@@ -31,15 +31,62 @@ const basePatch = `
 `;
 
 let script = body[2];
+let shell = body[1];
+const navigationPattern = /<nav class="nav" id="nav" aria-label="Điều hướng chính">[\s\S]*?<\/nav>/;
+if (!navigationPattern.test(shell)) throw new Error('Could not find the primary navigation in the site shell');
+shell = shell.replace(navigationPattern, `<nav class="nav" id="nav" aria-label="Điều hướng chính">
+      <div class="nav-dropdown nav-dropdown-about"><div class="nav-dropdown-head"><a class="nav-dropdown-trigger" href="/gioi-thieu" aria-haspopup="true">Giới thiệu</a><button class="nav-dropdown-toggle" type="button" aria-label="Mở menu Giới thiệu" aria-expanded="false">⌄</button></div><div class="nav-dropdown-menu"><a href="/gioi-thieu">Về chúng tôi</a><a href="/catalogue">Catalogue</a></div></div>
+      <div class="nav-dropdown nav-dropdown-products"><div class="nav-dropdown-head"><a class="nav-dropdown-trigger" href="/san-pham" aria-haspopup="true">Sản phẩm</a><button class="nav-dropdown-toggle" type="button" aria-label="Mở menu Sản phẩm" aria-expanded="false">⌄</button></div><div class="nav-dropdown-menu nav-dropdown-menu-products"><a href="/san-pham/cua-nhom/">Cửa nhôm</a><a href="/san-pham/cua-upvc/">Cửa uPVC</a><a href="/san-pham/cua-go/">Cửa gỗ</a><a href="/san-pham/cua-cuon/">Cửa cuốn</a><a href="/san-pham/cua-thong-minh-the-he-moi/">Cửa thông minh</a><a href="/san-pham/vach-kinh-mat-dung/">Kính &amp; Vách kính</a></div></div>
+      <a href="/he-nhom">Hệ nhôm</a><a href="/du-an">Dự án</a><a href="/tin-tuc">Tin tức</a><a href="/lien-he">Liên hệ</a>
+    </nav>`);
 const galleryMotionPattern = /const start=\(\)=>\{if\(window\.matchMedia\('\(prefers-reduced-motion: reduce\)'\)\.matches\)return;/;
 if (!galleryMotionPattern.test(script)) throw new Error('Could not find the product gallery motion preference check');
 script = script.replace(galleryMotionPattern, 'const start=()=>{if(prefersReducedMotion())return;');
-script = script.replaceAll('infoew@eurowindow.biz', 'info@example.com');
+script = script.replace(
+  'const start=()=>{if(prefersReducedMotion())return;clearInterval(timer);timer=setInterval(()=>show(current+1),5200)};',
+  'const start=()=>{clearInterval(timer);timer=null};'
+);
 script = script.replaceAll('Chọn cửa phù hợp', 'Chọn Cửa phù hợp');
 script = script.replaceAll('kênh chính thức', 'kênh tư vấn');
 const homepageCategoriesPattern = /(const categories=\[[\s\S]*?\];)/;
 if (!homepageCategoriesPattern.test(script)) throw new Error('Could not find the homepage product categories');
-script = script.replace(homepageCategoriesPattern, `$1\n  categories[0].image='/images/door-reference/nhom-Cua-nhom-mo-quay-2-canh.jpg';\n  categories[1].image='/images/door-reference/upvc-Cua-di-uPVC-mo-quay-2-canh.jpg';\n  categories[4].image='/images/door-reference/smart-Cua-truot-slim-ray-treo-eurowindow.jpg';`);
+script = script.replace(homepageCategoriesPattern, `$1
+  const productCategoryImages={
+    'cua-nhom':{src:'/images/door-reference/nhom-Cua-nhom-mo-quay-2-canh.jpg',alt:'Cửa nhôm kính hai cánh mở quay Eurowindow'},
+    'cua-upvc':{src:'/images/eurowindow-products/cua-di-upvc-2-canh-mo-truot-eurowindow.webp',alt:'Cửa đi uPVC hai cánh mở trượt Eurowindow'},
+    'cua-go':{src:'/images/eurowindow-products/cua-go-tu-nhien-eurowindow.webp',alt:'Cửa gỗ tự nhiên Eurowindow'},
+    'cua-cuon':{src:'/images/eurowindow-products/cua-cuon-nhom-khe-thoang-easd45-eurowindow.webp',alt:'Cửa cuốn nhôm khe thoáng EASD45 Eurowindow'},
+    'cua-thong-minh-the-he-moi':{src:'/images/eurowindow-products/cua-di-tu-dong-mo-truot-2-hoac-4-canh-eurowindow.webp',alt:'Cửa trượt tự động Eurowindow'},
+    'vach-kinh-mat-dung':{src:'/images/eurowindow-products/vach-nhom-kinh-unitized-eurowindow.webp',alt:'Vách kính mặt dựng Eurowindow'}
+  };
+  window.__EUROWINDOW_PRODUCT_CATEGORY_IMAGES__=productCategoryImages;
+  categories.forEach(category=>{if(productCategoryImages[category.slug])category.image=productCategoryImages[category.slug].src});`);
+script = script.replace('  const img=', `  function installImageFallbacks(){
+    if(window.__EUROWINDOW_IMAGE_FALLBACKS__)return;
+    window.__EUROWINDOW_IMAGE_FALLBACKS__=true;
+    const fallbacks=[
+      ['/san-pham/cua-nhom','/images/door-reference/nhom-Cua-nhom-mo-quay-2-canh.jpg'],
+      ['/san-pham/cua-upvc','/images/eurowindow-products/cua-di-upvc-2-canh-mo-truot-eurowindow.webp'],
+      ['/san-pham/cua-go','/images/eurowindow-products/cua-go-tu-nhien-eurowindow.webp'],
+      ['/san-pham/cua-cuon','/images/eurowindow-products/cua-cuon-nhom-khe-thoang-easd45-eurowindow.webp'],
+      ['/san-pham/cua-thong-minh','/images/eurowindow-products/cua-di-tu-dong-mo-truot-2-hoac-4-canh-eurowindow.webp'],
+      ['/san-pham/vach-kinh','/images/eurowindow-products/kinh-an-toan-eurowindow.webp']
+    ];
+    document.addEventListener('error',event=>{
+      const image=event.target;
+      if(!(image instanceof HTMLImageElement))return;
+      const stage=Number(image.dataset.fallbackStage||0),href=image.closest('a[href]')?.getAttribute('href')||'',alt=(image.alt||'').toLocaleLowerCase('vi');
+      if(stage===0){
+        const mapped=fallbacks.find(([route])=>href.startsWith(route)||alt.includes(route.split('/').pop().replace('cua-','').replaceAll('-',' ')))?.[1];
+        const fallback=mapped||'/eurowindow-building.jpg';
+        if(image.getAttribute('src')!==fallback){image.dataset.fallbackStage='1';image.removeAttribute('srcset');image.src=fallback;return}
+      }
+      image.dataset.fallbackStage='2';image.removeAttribute('srcset');
+      const label=(image.alt||'Ảnh sản phẩm Eurowindow').replace(/[&<>\"]/g,' ').slice(0,44);
+      image.src='data:image/svg+xml;charset=utf-8,'+encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 640"><rect width="960" height="640" fill="#e7eef4"/><path d="M0 470 220 280l150 135 180-220 410 300v145H0z" fill="#c9d9e7"/><path d="M0 520h960" stroke="#9ab5cb" stroke-width="8"/><text x="480" y="570" text-anchor="middle" fill="#174f84" font-family="Arial,sans-serif" font-size="24">'+label+'</text></svg>');
+    },true);
+  }
+  const img=`);
 script = script.replace("const pics=(obj,w=1000)=>img(obj.image,w);", "const pics=(obj,w=1000)=>obj.image.startsWith('http')||obj.image.startsWith('/')?obj.image:img(obj.image,w);");
 script = script.replace('src="${img(x.image)}"', 'src="${pics(x)}"');
 script = script.replace(
@@ -110,30 +157,33 @@ aluminumPage += `
       });
     });
     cards.splice(0,cards.length,
-      {name:'Cửa nhôm',type:'Nhôm kính',desc:'Cửa đi, cửa sổ và vách kính theo hệ nhôm, kiểu mở và cấu hình phù hợp công trình.',image:'/images/door-reference/nhom-Cua-nhom-mo-quay-2-canh--1.jpg',href:'/san-pham/cua-nhom/'},
-      {name:'Cửa uPVC',type:'uPVC',desc:'Cửa đi và cửa sổ uPVC với nhiều kiểu mở cho nhà ở và công trình.',image:'/images/door-reference/upvc-Cua-di-uPVC-mo-quay-2-canh.jpg',href:'/san-pham/cua-upvc/'},
-      {name:'Cửa gỗ',type:'Gỗ tự nhiên & công nghiệp',desc:'Các dòng cửa gỗ với lựa chọn vật liệu và bề mặt hoàn thiện đa dạng.',image:productCatalogImage(productCatalogData['cua-go'][0][1]),href:'/san-pham/cua-go/'},
-      {name:'Cửa cuốn',type:'Cửa cuốn',desc:'Giải pháp cửa cuốn cho lối ra vào cần đóng mở gọn và thuận tiện.',image:productCatalogImage(productCatalogData['cua-cuon'][0][1]),href:'/san-pham/cua-cuon/'},
-      {name:'Cửa thông minh',type:'Tích hợp công nghệ',desc:'Các giải pháp cửa tự động và sản phẩm tích hợp công nghệ cho nhu cầu sử dụng tiện nghi.',image:'/images/door-reference/smart-Cua-truot-slim-ray-treo-eurowindow.jpg',href:'/san-pham/cua-thong-minh-the-he-moi/'}
-    );    const renderCards=duplicate=>cards.map(item=>'<article class="system-card reveal"'+(duplicate?' aria-hidden="true" inert':'')+'><a href="'+item.href+'"><img loading="lazy" alt="'+item.type+' '+item.name+'" src="'+item.image+'"><small>'+item.type+'</small><h3>'+item.name+'</h3><p>'+item.desc+'</p><span>Xem chi tiết <span>↗</span></span></a></article>').join('');
-    return '<section class="section system-section"><div class="wrap"><div class="section-head"><div><span class="eyebrow">03 / SẢN PHẨM</span><h2 class="serif">Các dòng cửa nổi bật</h2></div></div><div class="system-marquee"><div class="system-track">'+renderCards(false)+renderCards(true)+'</div></div><button class="system-marquee-control" type="button" aria-pressed="false" aria-label="Tạm dừng chuyển động">Tạm dừng</button></div></section>';
+      {name:'Cửa nhôm',type:'Nhôm kính',desc:'Cửa đi, cửa sổ và vách kính theo hệ nhôm, kiểu mở và cấu hình phù hợp công trình.',image:productCategoryImages['cua-nhom'].src,href:'/san-pham/cua-nhom/'},
+      {name:'Cửa uPVC',type:'uPVC',desc:'Cửa đi và cửa sổ uPVC với nhiều kiểu mở cho nhà ở và công trình.',image:productCategoryImages['cua-upvc'].src,href:'/san-pham/cua-upvc/'},
+      {name:'Cửa gỗ',type:'Gỗ tự nhiên & công nghiệp',desc:'Các dòng cửa gỗ với lựa chọn vật liệu và bề mặt hoàn thiện đa dạng.',image:productCategoryImages['cua-go'].src,href:'/san-pham/cua-go/'},
+      {name:'Cửa cuốn',type:'Cửa cuốn',desc:'Giải pháp cửa cuốn cho lối ra vào cần đóng mở gọn và thuận tiện.',image:productCategoryImages['cua-cuon'].src,href:'/san-pham/cua-cuon/'},
+      {name:'Cửa thông minh',type:'Tích hợp công nghệ',desc:'Các giải pháp cửa tự động và sản phẩm tích hợp công nghệ cho nhu cầu sử dụng tiện nghi.',image:productCategoryImages['cua-thong-minh-the-he-moi'].src,href:'/san-pham/cua-thong-minh-the-he-moi/'}
+    );    const renderCards=()=>cards.map(item=>'<article class="system-card"><a href="'+item.href+'"><img loading="lazy" alt="'+item.type+' '+item.name+'" src="'+item.image+'"><small>'+item.type+'</small><h3>'+item.name+'</h3><p>'+item.desc+'</p><span>Xem chi tiết <span>↗</span></span></a></article>').join('');
+    return '<section class="section system-section"><div class="wrap"><div class="section-head"><div><span class="eyebrow">03 / SẢN PHẨM</span><h2 class="serif">Các dòng cửa nổi bật</h2></div></div><div class="system-marquee"><div class="system-track">'+renderCards()+'</div></div><div class="system-marquee-controls"><button class="system-marquee-arrow" data-system-prev type="button" aria-label="Xem nhóm cửa trước">&#8592;</button><button class="system-marquee-control" type="button" aria-pressed="false" aria-label="Tạm dừng chuyển động">Tạm dừng</button><button class="system-marquee-arrow" data-system-next type="button" aria-label="Xem nhóm cửa tiếp theo">&#8594;</button></div></div></section>';
   }
   function wireFeaturedSystemMarquee(){
     if(window.__EUROWINDOW_SYSTEM_RESIZE__)removeEventListener('resize',window.__EUROWINDOW_SYSTEM_RESIZE__);
     const section=document.querySelector('.system-section');
     if(!section)return;
     const track=section.querySelector('.system-track'),control=section.querySelector('.system-marquee-control');
-    if(!track||!control)return;
+    const previous=section.querySelector('[data-system-prev]'),next=section.querySelector('[data-system-next]');
+    if(!track||!control||!previous||!next)return;
     const originals=[...track.children].filter(card=>!card.hasAttribute('inert'));
     if(!originals.length)return;
-    const makeLoop=()=>originals.map(card=>{const clone=card.cloneNode(true);clone.removeAttribute('inert');clone.setAttribute('aria-hidden','true');clone.classList.remove('reveal','visible');clone.querySelectorAll('a,button,[tabindex]').forEach(el=>el.tabIndex=-1);return clone});
+    const disableNativeDragging=root=>root.querySelectorAll('a,img').forEach(el=>{el.draggable=false});
+    disableNativeDragging(track);
+    const makeLoop=()=>originals.map(card=>{const clone=card.cloneNode(true);clone.removeAttribute('inert');clone.setAttribute('aria-hidden','true');clone.classList.remove('reveal','visible');clone.querySelectorAll('a,button,[tabindex]').forEach(el=>el.tabIndex=-1);disableNativeDragging(clone);return clone});
     track.replaceChildren(...makeLoop(),...originals,...makeLoop());
     let timer=null,moving=false,drag=null,suppressClick=false,position=0,cycleWidth=0,dragFrame=0;
     const gap=()=>parseFloat(getComputedStyle(track).gap)||0;
     const measure=()=>{cycleWidth=originals.reduce((sum,card)=>sum+card.getBoundingClientRect().width,0)+gap()*originals.length;return cycleWidth};
     const distance=card=>(card?.getBoundingClientRect().width||0)+gap();
     const wrap=value=>{if(!cycleWidth)return value;while(value>=0)value-=cycleWidth;while(value< -2*cycleWidth)value+=cycleWidth;return value};
-    const schedule=()=>{clearTimeout(timer);if(!section.classList.contains('is-paused'))timer=setTimeout(slide,5000)};
+    const schedule=()=>{clearTimeout(timer);if(!section.classList.contains('is-paused')&&!prefersReducedMotion())timer=setTimeout(slide,7000)};
     const animateTo=(target,duration)=>{
       moving=true;track.style.transition='transform '+duration+'ms cubic-bezier(.22,1,.36,1)';track.style.transform='translate3d('+target+'px,0,0)';
       let fallback;
@@ -155,36 +205,68 @@ aluminumPage += `
       if(!current.active){schedule();return}
       if(dragFrame){cancelAnimationFrame(dragFrame);dragFrame=0;track.style.transform='translate3d('+position+'px,0,0)'}
       const step=distance(originals[0]),momentum=Math.max(-step*1.5,Math.min(step*1.5,current.velocity*220));
-      const target=Math.round((position+momentum+cycleWidth)/step)*step-cycleWidth;
-      track.classList.add('is-sliding');animateTo(target,Math.min(620,380+Math.abs(current.velocity)*180));setTimeout(()=>{suppressClick=false},0);
+      const snapTarget=Math.round((position+momentum+cycleWidth)/step)*step-cycleWidth;
+      const target=wrap(Math.max(-2*cycleWidth,Math.min(0,snapTarget)));
+      track.classList.add('is-sliding');animateTo(target,Math.min(620,380+Math.abs(current.velocity)*180));setTimeout(()=>{suppressClick=false},80);
     };
     const onPointerCancel=event=>{if(drag)drag.velocity=0;onPointerUp(event)};
-    track.addEventListener('pointerdown',event=>{if(event.button!==0||moving||track.children.length<2)return;clearTimeout(timer);drag={pointerId:event.pointerId,x:event.clientX,y:event.clientY,lastX:event.clientX,lastTime:performance.now(),startPosition:position,velocity:0,active:false};window.addEventListener('pointermove',onPointerMove,{passive:false});window.addEventListener('pointerup',onPointerUp);window.addEventListener('pointercancel',onPointerCancel)});
+    track.addEventListener('pointerdown',event=>{if((event.pointerType==='mouse'&&event.button!==0)||moving||track.children.length<2)return;clearTimeout(timer);drag={pointerId:event.pointerId,x:event.clientX,y:event.clientY,lastX:event.clientX,lastTime:performance.now(),startPosition:position,velocity:0,active:false};window.addEventListener('pointermove',onPointerMove,{passive:false});window.addEventListener('pointerup',onPointerUp);window.addEventListener('pointercancel',onPointerCancel)});
     track.addEventListener('click',event=>{if(suppressClick){event.preventDefault();event.stopImmediatePropagation()}},true);
     measure();position=-cycleWidth;track.style.transition='none';track.style.transform='translate3d('+position+'px,0,0)';track.getBoundingClientRect();track.style.removeProperty('transition');
     window.__EUROWINDOW_SYSTEM_RESIZE__=()=>{const phase=(position+cycleWidth)/cycleWidth;measure();position=wrap(-cycleWidth+phase*cycleWidth);if(!moving&&!drag)track.style.transform='translate3d('+position+'px,0,0)'};
     addEventListener('resize',window.__EUROWINDOW_SYSTEM_RESIZE__,{passive:true});
     const slide=()=>{
       if(moving||drag||section.classList.contains('is-paused'))return;
-      track.classList.add('is-sliding');animateTo(position+distance(originals[originals.length-1]),720);
+      track.classList.add('is-sliding');animateTo(position-distance(originals[0]),720);
     };
+    const marquee=section.querySelector('.system-marquee');
+    marquee?.addEventListener('pointerenter',()=>clearTimeout(timer));
+    marquee?.addEventListener('pointerleave',()=>{if(!moving&&!drag)schedule()});
+    const stepBy=direction=>{
+      if(moving||drag)return;
+      clearTimeout(timer);
+      const target=wrap(position+distance(originals[0])*direction);
+      track.classList.add('is-sliding');animateTo(target,520);
+    };
+    previous.addEventListener('click',()=>stepBy(1));
+    next.addEventListener('click',()=>stepBy(-1));
     control.addEventListener('click',()=>{const paused=section.classList.toggle('is-paused');control.setAttribute('aria-pressed',String(paused));control.setAttribute('aria-label',paused?'Tiếp tục trình chiếu':'Tạm dừng trình chiếu');control.textContent=paused?'Tiếp tục':'Tạm dừng';if(paused)clearTimeout(timer);else if(!moving)schedule()});
     schedule();
   }
 `;
 const productPages = fs.readFileSync(path.join(root, 'scripts', 'product-pages.js'), 'utf8');
-const productPagesWithCatalog = productPages.replace('</section>${productGuideSections(content,slug)}', '</section>${productCatalogSection(slug)}${productGuideSections(content,slug)}');
-if (productPagesWithCatalog === productPages) throw new Error('Could not insert product catalog sections into product pages');
+const productPagesWithoutChildPages = productPages.replace(/  const productChildFamilies=[\s\S]*?(?=  function productOverviewSection\(content,slug\)\{)/, '');
+const productPagesWithCatalog = productPagesWithoutChildPages.replace('</section>${productGuideSections(content,slug)}', '</section>${productCatalogSection(slug)}${productGuideSections(content,slug)}').replace(" onerror=\"this.closest('.gallery-slide').classList.add('image-unavailable')\"", '');
+if (productPagesWithCatalog === productPagesWithoutChildPages) throw new Error('Could not insert product catalog sections into product pages');
 const productCatalogs = fs.readFileSync(path.join(root, 'scripts', 'product-catalogs.js'), 'utf8');
-const childRouteBuild = vm.runInNewContext(`${aluminumPage}\n${productCatalogs}\nJSON.stringify([...Object.entries(productCatalogData).flatMap(([family,rows])=>rows.map(row=>({family,name:row[0]}))),...aluminumProducts.map(item=>({family:'cua-nhom',name:item.name}))].map(item=>({family:item.family,name:item.name,slug:item.name.toLocaleLowerCase('vi').normalize('NFD').replace(/[\\u0300-\\u036f]/g,'').replace(/đ/g,'d').replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'')})))`, {});
-const uniqueProductChildRoutes = [...new Map(JSON.parse(childRouteBuild).map(item => [item.slug, item])).values()];
 fs.mkdirSync(path.join(publicDir, 'data'), { recursive: true });
-fs.writeFileSync(path.join(publicDir, 'data', 'product-child-routes.json'), JSON.stringify(uniqueProductChildRoutes, null, 2));
-const childSeoBuild = vm.runInNewContext(`${aluminumPage}\n${productPages}\n${productCatalogs}\nJSON.stringify([...aluminumProducts.map(item=>({family:'cua-nhom',row:[item.name,item.image,item.type,item.opening,item.system]})),...['cua-upvc','cua-go','cua-cuon','cua-thong-minh-the-he-moi','vach-kinh-mat-dung'].flatMap(family=>productCatalogRows(family).map(row=>({family,row:row.slice(0,5)})))].map(record=>({slug:productChildSlug(record.row[0]),family:record.family,name:record.row[0],image:productChildGallery(record)[0]?.src||productCatalogImage(record.row[1]),type:record.row[2],configuration:record.row[3],variant:record.row[4],...productChildContent(record),sectionIntro:productChildSectionDescription(record),storySections:productChildStorySections(record),gallery:productChildGallery(record)})))`, {});
-const uniqueProductChildContent = [...new Map(JSON.parse(childSeoBuild).map(item => [item.slug, item])).values()];
-fs.writeFileSync(path.join(publicDir, 'data', 'product-child-content.json'), JSON.stringify(uniqueProductChildContent, null, 2));
+fs.rmSync(path.join(publicDir, 'data', 'product-child-routes.json'), { force: true });
+fs.rmSync(path.join(publicDir, 'data', 'product-child-content.json'), { force: true });
 const productCatalogsWithFilterLinks = productCatalogs.replace("let filter='all';const render=()=>{const options=", "let filter=new URLSearchParams(location.search).get('he')||'all';const render=()=>{const options=");
-script = script.replace('  function render(){', `${aluminumPage}\n${productPagesWithCatalog}\n${productCatalogsWithFilterLinks}\n  function render(){`);
+const pricingFaqMerge = `
+  function mergePricingFaqSections(){
+    const main=document.querySelector('#main');
+    const pricing=main?.querySelector('.aluminum-pricing');
+    const faq=main?.querySelector('.aluminum-faq');
+    if(!pricing||!faq)return;
+    const pricingWrap=pricing.querySelector(':scope > .wrap');
+    const faqWrap=faq.querySelector(':scope > .wrap');
+    const pricingHead=pricingWrap?.querySelector('.section-head');
+    const faqHead=faqWrap?.querySelector('.section-head');
+    const faqList=faqWrap?.querySelector('.aluminum-faq-list');
+    if(!pricingWrap||!faqWrap||!pricingHead||!faqHead||!faqList)return;
+    const layout=document.createElement('div');layout.className='wrap product-pricing-faq-layout';
+    const offer=document.createElement('div');offer.className='product-pricing-faq-offer';
+    const answers=document.createElement('div');answers.className='product-pricing-faq-answers';
+    offer.append(pricingHead,...pricingWrap.querySelectorAll(':scope > .detail-copy, :scope > .button'));
+    answers.append(faqHead,faqList);
+    layout.append(offer,answers);
+    pricing.className='section product-pricing-faq';pricing.replaceChildren(layout);
+    faq.remove();
+  }
+`;
+script = script.replace('  function render(){', `${aluminumPage}\n${productPagesWithCatalog}\n${productCatalogsWithFilterLinks}\n${pricingFaqMerge}\n  function render(){`);
+script = script.replace('  function render(){', '  installImageFallbacks();\n  function render(){');
 script = script.replace('const render=()=>{const items=catalog[group].items', 'if(!tabs||!filters||!grid)return;const render=()=>{const items=catalog[group].items');
 script = script.replace("function wireProductCatalog(){const root=document.querySelector('.door-catalog');", "function wireProductCatalog(){if(document.querySelector('[data-product-family-catalog]')){wireProductFamilyCatalog();return}const root=document.querySelector('.official-aluminum-catalog');");
 script = script.replace("const catalog=window.__EURO_ALUMINUM_CATALOG__;if(!catalog)return;let group='type',filter='all';", "const catalog=window.__EURO_ALUMINUM_CATALOG__;if(!catalog)return;const requestedSystem=new URLSearchParams(location.search).get('he');let group=requestedSystem?'system':'type',filter=requestedSystem||'all';");
@@ -192,15 +274,14 @@ script = script.replace('href="/bao-gia">Trao đổi cùng tư vấn viên', 'hr
 script = script.replace('function systemsPage(){return `', 'function systemsPage(){featuredAluminumSystems();return `');
 script = script.replace('function systemDetail(slug){let s=systems.find', 'function systemDetail(slug){featuredAluminumSystems();let s=systems.find');
 script = script.replace('  function productDetail(slug){', "  function productDetail(slug){if(slug==='cua-nhom')return officialAluminumPage();if(productPageContent[slug])return officialProductPage(slug);");
-script = script.replace("else if(p.startsWith('/san-pham/'))html=productDetail(p.split('/')[2]);", "else if(p.startsWith('/san-pham/chi-tiet/'))html=mergeProductChildPricing(productChildDetailPage(p.split('/')[3]));else if(p.startsWith('/san-pham/'))html=productDetail(p.split('/')[2]);");
+script = script.replace("document.title=(titles[p]||slugTitle)+' | Eurowindow';", "document.title=(p==='/san-pham/cua-nhom'?'Cửa nhôm Eurowindow: Cửa đi, cửa sổ & vách kính':(p==='/san-pham'?'Sản phẩm Eurowindow':(productPageContent[p.split('/').pop()]?.title||titles[p]||slugTitle)))+' | Eurowindow';");
+script = script.replace("meta.content=(titles[p]||slugTitle)+' — giải pháp cửa nhôm kính và tư vấn theo nhu cầu công trình từ Eurowindow.';", "meta.content=p==='/san-pham/cua-nhom'?'Khám phá cửa nhôm kính Eurowindow: cửa đi, cửa sổ, cửa mở quay, mở trượt và vách kính. Tư vấn theo nhu cầu công trình.':(productPageContent[p.split('/').pop()]?.intro||titles[p]||slugTitle);");
 script = script.replace("else if(p==='/san-pham')html=productsPage();", "else if(p==='/san-pham')html=officialProductListingPage();");
 script = script.replace("document.querySelector('#productGrid').innerHTML=list.map(c=>productCard({...c,tag:c.tag})).join('');", "document.querySelector('#productGrid').innerHTML=list.map(c=>productCard({...c,tag:c.tag,desc:productListingCopy[c.slug]||c.desc})).join('');");
 script = script.replace('wireProductGallery();wireProductCatalog()', 'wireProductGallery();wireProductCatalog();wireProductListingImages();wireFeaturedSystemMarquee()');
 script = script.replace(".join('');observe()}));wireProductGallery()", ".join('');observe();wireProductListingImages()}));wireProductGallery()");
 script = script.replace('  function aluminumCatalogCard(item){', '  function legacyAluminumCatalogCard(item){');
 script = script.replace("options=['T?t c?',", "options=['Tất cả',");
-script = script.replace("document.title=(titles[p]||slugTitle)+' | Eurowindow';", "document.title=(p.startsWith('/san-pham/chi-tiet/')?(productChildRecord(p.split('/')[3])?.row[0]||slugTitle):p==='/san-pham/cua-nhom'?'Cửa nhôm Eurowindow: Cửa đi, cửa sổ & vách kính':(p==='/san-pham'?'Sản phẩm Eurowindow':(productPageContent[p.split('/').pop()]?.title||titles[p]||slugTitle)))+' | Eurowindow';");
-script = script.replace("meta.content=(titles[p]||slugTitle)+' — giải pháp cửa nhôm kính và tư vấn theo nhu cầu công trình từ Eurowindow.';", "meta.content=p.startsWith('/san-pham/chi-tiet/')?(productChildRecord(p.split('/')[3])?productChildContent(productChildRecord(p.split('/')[3])).intro:slugTitle):p==='/san-pham/cua-nhom'?'Khám phá cửa nhôm kính Eurowindow: cửa đi, cửa sổ, cửa mở quay, mở trượt và vách kính. Tư vấn cấu hình, lắp đặt và báo giá theo công trình.':(productPageContent[p.split('/').pop()]?.intro||titles[p]||slugTitle);");
 script = script.replace('  const img=', `${basePatch}\n  const img=`);
 script = script.replace('const pics=(obj,w=1000)=>img(obj.image,w);', "const pics=(obj,w=1000)=>obj.image.startsWith('http')?obj.image:img(obj.image,w);");
 script = script.replace("  function render(){let p=location.pathname.replace(/\\/$/,'')||'/';", "  function render(){let p=stripBase(location.pathname.replace(/\\/$/,'')||'/');");
@@ -212,7 +293,8 @@ script = script.replace("function navigate(url){history.pushState({},'',url);ren
 script = script.replace("if(!a||a.target==='_blank'||e.metaKey", "if(!a||a.hasAttribute('download')||a.target==='_blank'||e.metaKey");
 script = script.replace("document.querySelector(u.hash)?.scrollIntoView({behavior:'smooth'})", "window.__EUROWINDOW_LENIS__?window.__EUROWINDOW_LENIS__.scrollTo(document.querySelector(u.hash)):document.querySelector(u.hash)?.scrollIntoView({behavior:'smooth'})");
 script = script.replace("window.scrollTo(0,0);observe();wirePage();", "window.__EUROWINDOW_LENIS__?window.__EUROWINDOW_LENIS__.scrollTo(0,{immediate:true}):window.scrollTo(0,0);observe();wirePage();");
-script = script.replace("document.querySelector('#main').innerHTML=html;prefixLinks();const titles=", "document.querySelector('#main').innerHTML=html;prefixLinks();const main=document.querySelector('#main');main.classList.toggle('home-page',p==='/');if(homeMotionCleanup){homeMotionCleanup();homeMotionCleanup=null;}if(p==='/')homeMotionCleanup=setupHomeMotion();const titles=");
+script = script.replace("document.querySelector('#main').innerHTML=html;prefixLinks();const titles=", "document.querySelector('#main').innerHTML=html;prefixLinks();const childHero=document.querySelector('.product-child-hero .detail-grid');if(childHero){const copy=childHero.querySelector('.detail-info'),gallery=childHero.querySelector('.detail-gallery,.product-seo-gallery');if(copy&&gallery)childHero.insertBefore(copy,gallery)}const main=document.querySelector('#main');main.classList.toggle('home-page',p==='/');if(homeMotionCleanup){homeMotionCleanup();homeMotionCleanup=null;}if(p==='/')homeMotionCleanup=setupHomeMotion();const titles=");
+script = script.replace("document.querySelector('#main').innerHTML=html;prefixLinks();const childHero=", "document.querySelector('#main').innerHTML=html;mergePricingFaqSections();prefixLinks();const childHero=");
 script = script.replace("if(e.isIntersecting){e.target.classList.add('visible');io.unobserve(e.target)}", "if(e.isIntersecting)e.target.classList.add('visible');else e.target.classList.remove('visible')");
 script = script.replace('  function observe(){', `  function setupHomeMotion(){
     const root=document.querySelector('#main');
@@ -319,7 +401,7 @@ const blueTheme = `
 .catalogue-viewer iframe{display:block;width:100%;height:min(78vh,900px);min-height:660px;border:0;background:#e7edf3}
 @media(max-width:900px){.catalogue-layout{grid-template-columns:1fr}.catalogue-info-card{display:grid;grid-template-columns:1fr 1fr;column-gap:28px}.catalogue-info-card>.eyebrow,.catalogue-info-card h2,.catalogue-info-card>p,.catalogue-facts,.catalogue-info-card>.button,.catalogue-info-card>.catalogue-open,.catalogue-info-card>.catalogue-note{grid-column:1/-1}.catalogue-viewer iframe{height:75vh;min-height:580px}}
 @media(max-width:700px){.nav-dropdown{display:block;width:100%;height:auto}.nav .nav-dropdown-menu{position:static;display:grid;grid-template-columns:1fr;min-width:0;max-height:0;overflow:hidden;padding:0 0 0 18px;background:transparent;color:inherit;box-shadow:none;opacity:0;visibility:hidden;transform:translateY(-5px);transition:max-height .38s cubic-bezier(.22,1,.36,1),opacity .22s ease,transform .3s cubic-bezier(.22,1,.36,1),padding .3s ease,visibility 0s linear .38s}.nav .nav-dropdown:hover .nav-dropdown-menu,.nav .nav-dropdown:focus-within .nav-dropdown-menu,.nav .nav-dropdown.open .nav-dropdown-menu{max-height:380px;padding:0 0 8px 18px;opacity:1;visibility:visible;transform:translateY(0);pointer-events:auto;transition:max-height .38s cubic-bezier(.22,1,.36,1),opacity .22s ease,transform .3s cubic-bezier(.22,1,.36,1),padding .3s ease,visibility 0s}.nav .nav-dropdown.is-dismissed .nav-dropdown-menu{max-height:0;padding-bottom:0;opacity:0;visibility:hidden;transform:translateY(-5px);pointer-events:none;transition:max-height .32s cubic-bezier(.4,0,.2,1),opacity .18s ease,transform .25s ease,padding .25s ease,visibility 0s linear .32s}.nav .nav-dropdown-menu a{padding:11px 14px;font-size:18px;border-bottom:0}.nav .nav-dropdown-menu a:after{display:none}.catalogue-page{padding:40px 0 64px}.catalogue-info-card{display:flex}.catalogue-info-card h2{font-size:39px}.catalogue-viewer-head{padding:14px;align-items:flex-start}.catalogue-viewer-head>a{font-size:10px}.catalogue-viewer iframe{height:72vh;min-height:470px}}
-@media(max-width:700px){.nav-dropdown-products .nav-dropdown-head{display:flex;align-items:center;gap:14px}.nav .nav-dropdown-products .nav-dropdown-trigger{flex:1}.nav-dropdown-products .nav-dropdown-toggle{display:grid;place-items:center;width:42px;height:48px;flex:none;border:0;background:transparent;color:inherit;font-size:20px;cursor:pointer}.site-header.scrolled .nav-dropdown-products .nav-dropdown-toggle{color:var(--navy)}}
+@media(max-width:700px){.nav-dropdown .nav-dropdown-head{display:flex;align-items:center;gap:14px}.nav .nav-dropdown .nav-dropdown-trigger{flex:1}.nav-dropdown .nav-dropdown-toggle{display:grid;place-items:center;width:42px;height:48px;flex:none;border:0;background:transparent;color:inherit;font-size:20px;cursor:pointer}.site-header.scrolled .nav-dropdown .nav-dropdown-toggle{color:var(--navy)}}
 body{background:var(--cream);color:var(--ink)}
 ::selection{background:var(--gold2);color:var(--navy)}
 .button:hover{background:#a9c9e8;border-color:#a9c9e8}
@@ -429,7 +511,7 @@ const aluminumStyles = `
 .system-card small{display:block;color:var(--gold2);font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;margin-top:12px}
 .system-marquee-control{margin-top:18px;border:1px solid #ffffff55;background:transparent;color:#fff;padding:9px 13px;font:600 11px var(--display);cursor:pointer}
 .system-marquee-control:hover,.system-marquee-control:focus-visible{background:#ffffff18}
-@media(prefers-reduced-motion:reduce){html:not([data-motion-mode="full"]) .system-track{transition-duration:.72s!important}}
+@media(prefers-reduced-motion:reduce){html:not([data-motion-mode="full"]) .system-track,html:not([data-motion-mode="full"]) .nav-dropdown-menu,html:not([data-motion-mode="full"]) .nav-dropdown-menu a,html:not([data-motion-mode="full"]) .gallery-slide,html:not([data-motion-mode="full"]) .gallery-lightbox{transition-duration:.01ms!important;animation-duration:.01ms!important}}
 .product-family-catalog .door-catalog-grid{align-items:stretch}
 .product-family-catalog .door-catalog-card{display:flex;flex-direction:column;height:100%}
 .product-family-catalog .door-catalog-visual{height:clamp(330px,22vw,370px);padding:14px;background:#f8fafc}
@@ -490,19 +572,19 @@ const aluminumStyles = `
 .aluminum-pricing th{background:var(--navy);color:#fff;font-weight:700}
 .aluminum-pricing tr:nth-child(even) td{background:#f3f6f9}
 .aluminum-pricing td:last-child{font-weight:700;color:var(--navy)}
-.page-hero-compact{padding:112px 0 22px}.page-hero-compact .crumb{margin-bottom:12px}.page-hero-compact h1{margin:10px 0 0;font-size:clamp(42px,6vw,72px)}@media(max-width:700px){.page-hero-compact{padding:96px 0 18px}.page-hero-compact h1{font-size:48px}}.aluminum-faq{background:#edf3f8}.aluminum-faq-list{display:grid;grid-template-columns:1fr 1fr;gap:14px}.aluminum-faq-item{padding:22px 24px;background:#fff;border-left:3px solid #246da8}.aluminum-faq-item h3{margin:0 0 9px;color:var(--navy);font-size:17px}.aluminum-faq-item p{margin:0;color:var(--muted);font-size:14px;line-height:1.7}.aluminum-pricing .detail-copy{max-width:900px;margin:0 0 22px;color:var(--muted);line-height:1.8}@media(max-width:700px){.aluminum-faq-list{grid-template-columns:1fr}.aluminum-faq-item{padding:18px}}
+.page-hero-compact{padding:112px 0 22px}.page-hero-compact .crumb{margin-bottom:12px}.page-hero-compact h1{margin:10px 0 0;font-size:clamp(42px,6vw,72px)}@media(max-width:700px){.page-hero-compact{padding:96px 0 18px}.page-hero-compact h1{font-size:clamp(32px,9vw,48px)}}.aluminum-faq{background:#edf3f8}.aluminum-faq-list{display:grid;grid-template-columns:1fr 1fr;gap:14px}.aluminum-faq-item{padding:22px 24px;background:#fff;border-left:3px solid #246da8}.aluminum-faq-item h3{margin:0 0 9px;color:var(--navy);font-size:17px}.aluminum-faq-item p{margin:0;color:var(--muted);font-size:14px;line-height:1.7}.aluminum-pricing .detail-copy{max-width:900px;margin:0 0 22px;color:var(--muted);line-height:1.8}@media(max-width:700px){.aluminum-faq-list{grid-template-columns:1fr}.aluminum-faq-item{padding:18px}}
 @media(max-width:900px){.aluminum-benefit-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:700px){.aluminum-benefit-grid{grid-template-columns:1fr}.official-aluminum-catalog .door-catalog-visual{height:300px;padding:12px}.official-aluminum-catalog .door-catalog-visual img{width:min(100%,276px)!important;height:min(100%,276px)!important}.official-aluminum-catalog .door-catalog-info h3{min-height:0}}
 .aluminum-overview{padding:100px 0;background:#fff}.aluminum-overview-intro{max-width:860px;margin:0 auto 46px;text-align:center}.aluminum-overview-intro h2{margin:16px 0;color:var(--navy);font:500 clamp(35px,4.6vw,58px) var(--display);line-height:1.1;letter-spacing:-.04em}.aluminum-overview-intro p{margin:0;color:var(--muted);font-size:16px;line-height:1.8}.aluminum-overview-layout{display:grid;grid-template-columns:minmax(0,.88fr) minmax(0,1.12fr);gap:clamp(32px,6vw,78px);align-items:start}.aluminum-overview-image{height:100%;min-height:510px;margin:0;background:#edf2f5}.aluminum-overview-image img{width:100%;height:100%;object-fit:cover}.aluminum-overview-copy>p{margin:0;color:var(--muted);font-size:15px;line-height:1.85}.aluminum-overview-points{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:26px 0}.aluminum-overview-points article{padding:18px;background:#f3f6f8;border-left:3px solid #246da8}.aluminum-overview-points h3,.aluminum-overview-subtitle{margin:0 0 7px;color:var(--navy);font-size:17px}.aluminum-overview-points p{margin:0;color:var(--muted);font-size:13px;line-height:1.65}.aluminum-overview-subtitle{margin-top:30px;font:600 24px var(--display)}.aluminum-overview-list{display:grid;gap:9px;margin:15px 0;padding:0;list-style:none;color:var(--muted);font-size:14px;line-height:1.65}.aluminum-overview-list li{position:relative;padding-left:18px}.aluminum-overview-list li:before{content:'•';position:absolute;left:0;color:#246da8;font-weight:700}.aluminum-overview-list strong{color:var(--navy)}.aluminum-overview-note{margin-top:22px!important;padding:14px 16px;border-left:3px solid var(--gold);background:#f6f1e6;font-size:13px!important}@media(max-width:800px){.aluminum-overview-layout{grid-template-columns:1fr}.aluminum-overview-image{min-height:360px;max-height:460px}.aluminum-overview-intro{text-align:left}.aluminum-overview-points{grid-template-columns:1fr 1fr}}@media(max-width:520px){.aluminum-overview{padding:68px 0}.aluminum-overview-intro{margin-bottom:28px}.aluminum-overview-intro p{font-size:14px}.aluminum-overview-image{min-height:290px}.aluminum-overview-points{grid-template-columns:1fr}.aluminum-overview-copy>p{font-size:14px}.aluminum-overview-subtitle{font-size:22px}}
 `;
 const productChildStyles = `
 .product-breadcrumb{display:flex;flex-wrap:wrap;gap:9px;align-items:center;margin:0 0 26px;color:#71849a;font-size:11px;line-height:1.5}.product-breadcrumb a{color:#246da8;text-decoration:none}.product-breadcrumb a:hover{text-decoration:underline;text-underline-offset:3px}.product-breadcrumb span:last-child{color:#243b55}
-.product-child-title{margin:0 0 20px;color:var(--navy);font:500 clamp(32px,4.2vw,54px) var(--display);line-height:1.08;letter-spacing:-.035em}.product-child-hero .detail-info{align-self:center}.product-child-hero .detail-copy{max-width:660px}.product-child-hero .detail-copy p{line-height:1.8}.product-child-hero .detail-gallery{min-height:clamp(400px,46vw,620px)}.product-child-hero .gallery-stage{min-height:inherit}.product-child-hero .gallery-slide img{object-fit:contain;background:#edf2f6}.product-child-hero .gallery-slide.image-unavailable{display:none}
+.product-child-title{margin:0 0 20px;color:var(--navy);font:500 clamp(32px,4.2vw,54px) var(--display);line-height:1.08;letter-spacing:-.035em}.product-child-hero .detail-grid{display:flex;flex-direction:column;gap:32px}.product-child-hero .detail-info{order:1;max-width:940px}.product-child-hero .detail-gallery,.product-child-hero .product-seo-gallery{order:2}.product-child-hero .detail-copy{max-width:900px}.product-child-hero .detail-copy p{line-height:1.8}.product-child-hero .detail-gallery{display:block;min-height:0}.product-child-hero .gallery-controls{position:static;display:flex;justify-content:center;gap:14px;margin-top:12px}.product-child-hero .detail-gallery:before,.product-child-hero .product-seo-gallery:before{display:block;margin:0 0 16px;color:var(--navy);font:600 14px var(--display);letter-spacing:.1em;text-transform:uppercase;content:'HÌNH ẢNH SẢN PHẨM & CÔNG TRÌNH'}.product-child-hero .gallery-stage{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,280px),1fr));gap:14px;min-height:0}.product-child-hero .gallery-slide{position:relative;inset:auto;width:100%;height:clamp(230px,25vw,340px);padding:0;opacity:1;visibility:visible;transform:none;border:1px solid #d9e3ec;background:#fff}.product-child-hero .gallery-slide.active{z-index:1;transform:none;border-color:#7ba5c9;box-shadow:0 8px 24px #174f8412}.product-child-hero .gallery-slide img{object-fit:contain;background:#edf2f6}.product-child-hero .gallery-slide.image-unavailable{display:none}.product-child-hero .gallery-slide:after{inset:58% 0 0}.product-child-hero .gallery-caption{left:0;right:0;bottom:0;padding:24px 14px 12px}.product-child-hero .product-seo-gallery{grid-template-columns:repeat(auto-fit,minmax(min(100%,280px),1fr))}.product-child-story figure{display:none}
 .product-child-information{background:#edf3f8}.product-child-information-grid{display:grid;grid-template-columns:minmax(0,1.55fr) minmax(250px,.75fr);gap:28px;align-items:start}.product-child-information-grid>.wrap{min-width:0}.product-child-information h2{max-width:760px;margin:14px 0 25px;color:var(--navy);font:500 clamp(30px,4vw,48px) var(--display);line-height:1.12;letter-spacing:-.035em}.product-child-information .product-guide-point-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.product-child-uses{padding:25px 27px;background:#fff;border-top:3px solid #2873b7}.product-child-uses h2{margin:12px 0 20px;font-size:30px}.product-child-uses ul{display:grid;gap:12px;margin:0;padding:0;list-style:none}.product-child-uses li{position:relative;padding-left:20px;color:#526b82;font-size:14px;line-height:1.6}.product-child-uses li:before{position:absolute;left:0;content:'—';color:#2873b7}.product-child-uses p{margin:20px 0 0;padding-top:16px;border-top:1px solid #d6e1eb;color:#71849a;font-size:12px;line-height:1.7}.product-child-related .section-head{align-items:end}.product-child-related .door-catalog-info h3 a{color:inherit;text-decoration:none}.product-child-related .door-catalog-info h3 a:hover{color:#2873b7}
 .product-seo-gallery{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;align-content:start}.product-seo-gallery figure{position:relative;min-width:0;min-height:170px;margin:0;overflow:hidden;background:#e9eff4}.product-seo-gallery figure:first-child{grid-column:1/-1;min-height:clamp(300px,36vw,510px)}.product-seo-gallery img{display:block;width:100%;height:100%;min-height:inherit;object-fit:contain;background:#edf2f6}.product-seo-gallery figcaption{position:absolute;inset:auto 0 0;padding:22px 13px 12px;color:#fff;font-size:11px;background:linear-gradient(transparent,#102b4ccc)}
 .door-catalog-visual[href]:hover img{transform:scale(1.025)}.door-catalog-visual img{transition:transform .35s ease}
-@media(max-width:900px){.product-child-information-grid{grid-template-columns:1fr}.product-child-uses{max-width:none}.product-child-hero .detail-gallery{min-height:420px}}
-@media(max-width:700px){.product-breadcrumb{margin-bottom:18px;font-size:10px}.product-child-hero .detail-gallery{min-height:300px}.product-child-title{font-size:36px}.product-child-information .product-guide-point-grid{grid-template-columns:1fr}.product-child-uses{padding:20px}.product-child-related .section-head{align-items:start}.product-seo-gallery{grid-template-columns:1fr 1fr}.product-seo-gallery figure:first-child{min-height:290px}.product-seo-gallery figure{min-height:130px}}
+@media(max-width:900px){.product-child-information-grid{grid-template-columns:1fr}.product-child-uses{max-width:none}}
+@media(max-width:700px){.product-breadcrumb{margin-bottom:18px;font-size:10px}.product-child-title{font-size:36px}.product-child-hero .gallery-stage{grid-template-columns:repeat(auto-fit,minmax(min(100%,240px),1fr))}.product-child-hero .gallery-slide{height:260px}.product-child-information .product-guide-point-grid{grid-template-columns:1fr}.product-child-uses{padding:20px}.product-child-related .section-head{align-items:start}.product-seo-gallery{grid-template-columns:1fr 1fr}.product-seo-gallery figure:first-child{min-height:290px}.product-seo-gallery figure{min-height:130px}}
 `;
 const productChildPricingStyles = `.product-child-price{margin-top:26px;padding-top:22px;border-top:1px solid #d6e1eb}.product-child-price h3{margin:12px 0 9px;color:var(--navy);font:600 22px var(--display);line-height:1.25}.product-child-price p{margin:8px 0;color:#71849a;font-size:13px;line-height:1.7}.product-child-price .button{margin-top:8px}.product-child-price .eyebrow{color:#2873b7}
 
@@ -511,6 +593,7 @@ const productChildPricingStyles = `.product-child-price{margin-top:26px;padding-
 
 n${script}\n})();}`;
 fs.writeFileSync(path.join(publicDir, 'site-script.js'), script);
+fs.writeFileSync(path.join(publicDir, 'site-shell.html'), shell);
 
 const shell = body[1].replace(/<main id="main">[\s\S]*?<\/main>/i, '<main id="main"></main>');
 if (!shell.includes('<main id="main"></main>')) throw new Error('Could not create the page shell placeholder');
