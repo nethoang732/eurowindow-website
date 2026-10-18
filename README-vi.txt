@@ -15,4 +15,4 @@ website sẽ thông báo kênh liên hệ trực tiếp thay vì giả báo đã
 Thông tin kỹ thuật, dự án minh họa và nội dung giới thiệu cần được doanh nghiệp
 duyệt lại trước khi sử dụng chính thức.
 
-Thông tin liên hệ đã đối chiếu trên trang liên hệ chính thức tại eurowindow.biz.
+Thông tin liên hệ đã đối chiếu trên trang liên hệ chính thức tại website tham kh?o.

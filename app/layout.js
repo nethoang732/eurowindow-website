@@ -9,15 +9,18 @@ export default function RootLayout({ children }) {
   const basePath = process.env.NEXT_PUBLIC_BASE_PATH || '';
 
   return (
-    <html lang="vi">
+    <html lang="vi" data-motion-mode="auto">
       <head>
         <meta name="theme-color" content="#102b4c" />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
-        <link rel="stylesheet" href={`${basePath}/site.css?v=product-pages-47`} />
+        <link rel="stylesheet" href={`${basePath}/site.css?v=product-pages-62`} />
       </head>
-      <body>{children}</body>
+      <body>
+        {children}
+        <script src={`${basePath}/site-script.js?v=product-pages-61`} defer />
+      </body>
     </html>
   );
 }

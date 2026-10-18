@@ -3,7 +3,7 @@
 import { useEffect, useRef } from 'react';
 import Lenis from 'lenis';
 
-export default function SiteShell() {
+export default function SiteShell({ initialMarkup = '' }) {
   const rootRef = useRef(null);
   const basePath = process.env.NEXT_PUBLIC_BASE_PATH || '';
 
@@ -12,7 +12,7 @@ export default function SiteShell() {
       autoRaf: true,
       smoothWheel: true,
       syncTouch: false,
-      respectReducedMotion: true
+      respectReducedMotion: document.documentElement.dataset.motionMode !== 'full'
     });
     window.__EUROWINDOW_LENIS__ = lenis;
 
@@ -25,7 +25,7 @@ export default function SiteShell() {
   useEffect(() => {
     let cancelled = false;
 
-    fetch(`${basePath}/site-shell.html?v=product-pages-47`)
+    fetch(`${basePath}/site-shell.html?v=product-pages-60`)
       .then((response) => {
         if (!response.ok) throw new Error(`Unable to load site shell (${response.status})`);
         return response.text();
@@ -35,7 +35,7 @@ export default function SiteShell() {
         rootRef.current.innerHTML = markup;
         window.__EUROWINDOW_BASE_PATH__ = basePath;
         const script = document.createElement('script');
-        script.src = `${basePath}/site-script.js?v=product-pages-47`;
+        script.src = `${basePath}/site-script.js?v=product-pages-60`;
         rootRef.current.appendChild(script);
       })
       .catch((error) => {
@@ -49,5 +49,5 @@ export default function SiteShell() {
     };
   }, [basePath]);
 
-  return <div ref={rootRef} />;
+  return <div ref={rootRef} dangerouslySetInnerHTML={initialMarkup ? { __html: initialMarkup } : undefined} />;
 }
