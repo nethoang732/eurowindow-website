@@ -593,11 +593,9 @@ const productChildPricingStyles = `.product-child-price{margin-top:26px;padding-
 
 n${script}\n})();}`;
 fs.writeFileSync(path.join(publicDir, 'site-script.js'), script);
-fs.writeFileSync(path.join(publicDir, 'site-shell.html'), shell);
-
-const shell = body[1].replace(/<main id="main">[\s\S]*?<\/main>/i, '<main id="main"></main>');
-if (!shell.includes('<main id="main"></main>')) throw new Error('Could not create the page shell placeholder');
-fs.writeFileSync(path.join(publicDir, 'site-shell.html'), shell);
+const pageShell = shell.replace(/<main id="main">[\s\S]*?<\/main>/i, '<main id="main"></main>');
+if (!pageShell.includes('<main id="main"></main>')) throw new Error('Could not create the page shell placeholder');
+fs.writeFileSync(path.join(publicDir, 'site-shell.html'), pageShell);
 fs.writeFileSync(path.join(publicDir, 'site.css'), style[1]);
 
 
