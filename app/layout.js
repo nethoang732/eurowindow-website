@@ -16,7 +16,7 @@ export default function RootLayout({ children }) {
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
         <link rel="stylesheet" href={`${basePath}/site.css?v=website-refresh-2026-10-18`} />
-        <link rel="stylesheet" href={`${basePath}/site-navigation.css?v=header-logo-fit-2026-10-18`} />
+        <link rel="stylesheet" href={`${basePath}/site-navigation.css?v=header-logo-fit-2026-10-19`} />
         <link rel="stylesheet" href={`${basePath}/site-product-pages.css?v=full-site-visual-fix-2026-10-18`} />
       </head>
       <body>
