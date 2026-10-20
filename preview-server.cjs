@@ -37,6 +37,7 @@ http.createServer((req, res) => {
     res.end('Bad request');
     return;
   }
+  if (pathname === '/catalogue-preview') pathname = '/data/catalogue-eurowindow-2024.pdf';
   const matchedTarget = findFile(root, pathname) || findFile(publicRoot, pathname);
   const target = matchedTarget || path.join(root, '404.html');
   const stat = fs.statSync(target);

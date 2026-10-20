@@ -1,4 +1,5 @@
 import Image from 'next/image';
+import Link from 'next/link';
 import content from '../../lib/content/site-sections.json';
 import ShowroomDirectory from './ShowroomDirectory';
 import { getSectionDescriptor, getSiteOrigin } from '../../lib/content/site-section-utils';
@@ -7,7 +8,7 @@ const formatDate = (value) => new Intl.DateTimeFormat('vi-VN', { day: '2-digit',
 const safeJson = (value) => JSON.stringify(value).replace(/</g, '\\u003c');
 
 function RouteLink({ href, children, className }) {
-  return <a data-next-route="true" href={href} className={className}>{children}</a>;
+  return <Link data-next-route="true" href={href} className={className}>{children}</Link>;
 }
 
 function Breadcrumbs({ segments, descriptor }) {

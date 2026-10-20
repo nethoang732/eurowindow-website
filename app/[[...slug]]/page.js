@@ -33,7 +33,12 @@ function canonicalPath(segments) {
 
 export function generateMetadata({ params }) {
   const segments = params?.slug || [];
-  const descriptor = getSectionDescriptor(segments);
+  if (segments.join('/') === 'gioi-thieu') {
+    return {
+      title: 'Tiên phong, Kiến tạo, Đồng hành | Eurowindow',
+      description: 'Tìm hiểu hành trình Eurowindow từ năm 2002, các dòng sản phẩm và ba giá trị Tiên phong, Kiến tạo, Đồng hành.'
+    };
+  }  const descriptor = getSectionDescriptor(segments);
   if (!descriptor) return {};
   const origin = getSiteOrigin();
   const title = descriptor.title + ' | Eurowindow';
@@ -59,7 +64,7 @@ export function generateMetadata({ params }) {
 export default function Page({ params }) {
   const segments = params?.slug || [];
   const basePath = process.env.NEXT_PUBLIC_BASE_PATH || (process.env.GITHUB_ACTIONS === 'true' ? '/eurowindow-website' : '');
-  const script = <Script src={basePath + '/site-script.js?v=website-sections-navigation-fix-2026-10-20'} strategy="afterInteractive" />;
+  const script = <Script src={basePath + '/site-script.js?v=catalogue-restored-2026-10-21'} strategy="afterInteractive" />;
   if (!sectionPageExists(segments)) {
     return <><div dangerouslySetInnerHTML={{ __html: siteShell }} />{script}</>;
   }
