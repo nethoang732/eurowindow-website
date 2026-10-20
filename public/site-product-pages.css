@@ -83,7 +83,7 @@
   .aluminum-overview-points{grid-template-columns:1fr;gap:7px;margin-top:16px}
   .aluminum-overview-points article{padding:12px}
 }
-@media(prefers-reduced-motion:reduce){html:not([data-motion-mode="full"]) .product-guide-gallery-item img{transition:none}}
+@media(prefers-reduced-motion:reduce){html:not([data-motion-mode="full"]) .product-guide-gallery-item img{transition-duration:.2s}}
 
 /* Refined, compact rhythm shared by all product category pages. */
 .detail-grid{grid-template-columns:minmax(0,1.08fr) minmax(350px,.92fr);gap:clamp(30px,5vw,72px);align-items:center}
@@ -181,7 +181,7 @@ section.section:has(> .wrap > .detail-grid){padding:clamp(56px,6vw,78px) 0}
   .aluminum-faq-item{padding:16px}
   .quote-band{padding:52px 0}
 }
-@media(prefers-reduced-motion:reduce){html:not([data-motion-mode="full"]) .product-guide-point,html:not([data-motion-mode="full"]) .door-catalog-card,html:not([data-motion-mode="full"]) .aluminum-overview-points article,html:not([data-motion-mode="full"]) .aluminum-benefit-grid article,html:not([data-motion-mode="full"]) .aluminum-faq-item{transition:none}}
+@media(prefers-reduced-motion:reduce){html:not([data-motion-mode="full"]) .product-guide-point,html:not([data-motion-mode="full"]) .door-catalog-card,html:not([data-motion-mode="full"]) .aluminum-overview-points article,html:not([data-motion-mode="full"]) .aluminum-benefit-grid article,html:not([data-motion-mode="full"]) .aluminum-faq-item{transition-duration:.2s}}
 
 /* Shorter vertical rhythm for a cleaner, faster-scanning product page. */
 .product-guide,.aluminum-overview{padding:clamp(38px,4.2vw,54px) 0}
@@ -288,3 +288,5 @@ section.section:has(> .wrap > .detail-grid){padding:clamp(56px,6vw,78px) 0}
 .system-section .system-card[aria-hidden="true"]{pointer-events:none}
 .category-section .category-info{right:76px}
 @media(max-width:700px){.system-section .system-track{gap:12px}.system-section .system-card{flex-basis:78vw}.system-section .system-card img{height:215px}.category-section .category-info{right:66px}}
+
+.door-catalog-card-hit{display:block;height:100%;color:inherit;text-decoration:none}.door-catalog-card-hit:focus-visible{outline:3px solid #b99a58;outline-offset:3px}.door-catalog-card-cta{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:18px;padding-top:12px;border-top:1px solid rgba(20,48,77,.18);color:#173b60;font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase}.door-catalog-card-cta span{color:#b99a58;font-size:16px;transition:transform .2s ease}.door-catalog-card-hit:hover .door-catalog-card-cta span{transform:translate(2px,-2px)}

@@ -1,0 +1,355 @@
+{
+  "showrooms": [
+    {
+      "name": "SHOWROOM TÔN THẤT TÙNG",
+      "address": "Số 2 Tôn Thất Tùng - Phường Kim Liên - Thành phố Hà Nội",
+      "phone": "(84 - 24) 3 7 47 47 77 - 0909 888 000",
+      "email": "Showroom.lnd@eurowindow.biz",
+      "tel": "+842437474777",
+      "image": "/images/sections/official/showroom-showroom-ton-that-tung-eurowindow.webp"
+    },
+    {
+      "name": "SHOWROOM EUROWINDOW MULTI COMPLEX",
+      "address": "Tầng 1 & 4, Tòa nhà Eurowindow Multi Complex, số 27 Trần Duy Hưng - Phường Cầu giấy - Thành phố Hà Nội",
+      "phone": "(84 - 24) 3577 4777 - 0909 888 000",
+      "email": "Showroom.lnd@eurowindow.biz",
+      "tel": "+842435774777",
+      "image": "/images/sections/official/showroom-showroom-eurowindow-multi-complex-eurowindow.webp"
+    },
+    {
+      "name": "SHOWROOM HẢI PHÒNG",
+      "address": "463 đường Võ Nguyên Giáp - Phường Lê Chân - Thành phố Hải Phòng",
+      "phone": "(84-225) 3 956 111/ 3 956 222 - 0909 888 000",
+      "email": "Showroom.hp@eurowindow.biz",
+      "tel": "+842253956111",
+      "image": "/images/sections/official/showroom-showroom-hai-phong-eurowindow.webp"
+    },
+    {
+      "name": "SHOWROOM QUẢNG NINH",
+      "address": "Số 40, Đường Vĩnh Huy, Phường Hạ Long, Tỉnh Quảng Ninh - Tỉnh Quảng Ninh",
+      "phone": "(84-203) 3 55 66 69/ 3 55 66 89 - 0909 888 000",
+      "email": "Showroom.qn@eurowindow.biz",
+      "tel": "+842033556669",
+      "image": "/images/sections/official/showroom-showroom-quang-ninh-eurowindow.webp"
+    },
+    {
+      "name": "SHOWROOM THANH HÓA",
+      "address": "Căn SH 17, đường Hoa Châu, KĐT Eurowindow Garden City - phường Hạc Thành - Tỉnh Thanh Hóa",
+      "phone": "(84 - 237) 3964 961 - 0909 888 000",
+      "email": "Showroom.th@eurowindow.biz",
+      "tel": "+842373964961",
+      "image": "/images/sections/official/showroom-showroom-thanh-hoa-eurowindow.webp"
+    },
+    {
+      "name": "SHOWROOM VINH",
+      "address": "Căn 15NB Khu nhà Phố Vicentra, đường Thái Phiên - Phường Thành Vinh - Tỉnh Nghệ An",
+      "phone": "(84 - 238) 3 588 808/3 588 807 - 0909 888 000",
+      "email": "Showroom.vinh@eurowindow.biz",
+      "tel": "+842383588808",
+      "image": "/images/sections/official/showroom-showroom-vinh-eurowindow.webp"
+    },
+    {
+      "name": "SHOWROOM PHAN ĐĂNG LƯU",
+      "address": "Toà nhà văn phòng DBA- 125 Phan Đăng Lưu, P.Hoà Cường, Tp.Đà Nẵng - Thành phố Đà Nẵng",
+      "phone": "0906 000 111",
+      "email": "cn-dn@eurowindow.biz",
+      "tel": "+84906000111",
+      "image": "/images/sections/official/showroom-showroom-phan-dang-luu-eurowindow.webp"
+    },
+    {
+      "name": "SHOWROOM BUÔN MA THUỘT",
+      "address": "42 Phan Chu Trinh, Phường Buôn Ma Thuột - Tỉnh Đắk Lắk",
+      "phone": "(84 - 262) 393 61 61 - 0903 11 8888",
+      "email": "Showroom.bmt@eurowindow.biz",
+      "tel": "+842623936161",
+      "image": "/images/sections/official/showroom-showroom-buon-ma-thuot-eurowindow.webp"
+    },
+    {
+      "name": "SHOWROOM NHA TRANG",
+      "address": "344 Lê Hồng Phong, phường Nam Nha Trang - Tỉnh Khánh Hòa",
+      "phone": "(84 - 258) 6 250 289 - 0903 11 8888",
+      "email": "showroom.nt@eurowindow.biz",
+      "tel": "+842586250289",
+      "image": "/images/sections/official/showroom-showroom-nha-trang-eurowindow.webp"
+    },
+    {
+      "name": "SHOWROOM MẠC ĐĨNH CHI",
+      "address": "39 Bis Mạc Đĩnh Chi - Phường Tân Định - Thành phố Hồ Chí Minh",
+      "phone": "(84 - 28) 6278 8124 - 0903 11 8888",
+      "email": "Showroom.mdc@eurowindow.biz",
+      "tel": "+842862788124",
+      "image": "/images/sections/official/showroom-showroom-mac-dinh-chi-eurowindow.webp"
+    },
+    {
+      "name": "SHOWROOM BIÊN HÒA",
+      "address": "931 Phạm Văn Thuận - Phường Tam Hiệp - Tỉnh Đồng Nai",
+      "phone": "(84 - 251) 730 7368 - 0903 11 8888",
+      "email": "showroom.bh@eurowindow.biz",
+      "tel": "+842517307368",
+      "image": "/images/sections/official/showroom-showroom-bien-hoa-eurowindow.webp"
+    },
+    {
+      "name": "SHOWROOM VŨNG TÀU",
+      "address": "112 Huyền Trân Công Chúa - Phường Thắng Tam - Thành phố Hồ Chí Minh",
+      "phone": "(84 - 254) 6 255 145 - 0903 11 8888",
+      "email": "showroom.vt@eurowindow.biz",
+      "tel": "+842546255145",
+      "image": "/images/sections/official/showroom-showroom-vung-tau-eurowindow.webp"
+    },
+    {
+      "name": "SHOWROOM CẦN THƠ",
+      "address": "Lô số 12- Đường Số 03, Khu Dân Cư Hồng Loan – Lô Số 5C - Phường Cái Răng - Thành phố Cần Thơ",
+      "phone": "(84 - 292) 6 250 679 - 0903 11 8888",
+      "email": "showroom.ct@eurowindow.biz",
+      "tel": "+842926250679",
+      "image": "/images/sections/official/showroom-showroom-can-tho-eurowindow.webp"
+    }
+  ],
+  "projectCategories": [
+    {
+      "slug": "cong-trinh-cap-quoc-gia",
+      "name": "CÔNG TRÌNH CẤP QUỐC GIA",
+      "description": "Tổng hợp các công trình cấp quốc gia của Eurowindow đã cung cấp và thi công hoàn thiện."
+    },
+    {
+      "slug": "toa-nha-van-phong-chung-cu",
+      "name": "TÒA NHÀ VP - CHUNG CƯ",
+      "description": "Tổng hợp các công trình tòa nhà văn phòng - chung cư của Eurowindow."
+    },
+    {
+      "slug": "cong-trinh-dan-dung",
+      "name": "CÔNG TRÌNH DÂN DỤNG",
+      "description": "Tổng hợp các công trình dân dụng của Eurowindow đã cung cấp và thi công hoàn thiện."
+    }
+  ],
+  "projects": [
+    {
+      "slug": "nha-quoc-hoi",
+      "name": "Nhà Quốc hội",
+      "category": "cong-trinh-cap-quoc-gia",
+      "summary": "Công trình sử dụng hơn 7.800 m2 vách nhôm kính lớn Eurowindow hệ Stick, profle của hãng Schueco, vách kính chống cháy.",
+      "image": "/images/sections/official/cong-trinh-nha-quoc-hoi-eurowindow.jpg"
+    },
+    {
+      "slug": "tru-so-bo-ngoai-giao",
+      "name": "Trụ sở Bộ Ngoại giao",
+      "category": "cong-trinh-cap-quoc-gia",
+      "summary": "Tại dự án này, Eurowindow thi công lắp đặt hoàn thiện hơn 8.000 m2 cửa nhôm và vách nhôm kính lớn, cửa chống cháy…",
+      "image": "/images/sections/official/cong-trinh-tru-so-bo-ngoai-giao-eurowindow.jpg"
+    },
+    {
+      "slug": "cang-hang-khong-quoc-te-phu-bai",
+      "name": "CẢNG HÀNG KHÔNG PHÚ BÀI HUẾ",
+      "category": "cong-trinh-cap-quoc-gia",
+      "image": "/images/sections/official/cong-trinh-cang-hang-khong-quoc-te-phu-bai-eurowindow.png"
+    },
+    {
+      "slug": "benh-vien-viet-phap",
+      "name": "Bệnh viện Việt Pháp",
+      "category": "cong-trinh-cap-quoc-gia",
+      "image": "/images/sections/official/cong-trinh-benh-vien-viet-phap-eurowindow.jpg"
+    },
+    {
+      "slug": "diamond-crown-hai-phong",
+      "name": "DIAMOND CROWN HẢI PHÒNG",
+      "category": "toa-nha-van-phong-chung-cu",
+      "image": "/images/sections/official/cong-trinh-diamond-crown-hai-phong-eurowindow.png"
+    },
+    {
+      "slug": "khach-san-da-nang-golden-bay",
+      "name": "Khách sạn Đà Nẵng Golden Bay",
+      "category": "toa-nha-van-phong-chung-cu",
+      "image": "/images/sections/official/cong-trinh-khach-san-da-nang-golden-bay-eurowindow.jpg"
+    },
+    {
+      "slug": "khach-san-four-point-sheraton",
+      "name": "Khách sạn Four Point Sheraton",
+      "category": "toa-nha-van-phong-chung-cu",
+      "image": "/images/sections/official/cong-trinh-khach-san-four-point-sheraton-eurowindow.jpg"
+    },
+    {
+      "slug": "nha-pho-chua-thong-son-tay",
+      "name": "Nhà phố Chùa Thông, TX. Sơn Tây, Hà Nội",
+      "category": "cong-trinh-dan-dung",
+      "summary": "Gia chủ đã lựa chọn lắp đặt toàn bộ hệ thống cửa và vách kính Eurowindow.",
+      "image": "/images/sections/official/cong-trinh-nha-pho-chua-thong-son-tay-eurowindow.jpg"
+    },
+    {
+      "slug": "khu-do-thi-sala",
+      "name": "Khu đô thị Sala",
+      "category": "cong-trinh-dan-dung",
+      "image": "/images/sections/official/cong-trinh-khu-do-thi-sala-eurowindow.jpg"
+    }
+  ],
+  "newsCategories": [
+    {
+      "slug": "tin-tuc-su-kien",
+      "name": "TIN TỨC SỰ KIỆN",
+      "description": "Tổng hợp toàn bộ các tin tức sự kiện mới nhất về Eurowindow nhanh - chính xác"
+    },
+    {
+      "slug": "tin-du-an",
+      "name": "TIN DỰ ÁN",
+      "description": "TIN DỰ ÁN"
+    },
+    {
+      "slug": "tin-noi-bo",
+      "name": "TIN NỘI BỘ",
+      "description": "Tổng hợp toàn bộ các thông tin nội bộ mới nhất của Eurowindow"
+    },
+    {
+      "slug": "tin-khuyen-mai",
+      "name": "TIN KHUYẾN MÃI",
+      "description": "Tổng hợp toàn bộ các thông tin khuyến mại mới nhất của Eurowindow đến khách hàng"
+    },
+    {
+      "slug": "tuyen-dung",
+      "name": "TUYỂN DỤNG",
+      "description": "Cập nhật toàn bộ các thông tin tuyển dụng của Eurowindow"
+    },
+    {
+      "slug": "tu-van",
+      "name": "TƯ VẤN",
+      "description": "Tư vấn"
+    },
+    {
+      "slug": "video",
+      "name": "VIDEO",
+      "description": "Video sự kiện, hoạt động Eurowindow."
+    }
+  ],
+  "articles": [
+    {
+      "slug": "eurowindow-dong-hanh-cung-gala-doanh-nhan-thang-long-2026-va-vinh-du-nhan-bang-khen-tu-vcci",
+      "title": "Eurowindow đồng hành cùng Gala Doanh nhân Thăng Long 2026 và vinh dự nhận bằng khen từ VCCI",
+      "category": "tin-tuc-su-kien",
+      "date": "2026-10-07",
+      "summary": "Eurowindow đồng hành cùng Gala Doanh nhân Thăng Long 2026 và vinh dự nhận bằng khen từ VCCI.",
+      "body": [
+        "Eurowindow đồng hành cùng Gala Doanh nhân Thăng Long 2026 và vinh dự nhận bằng khen từ VCCI."
+      ],
+      "image": "/images/sections/official/tin-tuc-eurowindow-dong-hanh-cung-gala-doanh-nhan-thang-long-2026-va-vinh-du-nhan-bang-khen-tu-vcci-eurowindow.jpg"
+    },
+    {
+      "slug": "eurowindow-lan-thu-8-lien-tiep-dat-thuong-hieu-quoc-gia-viet-nam",
+      "title": "Eurowindow lần thứ 8 liên tiếp đạt Thương hiệu quốc gia Việt Nam",
+      "category": "tin-tuc-su-kien",
+      "date": "2026-10-17",
+      "summary": "Ba nhóm sản phẩm chủ lực của Eurowindow vừa được vinh danh Thương hiệu quốc gia Việt Nam 2026.",
+      "body": [
+        "Ba nhóm sản phẩm chủ lực của Eurowindow vừa được vinh danh Thương hiệu quốc gia Việt Nam 2026."
+      ],
+      "image": "/images/sections/official/tin-tuc-eurowindow-lan-thu-8-lien-tiep-dat-thuong-hieu-quoc-gia-viet-nam-eurowindow.jpg"
+    },
+    {
+      "slug": "eurowindow-cung-cap-lap-dat-cua-va-vach-kinh-tai-khu-do-thi-vinhomes-global-gate-co-loa",
+      "title": "Eurowindow cung cấp, lắp đặt cửa và vách kính tại khu đô thị Vinhomes Global Gate Cổ Loa",
+      "category": "tin-du-an",
+      "date": "2026-07-30",
+      "summary": "Eurowindow vừa trúng thầu gói cung cấp, lắp đặt hệ cửa sổ, cửa đi, vách kính, louver và lan can kính tại tòa Y5.",
+      "body": [
+        "Eurowindow vừa trúng thầu gói cung cấp, lắp đặt hệ cửa sổ, cửa đi, vách kính, louver và lan can kính tại tòa Y5."
+      ],
+      "image": "/images/sections/official/tin-tuc-eurowindow-cung-cap-lap-dat-cua-va-vach-kinh-tai-khu-do-thi-vinhomes-global-gate-co-loa-eurowindow.jpg"
+    },
+    {
+      "slug": "eurowindow-trung-thau-thi-cong-he-cua-va-vach-nhom-kinh-du-an-fpt-telecom-tower",
+      "title": "Eurowindow trúng thầu thi công hệ cửa và vách nhôm kính dự án FPT Telecom Tower",
+      "category": "tin-du-an",
+      "date": "2026-03-24",
+      "summary": "Eurowindow trúng thầu thi công hệ cửa và vách nhôm kính dự án FPT Telecom Tower.",
+      "body": [
+        "Eurowindow trúng thầu thi công hệ cửa và vách nhôm kính dự án FPT Telecom Tower."
+      ],
+      "image": "/images/sections/official/tin-tuc-eurowindow-trung-thau-thi-cong-he-cua-va-vach-nhom-kinh-du-an-fpt-telecom-tower-eurowindow.jpg"
+    },
+    {
+      "slug": "cong-bo-ket-qua-cuoc-thi-eurowindow-noi-lam-viec-toi-yeu-hanh-trinh-cham-toi-trai-tim-va-lan-toa-niem-tu-hao",
+      "title": "CÔNG BỐ KẾT QUẢ CUỘC THI \"EUROWINDOW – NƠI LÀM VIỆC TÔI YÊU\": HÀNH TRÌNH CHẠM TỚI TRÁI TIM VÀ LAN TỎA NIỀM TỰ HÀO",
+      "category": "tin-noi-bo",
+      "date": "2026-09-05",
+      "summary": "Cuộc thi “Eurowindow – Nơi làm việc tôi yêu” đã chính thức tìm ra những tác phẩm xuất sắc nhất.",
+      "body": [
+        "Cuộc thi “Eurowindow – Nơi làm việc tôi yêu” đã chính thức tìm ra những tác phẩm xuất sắc nhất."
+      ],
+      "image": "/images/sections/official/tin-tuc-cong-bo-ket-qua-cuoc-thi-eurowindow-noi-lam-viec-toi-yeu-hanh-trinh-cham-toi-trai-tim-va-lan-toa-niem-tu-hao-eurowindow.jpg"
+    },
+    {
+      "slug": "the-le-chuong-trinh-khuyen-mai-sam-cua-don-sang-san-sang-rinh-xe",
+      "title": "Thể lệ chương trình khuyến mại “Sắm cửa đón sang – Sẵn sàng rinh xế”",
+      "category": "tin-khuyen-mai",
+      "date": "2026-09-30",
+      "summary": "Từ ngày 30/09/2026 đến 30/11/2026, Công ty Cổ phần Eurowindow triển khai chương trình khuyến mại “Sắm cửa đón sang – Sẵn sàng rinh xế”.",
+      "body": [
+        "Từ ngày 30/09/2026 đến 30/11/2026, Công ty Cổ phần Eurowindow triển khai chương trình khuyến mại “Sắm cửa đón sang – Sẵn sàng rinh xế”."
+      ],
+      "image": "/images/sections/official/tin-tuc-the-le-chuong-trinh-khuyen-mai-sam-cua-don-sang-san-sang-rinh-xe-eurowindow.png"
+    },
+    {
+      "slug": "ban-tin-tuyen-dung-thang-7-2026",
+      "title": "Bản tin tuyển dụng tháng 7/2026",
+      "category": "tuyen-dung",
+      "date": "2026-07-07",
+      "summary": "Eurowindow tiếp tục mở rộng quy mô hoạt động và tuyển dụng nhiều vị trí tại Miền Bắc và Miền Nam.",
+      "body": [
+        "Eurowindow tiếp tục mở rộng quy mô hoạt động và tuyển dụng nhiều vị trí tại Miền Bắc và Miền Nam."
+      ],
+      "image": "/images/sections/official/tin-tuc-ban-tin-tuyen-dung-thang-7-2026-eurowindow.png"
+    },
+    {
+      "slug": "kich-thuoc-cua-thong-gio-nha-ve-sinh",
+      "title": "Kích thước cửa thông gió nhà vệ sinh chuẩn và cách lựa chọn phù hợp",
+      "category": "tu-van",
+      "date": "2026-10-14",
+      "summary": "Kích thước cửa thông gió nhà vệ sinh phù hợp theo diện tích phòng, chuẩn phong thủy và nhu cầu sử dụng.",
+      "body": [
+        "Kích thước cửa thông gió nhà vệ sinh phù hợp theo diện tích phòng, chuẩn phong thủy và nhu cầu sử dụng."
+      ],
+      "image": "/images/sections/official/tin-tuc-kich-thuoc-cua-thong-gio-nha-ve-sinh-eurowindow.jpg"
+    }
+  ],
+  "videos": [
+    {
+      "title": "CỬA NÀO CHỐNG NÓNG TỐT NHẤT CHO HÈ 2025",
+      "date": "2025-05-12",
+      "image": "/images/sections/official/video-cua-nao-chong-nong-tot-nhat-cho-he-2025-eurowindow.webp"
+    },
+    {
+      "title": "CỬA CHỐNG ỒN, CÁCH NHIỆT – HÀNG CHÍNH HÃNG BÁO GIÁ TỐT, QUÀ TẶNG “KHỦNG”!",
+      "date": "2025-05-12",
+      "image": "/images/sections/official/video-cua-chong-on-cach-nhiet-hang-chinh-hang-bao-gia-tot-qua-tang-khung-eurowindow.webp"
+    },
+    {
+      "title": "VTV1 ĐƯA TIN VỀ EUROWINDOW TẠI TRIỂN LÃM VIETBUILD HỒ CHÍ MINH 2024",
+      "date": "2024-06-26",
+      "image": "/images/sections/official/video-vtv1-dua-tin-ve-eurowindow-tai-trien-lam-vietbuild-ho-chi-minh-2024-eurowindow.webp"
+    },
+    {
+      "title": "KHÁM PHÁ BIỂU TƯỢNG MỚI CỦA ĐẤT CẢNG HẢI PHÒNG",
+      "date": "2024-06-14",
+      "image": "/images/sections/official/video-kham-pha-bieu-tuong-moi-cua-dat-cang-hai-phong-eurowindow.webp"
+    },
+    {
+      "title": "EUROWINDOW KHUYẾN MÃI LỚN DỊP CUỐI NĂM - Bản tin Tài chính kinh doanh VTV1",
+      "date": "2024-04-08",
+      "image": "/images/sections/official/video-eurowindow-khuyen-mai-lon-dip-cuoi-nam-ban-tin-tai-chinh-kinh-doanh-vtv1-eurowindow.webp"
+    },
+    {
+      "title": "TVC Eurowindow – Chương trình khuyến mãi ưu đãi tới 31/05/2024",
+      "date": "2024-03-22",
+      "image": "/images/sections/official/video-tvc-eurowindow-chuong-trinh-khuyen-mai-uu-dai-toi-31-05-2024-eurowindow.webp"
+    }
+  ],
+  "policies": [
+    {
+      "slug": "bao-hanh",
+      "name": "Chính sách bảo hành",
+      "summary": "Chi tiết về chính sách bảo hành đối với các sản phẩm của Eurowindow."
+    },
+    {
+      "slug": "bao-mat-thong-tin",
+      "name": "Chính sách bảo mật thông tin khách hàng",
+      "summary": "Eurowindow luôn tôn trọng và cam kết bảo mật những thông tin cá nhân mang tính riêng tư của khách hàng."
+    }
+  ]
+}

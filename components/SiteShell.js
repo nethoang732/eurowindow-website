@@ -12,7 +12,9 @@ export default function SiteShell({ initialMarkup = '' }) {
       autoRaf: true,
       smoothWheel: true,
       syncTouch: false,
-      respectReducedMotion: document.documentElement.dataset.motionMode !== 'full'
+      // The site keeps smooth scrolling enabled for every visitor. Reduced-motion
+      // preferences are handled by shortening and softening decorative transitions.
+      respectReducedMotion: false
     });
     window.__EUROWINDOW_LENIS__ = lenis;
 

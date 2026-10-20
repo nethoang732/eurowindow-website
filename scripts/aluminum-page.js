@@ -2,11 +2,21 @@
   // This demo contains no links to external Eurowindow websites.
   const aluminumSource='#';
   const aluminumImageBase='https://storage.sudospaces.com/eurowindow/';
-  const aluminumSystem=(type,opening)=>{
-    if(type==='Vách kính')return 'Hệ FA52';
-    if(type==='Cửa sổ'&&opening==='Mở trượt')return 'Hệ EA70';
-    if(type==='Cửa đi'&&opening==='Mở trượt')return 'Hệ EA95, EA95i';
-    return 'Hệ EA55, EA60i';
+  const aluminumSystem=(slug)=>{
+    const confirmed={
+      'cua-di-nhom-1-canh-mo-quay-trong':'EA55, EA60i',
+      'cua-di-nhom-2-canh-mo-quay-trong':'EA55, EA60i',
+      'cua-di-nhom-2-canh-mo-quay-ngoai':'EA55, EA60i',
+      'cua-di-nhom-1-canh-mo-quay-ngoai':'EA55, EA60i',
+      'cua-di-nhom-2-canh-mo-truot':'EA90, EA95i, SC95',
+      'cua-di-nhom-4-canh-mo-truot':'EA90, EA95i, EA115',
+      'cua-di-nhom-4-canh-xep-truot':'EA55',
+      'cua-so-nhom-1-canh-mo-quay-trong':'EA55, EA60i',
+      'cua-so-nhom-2-canh-mo-quay-trong':'EA55, EA60i',
+      'cua-so-nhom-1-canh-mo-quay-ngoai':'EA55, EA60i',
+      'cua-so-nhom-2-canh-mo-quay-ngoai':'EA55, EA60i'
+    };
+    return confirmed[slug] ? 'Hệ ' + confirmed[slug] : 'Cần xác nhận theo cấu hình';
   };
   const aluminumProductRows=[
     ['Cửa đi nhôm 1 cánh mở quay trong','Cửa đi','Mở quay trong','2021/12/1-7-medium.jpg.webp','cua-di-nhom/cua-di-nhom-1-canh-mo-quay-trong.html'],
@@ -50,21 +60,16 @@
     '/images/eurowindow-products/vach-nhom-kinh-unitized-eurowindow.webp',
     '/images/eurowindow-products/mai-che-kinh-eurowindow.webp'
   ];
-  const aluminumProducts=aluminumProductRows.map(([name,type,opening,image],index)=>({name,type,opening,image:aluminumLocalImages[index]||aluminumImageBase+image,system:aluminumSystem(type,opening),filter:type}));
+const aluminumProducts=aluminumProductRows.map(([name,type,opening,image,source],index)=>{const slug=source.split('/').pop().replace(/\.html$/,'');return {name,type,opening,slug,image:productImageManifest[slug]?.[0]||aluminumLocalImages[index]||aluminumImageBase+image,system:aluminumSystem(slug),filter:type}});
   // The system tab reuses every existing product card; its filters are the assigned systems.
   const aluminumProfiles=aluminumProducts.map(item=>({...item,filter:item.system}));
-  function aluminumCatalogCard(item){return `<article class="door-catalog-card"><div class="door-catalog-visual"><img loading="lazy" src="${item.image}" alt="${item.name}"></div><div class="door-catalog-info"><h3>${item.name}</h3>${item.summary?`<p class="aluminum-card-summary">${item.summary}</p>`:''}<ul class="door-catalog-meta"><li>Hệ sản phẩm: ${item.system}</li><li>Loại cửa: ${item.type}</li><li>Cơ chế đóng mở: ${item.opening}</li></ul></div></article>`}
+  function aluminumCatalogCard(item){return `<article class="door-catalog-card"><a class="door-catalog-card-hit" href="${BASE_PATH}/san-pham/cua-nhom/${item.slug}/" aria-label="Xem chi tiết ${item.name}"><div class="door-catalog-visual"><img loading="lazy" src="${item.image}" alt="${item.name}"></div><div class="door-catalog-info"><h3>${item.name}</h3>${item.summary?`<p class="aluminum-card-summary">${item.summary}</p>`:''}<ul class="door-catalog-meta"><li>Hệ sản phẩm: ${item.system}</li><li>Loại cửa: ${item.type}</li><li>Cơ chế đóng mở: ${item.opening}</li></ul><span class="door-catalog-card-cta">Xem chi tiết sản phẩm <span aria-hidden="true">↗</span></span></div></a></article>`}
   function officialAluminumCatalog(){const catalog={system:{label:'THEO HỆ SẢN PHẨM',items:aluminumProfiles},type:{label:'THEO LOẠI CỬA',items:aluminumProducts},opening:{label:'THEO CƠ CHẾ ĐÓNG MỞ',items:aluminumProducts.map(item=>({...item,filter:item.opening}))}};window.__EURO_ALUMINUM_CATALOG__=catalog;const group='type',items=catalog[group].items,filters=['Tất cả',...new Set(items.map(item=>item.filter))];return `<section class="door-catalog official-aluminum-catalog"><div class="wrap"><div class="section-head door-catalog-heading"><div><span class="eyebrow">02 / DANH MỤC CỬA NHÔM</span><h2 class="serif">Các dòng sản phẩm</h2></div><p>Xem các mẫu cửa đi, cửa sổ và vách kính theo kiểu mở hoặc hệ nhôm.</p></div><div class="door-catalog-tabs" role="tablist" aria-label="Phân loại cửa nhôm">${Object.entries(catalog).map(([key,data])=>`<button type="button" role="tab" aria-selected="${key===group}" class="door-catalog-tab ${key===group?'active':''}" data-catalog-tab="${key}">${data.label}</button>`).join('')}</div><div class="door-catalog-filters" data-catalog-filters>${filters.map((filter,i)=>`<button type="button" class="door-catalog-filter ${i===0?'active':''}" data-catalog-filter="${i===0?'all':filter}">${filter}</button>`).join('')}</div><div class="door-catalog-grid" data-catalog-grid>${items.map(aluminumCatalogCard).join('')}</div></div></section>`}
   function officialAluminumPage(){
-    const gallery=[
-      {...aluminumProducts[1],image:'/images/door-reference/nhom-Cua-nhom-mo-quay-2-canh.jpg'},
-      {...aluminumProducts[1],image:'/images/door-reference/nhom-Cua-nhom-mo-quay-2-canh--1.jpg'},
-      aluminumProducts[4],
-      aluminumProducts[5],
-      {...aluminumProducts[5],image:'/images/door-reference/nhom-Cua-di-nhom-mo-truot-4-canh.jpg'},
-      aluminumProducts[8],
-      aluminumProducts[11]
-    ];
+    const gallery=aluminumProducts
+      .filter(item=>item.type==='Cửa đi'||item.type==='Cửa sổ')
+      .flatMap(item=>(productImageManifest[item.slug]||[item.image]).map((image,index)=>({...item,image,photoIndex:index})))
+      .slice(0,12);
     const faq=[
       ['Cửa nhôm Eurowindow có tốt không?','Cửa nhôm Eurowindow có khung chắc chắn, nhiều kiểu mở và mẫu mã hiện đại. Sản phẩm phù hợp cửa đi, cửa sổ và vách kính trong nhà ở, văn phòng.'],
       ['Cửa nhôm Eurowindow giá bao nhiêu?','Giá cửa nhôm thay đổi theo mẫu cửa, dòng sản phẩm, màu sắc và thời điểm. Liên hệ Eurowindow để nhận thông tin báo giá mới nhất.'],

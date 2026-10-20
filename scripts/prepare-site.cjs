@@ -5,14 +5,22 @@ const vm = require('vm');
 const root = path.resolve(__dirname, '..');
 const source = fs.readFileSync(path.join(root, 'dist', 'index.html'), 'utf8');
 const publicDir = path.join(root, 'public');
+const productImageManifest = JSON.parse(fs.readFileSync(path.join(root, 'lib', 'products', 'product-image-manifest.json'), 'utf8'));
+const sectionContent = JSON.parse(fs.readFileSync(path.join(root, 'lib', 'content', 'site-sections.json'), 'utf8'));
 fs.mkdirSync(publicDir, { recursive: true });
 
 const style = source.match(/<style>([\s\S]*?)<\/style>/i);
 const body = source.match(/<body>([\s\S]*?)<script>([\s\S]*?)<\/script>\s*<\/body>/i);
 if (!style || !body) throw new Error('Could not extract the legacy website shell');
+const reducedMotionCss = '@media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}.reveal{opacity:1;transform:none}}';
+if (!style[1].includes(reducedMotionCss)) throw new Error('Could not find the reduced-motion rule in the legacy stylesheet');
+const siteStyles = style[1]
+  .replace(reducedMotionCss, '@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.35s!important;animation-iteration-count:1!important;transition-duration:.2s!important}.reveal{transform:translateY(6px);transition-duration:.25s!important}.reveal.visible{opacity:1;transform:none}}')
+  .replace('@media(prefers-reduced-motion:reduce){.gallery-slide,.gallery-slide img,.gallery-lightbox,.gallery-lightbox img{transition:none}}', '@media(prefers-reduced-motion:reduce){.gallery-slide,.gallery-slide img,.gallery-lightbox,.gallery-lightbox img{transition-duration:.2s}}');
 
 const basePatch = `
   const BASE_PATH = window.__EUROWINDOW_BASE_PATH__ || '';
+  const productImageManifest=${JSON.stringify(productImageManifest)};
   if (new URLSearchParams(location.search).get('motion') === 'full') document.documentElement.dataset.motionMode = 'full';
   let homeMotionCleanup = null;
   const stripBase = (value) => {
@@ -32,13 +40,27 @@ const basePatch = `
 
 let script = body[2];
 let shell = body[1];
+shell = shell.replace('<a href="/du-an">Công trình</a>', '<a data-next-route="true" href="/cong-trinh-tieu-bieu/">Công trình tiêu biểu</a><a data-next-route="true" href="/showroom/">Hệ thống showroom</a>');
+shell = shell.replace('<a href="/tin-tuc">Góc kiến trúc</a>', '<a data-next-route="true" href="/tin-tuc/">Tin tức</a><a data-next-route="true" href="/chinh-sach/">Chính sách</a>');
+const sectionProjectCards = sectionContent.projects.map((project) => ({
+  slug: project.slug, name: project.name, type: sectionContent.projectCategories.find((category) => category.slug === project.category)?.name || 'Công trình',
+  place: project.city, image: '/images/editorial-architecture-placeholder.svg', desc: project.summary
+}));
+const sectionPostCards = sectionContent.articles.map((article) => ({
+  slug: article.slug, title: article.title,
+  topic: sectionContent.newsCategories.find((category) => category.slug === article.category)?.name || 'Tin tức',
+  date: article.date.split('-').reverse().join('.'), image: '/images/editorial-architecture-placeholder.svg', desc: article.summary
+}));
+script = script.replace(/const projects=\[[\s\S]*?\];/, 'const projects=' + JSON.stringify(sectionProjectCards) + ';');
+script = script.replace(/const posts=\[[\s\S]*?\];/, 'const posts=' + JSON.stringify(sectionPostCards) + ';');
+script = script.replace('href="/du-an/' + String.fromCharCode(36) + '{x.slug}"', 'data-next-route="true" href="/cong-trinh-tieu-bieu/' + String.fromCharCode(36) + '{x.slug}/"');
+script = script.replace('href="/tin-tuc/' + String.fromCharCode(36) + '{x.slug}"', 'data-next-route="true" href="/tin-tuc/' + String.fromCharCode(36) + '{x.slug}/"');
+script = script.replace("if(!a||a.hasAttribute('download')", "if(!a||document.querySelector('#main[data-server-route]')||a.hasAttribute('data-next-route')||a.hasAttribute('download')");
+script = script.replace('  function render(){', "  function render(){if(document.querySelector('#main[data-server-route]'))return;");
 const navigationPattern = /<nav class="nav" id="nav" aria-label="Điều hướng chính">[\s\S]*?<\/nav>/;
 if (!navigationPattern.test(shell)) throw new Error('Could not find the primary navigation in the site shell');
-shell = shell.replace(navigationPattern, `<nav class="nav" id="nav" aria-label="Điều hướng chính">
-      <div class="nav-dropdown nav-dropdown-about"><div class="nav-dropdown-head"><a class="nav-dropdown-trigger" href="/gioi-thieu" aria-haspopup="true">Giới thiệu</a><button class="nav-dropdown-toggle" type="button" aria-label="Mở menu Giới thiệu" aria-expanded="false">⌄</button></div><div class="nav-dropdown-menu"><a href="/gioi-thieu">Về chúng tôi</a><a href="/catalogue">Catalogue</a></div></div>
-      <div class="nav-dropdown nav-dropdown-products"><div class="nav-dropdown-head"><a class="nav-dropdown-trigger" href="/san-pham" aria-haspopup="true">Sản phẩm</a><button class="nav-dropdown-toggle" type="button" aria-label="Mở menu Sản phẩm" aria-expanded="false">⌄</button></div><div class="nav-dropdown-menu nav-dropdown-menu-products"><a href="/san-pham/cua-nhom/">Cửa nhôm</a><a href="/san-pham/cua-upvc/">Cửa uPVC</a><a href="/san-pham/cua-go/">Cửa gỗ</a><a href="/san-pham/cua-cuon/">Cửa cuốn</a><a href="/san-pham/cua-thong-minh-the-he-moi/">Cửa thông minh</a><a href="/san-pham/vach-kinh-mat-dung/">Kính &amp; Vách kính</a></div></div>
-      <a href="/he-nhom">Hệ nhôm</a><a href="/du-an">Dự án</a><a href="/tin-tuc">Tin tức</a><a href="/lien-he">Liên hệ</a>
-    </nav>`);
+const navigationMarkup = "<nav class=\"nav\" id=\"nav\" aria-label=\"Điều hướng chính\">\n      <div class=\"nav-dropdown nav-dropdown-about\"><div class=\"nav-dropdown-head\"><a class=\"nav-dropdown-trigger\" href=\"/gioi-thieu\" aria-haspopup=\"true\">Giới thiệu</a><button class=\"nav-dropdown-toggle\" type=\"button\" aria-label=\"Mở menu Giới thiệu\" aria-expanded=\"false\">⌄</button></div><div class=\"nav-dropdown-menu\"><a href=\"/gioi-thieu\">Về chúng tôi</a><a href=\"/catalogue\">Catalogue</a></div></div>\n      <div class=\"nav-dropdown nav-dropdown-products\"><div class=\"nav-dropdown-head\"><a class=\"nav-dropdown-trigger\" href=\"/san-pham\" aria-haspopup=\"true\">Sản phẩm</a><button class=\"nav-dropdown-toggle\" type=\"button\" aria-label=\"Mở menu Sản phẩm\" aria-expanded=\"false\">⌄</button></div><div class=\"nav-dropdown-menu nav-dropdown-menu-products\"><a href=\"/san-pham/cua-nhom/\">Cửa nhôm</a><a href=\"/san-pham/cua-upvc/\">Cửa uPVC</a><a href=\"/san-pham/cua-go/\">Cửa gỗ</a><a href=\"/san-pham/cua-cuon/\">Cửa cuốn</a><a href=\"/san-pham/cua-thong-minh-the-he-moi/\">Cửa thông minh</a><a href=\"/san-pham/vach-kinh-mat-dung/\">Kính &amp; Vách kính</a></div></div>\n      <a href=\"/he-nhom\">Hệ nhôm</a><a data-next-route=\"true\" href=\"/showroom/\">Showroom</a>\n      <div class=\"nav-dropdown nav-dropdown-projects\"><div class=\"nav-dropdown-head\"><a data-next-route=\"true\" class=\"nav-dropdown-trigger\" href=\"/cong-trinh-tieu-bieu/\" aria-haspopup=\"true\">Công trình</a><button class=\"nav-dropdown-toggle\" type=\"button\" aria-label=\"Mở menu Công trình\" aria-expanded=\"false\">⌄</button></div><div class=\"nav-dropdown-menu\"><a data-next-route=\"true\" href=\"/cong-trinh-tieu-bieu/\">Tất cả công trình</a><a data-next-route=\"true\" href=\"/cong-trinh-tieu-bieu/cong-trinh-cap-quoc-gia/\">Công trình cấp quốc gia</a><a data-next-route=\"true\" href=\"/cong-trinh-tieu-bieu/toa-nha-van-phong-chung-cu/\">Tòa nhà văn phòng – chung cư</a><a data-next-route=\"true\" href=\"/cong-trinh-tieu-bieu/cong-trinh-dan-dung/\">Công trình dân dụng</a></div></div>\n      <div class=\"nav-dropdown nav-dropdown-news\"><div class=\"nav-dropdown-head\"><a data-next-route=\"true\" class=\"nav-dropdown-trigger\" href=\"/tin-tuc/\" aria-haspopup=\"true\">Tin tức</a><button class=\"nav-dropdown-toggle\" type=\"button\" aria-label=\"Mở menu Tin tức\" aria-expanded=\"false\">⌄</button></div><div class=\"nav-dropdown-menu\"><a data-next-route=\"true\" href=\"/tin-tuc/\">Tất cả tin tức</a><a data-next-route=\"true\" href=\"/tin-tuc/tin-tuc-su-kien/\">Tin tức sự kiện</a><a data-next-route=\"true\" href=\"/tin-tuc/tin-du-an/\">Tin dự án</a><a data-next-route=\"true\" href=\"/tin-tuc/tin-noi-bo/\">Tin nội bộ</a><a data-next-route=\"true\" href=\"/tin-tuc/tin-khuyen-mai/\">Tin khuyến mãi</a><a data-next-route=\"true\" href=\"/tin-tuc/tuyen-dung/\">Tuyển dụng</a><a data-next-route=\"true\" href=\"/tin-tuc/tu-van/\">Tư vấn</a><a data-next-route=\"true\" href=\"/tin-tuc/video/\">Video</a></div></div>\n      <div class=\"nav-dropdown nav-dropdown-policies\"><div class=\"nav-dropdown-head\"><a data-next-route=\"true\" class=\"nav-dropdown-trigger\" href=\"/chinh-sach/\" aria-haspopup=\"true\">Chính sách</a><button class=\"nav-dropdown-toggle\" type=\"button\" aria-label=\"Mở menu Chính sách\" aria-expanded=\"false\">⌄</button></div><div class=\"nav-dropdown-menu\"><a data-next-route=\"true\" href=\"/chinh-sach/bao-hanh/\">Chính sách bảo hành</a><a data-next-route=\"true\" href=\"/chinh-sach/bao-mat-thong-tin/\">Bảo mật thông tin khách hàng</a></div></div>\n      <a href=\"/lien-he\">Liên hệ</a>\n    </nav>";
+shell = shell.replace(navigationPattern, navigationMarkup);
 const galleryMotionPattern = /const start=\(\)=>\{if\(window\.matchMedia\('\(prefers-reduced-motion: reduce\)'\)\.matches\)return;/;
 if (!galleryMotionPattern.test(script)) throw new Error('Could not find the product gallery motion preference check');
 script = script.replace(galleryMotionPattern, 'const start=()=>{if(prefersReducedMotion())return;');
@@ -242,7 +264,8 @@ const productCatalogs = fs.readFileSync(path.join(root, 'scripts', 'product-cata
 fs.mkdirSync(path.join(publicDir, 'data'), { recursive: true });
 fs.rmSync(path.join(publicDir, 'data', 'product-child-routes.json'), { force: true });
 fs.rmSync(path.join(publicDir, 'data', 'product-child-content.json'), { force: true });
-const productCatalogsWithFilterLinks = productCatalogs.replace("let filter='all';const render=()=>{const options=", "let filter=new URLSearchParams(location.search).get('he')||'all';const render=()=>{const options=");
+const productCatalogsWithFilterLinks = productCatalogs
+  .replace("let filter='all';const render=()=>{const options=", "let filter=new URLSearchParams(location.search).get('he')||'all';const render=()=>{const options=");
 const pricingFaqMerge = `
   function mergePricingFaqSections(){
     const main=document.querySelector('#main');
@@ -289,6 +312,7 @@ script = script.replace("document.querySelector('#main').innerHTML=html;const ti
 script = script.replace("a.getAttribute('href')===p|| (p.startsWith(a.getAttribute('href')+'/')", "stripBase(a.getAttribute('href'))===p|| (p.startsWith(stripBase(a.getAttribute('href'))+'/')");
 script = script.replace("u.pathname===(location.pathname||'/')", "stripBase(u.pathname)===stripBase(location.pathname||'/')");
 script = script.replace('navigate(u.pathname+u.search)', 'navigate(stripBase(u.pathname)+u.search)');
+script = script.replace("if(u.origin===location.origin){e.preventDefault();", "if(u.origin===location.origin){if(document.querySelector('#main[data-server-route]')||a.hasAttribute('data-next-route'))return;const productPath=stripBase(u.pathname).split('/').filter(Boolean);if(productPath.length===3&&productPath[0]==='san-pham'&&['cua-nhom','cua-upvc','cua-go','cua-cuon','cua-thong-minh-the-he-moi','vach-kinh-mat-dung'].includes(productPath[1]))return;e.preventDefault();");
 script = script.replace("function navigate(url){history.pushState({},'',url);render()}", "function navigate(url){history.pushState({},'',BASE_PATH+url);render()}");
 script = script.replace("if(!a||a.target==='_blank'||e.metaKey", "if(!a||a.hasAttribute('download')||a.target==='_blank'||e.metaKey");
 script = script.replace("document.querySelector(u.hash)?.scrollIntoView({behavior:'smooth'})", "window.__EUROWINDOW_LENIS__?window.__EUROWINDOW_LENIS__.scrollTo(document.querySelector(u.hash)):document.querySelector(u.hash)?.scrollIntoView({behavior:'smooth'})");
@@ -298,7 +322,7 @@ script = script.replace("document.querySelector('#main').innerHTML=html;prefixLi
 script = script.replace("if(e.isIntersecting){e.target.classList.add('visible');io.unobserve(e.target)}", "if(e.isIntersecting)e.target.classList.add('visible');else e.target.classList.remove('visible')");
 script = script.replace('  function observe(){', `  function setupHomeMotion(){
     const root=document.querySelector('#main');
-    if(!root||prefersReducedMotion())return ()=>{};
+    if(!root)return ()=>{};
     const sections=[...root.querySelectorAll(':scope > section')];
     // The system marquee moves cards horizontally; per-item reveal observers can miss
     // their children after the initial transform and leave the complete card invisible.
@@ -329,7 +353,8 @@ script = script.replace('  function observe(){', `  function setupHomeMotion(){
       frame=0;
       active.forEach(el=>{
         const rect=el.getBoundingClientRect();
-        const offset=Math.max(-12,Math.min(12,(rect.top+rect.height/2-window.innerHeight/2)*-.025));
+        const amplitude=prefersReducedMotion()?4:12;
+        const offset=Math.max(-amplitude,Math.min(amplitude,(rect.top+rect.height/2-window.innerHeight/2)*-.025));
         el.style.setProperty('--home-parallax',offset.toFixed(2)+'px');
       });
     };
@@ -360,7 +385,7 @@ const motion = `
 .home-page .category-card:hover,.home-page .project-card:hover{transform:translateY(-6px);box-shadow:0 18px 42px #0c2b5018}
 .home-page .category-card img,.home-page .project-image img{transition:transform 1.1s cubic-bezier(.22,1,.36,1),filter .8s ease}
 .home-page .category-card:hover img,.home-page .project-card:hover img{transform:scale(1.055)}
-@media(prefers-reduced-motion:reduce){html:not([data-motion-mode="full"]) .home-page .home-section-motion,html:not([data-motion-mode="full"]) .home-page .home-motion-item,html:not([data-motion-mode="full"]) .home-page .reveal{opacity:1;transform:none;transition:none;will-change:auto}html:not([data-motion-mode="full"]) .home-page .home-parallax{translate:none;will-change:auto}html:not([data-motion-mode="full"]) .home-page .hero-image img{animation:none}html:not([data-motion-mode="full"]) .home-page .category-card:hover,html:not([data-motion-mode="full"]) .home-page .project-card:hover{transform:none;box-shadow:none}}
+@media(prefers-reduced-motion:reduce){html:not([data-motion-mode="full"]) .home-page .home-section-motion{transition-duration:.32s}html:not([data-motion-mode="full"]) .home-page .home-motion-item,html:not([data-motion-mode="full"]) .home-page .reveal{transform:translate3d(0,6px,0);transition-duration:.32s;will-change:auto}html:not([data-motion-mode="full"]) .home-page .home-motion-item.home-motion-visible,html:not([data-motion-mode="full"]) .home-page .reveal.visible{transform:none}html:not([data-motion-mode="full"]) .home-page .home-parallax{will-change:auto}html:not([data-motion-mode="full"]) .home-page .hero-image img{animation-duration:24s}html:not([data-motion-mode="full"]) .home-page .category-card:hover,html:not([data-motion-mode="full"]) .home-page .project-card:hover{transform:translateY(-2px);box-shadow:0 8px 22px #0c2b5010}}
 `;
 
 const blueTheme = `
@@ -511,7 +536,7 @@ const aluminumStyles = `
 .system-card small{display:block;color:var(--gold2);font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;margin-top:12px}
 .system-marquee-control{margin-top:18px;border:1px solid #ffffff55;background:transparent;color:#fff;padding:9px 13px;font:600 11px var(--display);cursor:pointer}
 .system-marquee-control:hover,.system-marquee-control:focus-visible{background:#ffffff18}
-@media(prefers-reduced-motion:reduce){html:not([data-motion-mode="full"]) .system-track,html:not([data-motion-mode="full"]) .nav-dropdown-menu,html:not([data-motion-mode="full"]) .nav-dropdown-menu a,html:not([data-motion-mode="full"]) .gallery-slide,html:not([data-motion-mode="full"]) .gallery-lightbox{transition-duration:.01ms!important;animation-duration:.01ms!important}}
+@media(prefers-reduced-motion:reduce){html:not([data-motion-mode="full"]) .system-track,html:not([data-motion-mode="full"]) .nav-dropdown-menu,html:not([data-motion-mode="full"]) .nav-dropdown-menu a,html:not([data-motion-mode="full"]) .gallery-slide,html:not([data-motion-mode="full"]) .gallery-lightbox{transition-duration:.2s!important;animation-duration:.35s!important}}
 .product-family-catalog .door-catalog-grid{align-items:stretch}
 .product-family-catalog .door-catalog-card{display:flex;flex-direction:column;height:100%}
 .product-family-catalog .door-catalog-visual{height:clamp(330px,22vw,370px);padding:14px;background:#f8fafc}
@@ -596,6 +621,7 @@ fs.writeFileSync(path.join(publicDir, 'site-script.js'), script);
 const pageShell = shell.replace(/<main id="main">[\s\S]*?<\/main>/i, '<main id="main"></main>');
 if (!pageShell.includes('<main id="main"></main>')) throw new Error('Could not create the page shell placeholder');
 fs.writeFileSync(path.join(publicDir, 'site-shell.html'), pageShell);
-fs.writeFileSync(path.join(publicDir, 'site.css'), style[1]);
+fs.writeFileSync(path.join(publicDir, 'site.css'), siteStyles);
+
 
 

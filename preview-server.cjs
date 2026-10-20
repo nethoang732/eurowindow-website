@@ -73,13 +73,5 @@ http.createServer((req, res) => {
     'Accept-Ranges': 'bytes',
     'Cache-Control': 'no-store'
   });
-  if (path.extname(target) === '.html') {
-    const html = fs.readFileSync(target, 'utf8').replace(
-      '</head>',
-      '  <link rel="stylesheet" href="/site.css?v=header-logo-size-2">\n</head>'
-    );
-    res.end(html);
-    return;
-  }
   fs.createReadStream(target).pipe(res);
 }).listen(4173, '127.0.0.1', () => console.log('Eurowindow preview: http://localhost:4173'));

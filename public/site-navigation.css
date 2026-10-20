@@ -19,6 +19,8 @@
 .nav .nav-dropdown-menu a.active{color:#246da8}
 
 @media(max-width:700px){
+  .site-header .nav{display:flex;opacity:0;visibility:hidden;pointer-events:none;transform:translateY(-8px);transition:opacity .24s ease,transform .28s cubic-bezier(.22,1,.36,1),visibility 0s linear .28s}
+  .site-header .nav.open{display:flex;opacity:1;visibility:visible;pointer-events:auto;transform:translateY(0);transition:opacity .24s ease,transform .28s cubic-bezier(.22,1,.36,1),visibility 0s}
   .site-header .brand-image{width:min(46vw,158px);height:46px}
   .footer .brand-image{width:158px;height:39px}
   .nav-dropdown{display:block;width:100%;height:auto}
@@ -33,4 +35,5 @@
   .nav .nav-dropdown-menu a:after{display:none}
 }
 
-@media(prefers-reduced-motion:reduce){html:not([data-motion-mode="full"]) .nav-dropdown-menu,html:not([data-motion-mode="full"]) .nav-dropdown-menu a{transition-duration:.01ms!important}}
+@media(prefers-reduced-motion:reduce){html:not([data-motion-mode="full"]) .site-header .nav,html:not([data-motion-mode="full"]) .nav-dropdown-menu,html:not([data-motion-mode="full"]) .nav-dropdown-menu a{transition-duration:.18s!important}}
+

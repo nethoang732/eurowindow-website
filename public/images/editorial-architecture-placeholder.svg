@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="760" viewBox="0 0 1200 760" role="img" aria-labelledby="title desc">
+<title id="title">Minh họa kiến trúc nội bộ</title><desc id="desc">Hình minh họa trừu tượng, không mô tả công trình thực tế.</desc>
+<rect width="1200" height="760" fill="#edf2f5"/><path d="M0 615h1200" stroke="#c5d0d5" stroke-width="2"/>
+<path d="M110 615V230l250-92v477z" fill="#d6e0e4"/><path d="M360 615V138l300 78v399z" fill="#b7cbd2"/>
+<path d="M660 615V216l265-76v475z" fill="#dbe3e5"/><path d="M925 615V140l165 72v403z" fill="#c4d4d8"/>
+<path d="M150 280h168M150 335h168M150 390h168M150 445h168M405 274h210M405 338h210M405 402h210M405 466h210M705 282h180M705 348h180M705 414h180M705 480h180" stroke="#f8fafb" stroke-width="10" opacity=".8"/>
+<path d="M0 690h1200" stroke="#b58c4d" stroke-width="3"/><text x="600" y="730" text-anchor="middle" fill="#31516d" font-family="Arial,sans-serif" font-size="22" letter-spacing="3">MINH HỌA KIẾN TRÚC • KHÔNG PHẢI ẢNH THỰC TẾ</text>
+</svg>
