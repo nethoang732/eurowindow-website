@@ -609,6 +609,11 @@ script = script.replace(catalogueRoutePattern, "else if(p==='/gioi-thieu')html=a
 script = script.replace("const titles={'/':", "const titles={'/catalogue':'Catalogue Eurowindow 2024','/':");
 if(renderFunctionIndex<0)throw new Error('Could not locate route renderer for Catalogue viewer');
 script=script.slice(0,renderFunctionIndex)+cataloguePdfViewerScript+'\n'+script.slice(renderFunctionIndex);
+const legacyRenderer = 'function render(){';
+const guardedRenderer = "function render(){if(document.querySelector('#main[data-server-route]'))return;";
+if (!script.includes(legacyRenderer)) throw new Error('Could not locate the legacy renderer for server route protection');
+script = script.replace(legacyRenderer, guardedRenderer);
+if (!script.includes(guardedRenderer)) throw new Error('Could not protect server-rendered routes from the legacy renderer');
 script=script.replace("document.querySelector('#main').innerHTML=html;", "document.querySelector('#main').innerHTML=html;if(p==='/catalogue')initCataloguePdfViewer();");
 fs.writeFileSync(path.join(publicDir, 'site-script.js'), script);
 const pageShell = shell.replace(/<main id="main">[\s\S]*?<\/main>/i, '<main id="main"></main>');
