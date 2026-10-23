@@ -1,6 +1,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import ProductGallery from './ProductGallery';
+import ProductStoryGallery from './ProductStoryGallery';
 import ProductQuoteForm from './ProductQuoteForm';
 import ProductAccordion from './ProductAccordion';
 import { ProductFooter, ProductHeader } from './ProductHeader';
@@ -68,9 +69,9 @@ export default function ProductDetail({ product, canonicalUrl, siteOrigin }) {
         </div></section>
         <section className={styles.productStory} aria-labelledby="product-story-title">
           <div className={`${styles.wrap} ${styles.productStoryGrid}`}>
-            {product.detailImage ? <div className={styles.storyImage}><Image src={product.detailImage.src} alt={product.detailImage.alt} width={960} height={700} sizes="(max-width: 800px) 100vw, 50vw" /></div> : null}
+            {product.detailImage ? <ProductStoryGallery images={product.gallery} productName={product.name} /> : null}
             <div className={styles.storyCopy}><p className={styles.kicker}>Thiết kế và vận hành</p><h2 id="product-story-title">{product.benefitHeading || product.name}</h2><p>{product.summary}</p><Link className={styles.storyLink} href="#thong-so">Xem cấu tạo và thông số <span aria-hidden="true">↓</span></Link>
-              {product.gallery.length > 1 ? <div className={styles.storyThumbs} aria-label="Một số góc nhìn sản phẩm">{product.gallery.slice(0, 4).map((image) => <Image key={image.src} src={image.src} alt={image.alt || product.name} width={150} height={100} sizes="150px" />)}</div> : null}
+
             </div>
           </div>
         </section>

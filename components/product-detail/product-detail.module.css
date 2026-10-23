@@ -70,3 +70,21 @@
 @media(max-width:1000px){.benefitList.highlightGrid{grid-template-columns:repeat(2,minmax(0,1fr))}.applicationGrid{grid-template-columns:repeat(2,minmax(0,1fr))}.relatedGrid{grid-template-columns:repeat(2,minmax(0,1fr))}.galleryStage{grid-template-columns:minmax(0,1fr) 64px}.galleryMain{min-height:330px}}
 @media(max-width:700px){.heroGrid{grid-template-columns:1fr}.galleryStage{grid-template-columns:1fr;gap:8px}.galleryMain{min-height:250px;aspect-ratio:1.25}.galleryRail{display:grid;grid-auto-columns:84px;grid-auto-flow:column;grid-template-rows:1fr;max-height:none;overflow-x:auto;overflow-y:hidden;padding:0 0 5px}.thumb,.thumbActive{width:84px;height:62px;min-height:0;flex:auto}.galleryIndex{right:68px}.benefitList.highlightGrid{grid-template-columns:repeat(2,minmax(0,1fr))}.highlightGrid article{min-height:148px;padding:15px}.productStory{padding:12px 0 28px}.productStoryGrid{grid-template-columns:1fr;gap:16px}.storyImage,.storyImage img{min-height:230px;max-height:320px}.storyCopy{padding:10px 0}.storyCopy h2{font-size:32px}.storyThumbs img{height:52px}.applicationGrid{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.applicationCard>img{height:110px}.applicationCard>div{padding:11px}.applicationCard h3{font-size:12px}.applicationCard p{font-size:10px}.relatedGrid{grid-template-columns:1fr 1fr;gap:8px}.relatedCard>img{height:110px}.relatedCard>div{min-height:90px;padding:11px 32px 12px 11px}.relatedCard strong{font-size:12px}.relatedArrow{right:10px;bottom:10px}}
 @media(max-width:390px){.applicationGrid,.relatedGrid{grid-template-columns:1fr}.galleryRail{grid-auto-columns:72px}.thumb,.thumbActive{width:72px}}
+/* Product gallery controls in the editorial image section */
+.storyGallery{min-width:0;align-self:center}
+.storyImage{position:relative;display:block;width:100%;min-height:320px;color:#fff;text-decoration:none;cursor:zoom-in}
+.storyImage:focus-visible{outline:3px solid var(--pd-gold);outline-offset:3px}
+.storyImage img{transition:transform .35s ease}
+.storyImage:hover img{transform:scale(1.025)}
+.storyImageHint{position:absolute;right:12px;bottom:12px;padding:8px 11px;background:#0c2b50db;color:#fff;font:600 10px/1.4 var(--display,'Montserrat',Arial,sans-serif);letter-spacing:.06em;opacity:0;transform:translateY(4px);transition:opacity .2s,transform .2s}
+.storyImage:hover .storyImageHint,.storyImage:focus-visible .storyImageHint{opacity:1;transform:translateY(0)}
+.storyImageCount{position:absolute;left:12px;bottom:12px;padding:7px 9px;background:#fff;color:var(--pd-navy);font:700 10px/1.4 var(--display,'Montserrat',Arial,sans-serif);font-variant-numeric:tabular-nums}
+.storyThumbs{display:flex;gap:10px;margin-top:14px;padding:2px 2px 9px;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:thin;scrollbar-color:var(--pd-gold) #e6e4df}
+.storyThumb,.storyThumbActive{position:relative;flex:0 0 122px;width:122px;height:86px;padding:0;overflow:hidden;border:1px solid #d7d9d8;background:#eef0ef;cursor:pointer;scroll-snap-align:start;transition:border-color .2s,box-shadow .2s,transform .2s}
+.storyThumb:hover,.storyThumbActive:hover{transform:translateY(-2px)}
+.storyThumbActive{border:2px solid var(--pd-gold);box-shadow:0 0 0 2px #bd9c5840}
+.storyThumb img,.storyThumbActive img{display:block;width:100%;height:100%;object-fit:cover}
+.storyThumb span,.storyThumbActive span{position:absolute;right:0;bottom:0;min-width:24px;padding:4px 5px;background:#0c2b50dd;color:#fff;font:600 9px/1 var(--display,'Montserrat',Arial,sans-serif);text-align:center}
+.storyThumbActive span{background:var(--pd-gold);color:var(--pd-navy)}
+.storyThumb:focus-visible,.storyThumbActive:focus-visible{z-index:1;outline:3px solid var(--pd-navy);outline-offset:2px}
+@media(max-width:700px){.storyImage{min-height:230px;max-height:320px}.storyThumb,.storyThumbActive{flex-basis:106px;width:106px;height:74px}}
