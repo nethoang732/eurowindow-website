@@ -49,7 +49,7 @@ shell = shell.replace('<a href="/du-an">Công trình</a>', '<a data-next-route="
 shell = shell.replace('<a href="/tin-tuc">Góc kiến trúc</a>', '<a data-next-route="true" href="/tin-tuc/">Tin tức</a><a data-next-route="true" href="/chinh-sach/">Chính sách</a>');
 const sectionProjectCards = sectionContent.projects.map((project) => ({
   slug: project.slug, name: project.name, type: sectionContent.projectCategories.find((category) => category.slug === project.category)?.name || 'Công trình',
-  place: project.city, image: '/images/editorial-architecture-placeholder.svg', desc: project.summary
+  place: project.city, image: project.image, desc: project.summary
 }));
 const sectionPostCards = sectionContent.articles.map((article) => ({
   slug: article.slug, title: article.title,
@@ -63,13 +63,10 @@ const featuredNewsCards = [...sectionContent.articles].sort((left, right) => rig
   date: article.date.split('-').reverse().join('.'), image: article.image, desc: article.summary
 }));
 script = script.replace(/const posts=\[[\s\S]*?\];/, 'const posts=' + JSON.stringify(sectionPostCards) + ';const featuredPosts=' + JSON.stringify(featuredNewsCards) + ';');
-script = script.replace('<div class="article-grid">${posts.slice(0,3).map(postCard).join(\'\')}</div></div></section>', '<div class="article-grid">${posts.filter(post=>!featuredPosts.some(featured=>featured.slug===post.slug)).slice(0,3).map(postCard).join(\'\')}</div></div></section>');
+script = script.replace('<div class="article-grid">${posts.slice(0,3).map(postCard).join(\'\')}</div></div></section>', '<div class="article-grid">${featuredPosts.map(postCard).join(\'\')}</div></div></section>');
 script = script.replace('07 / G\u00f3c ki\u1ebfn tr\u00fac', '07 / TIN T\u1ee8C');
 script = script.replace('\u00dd t\u01b0\u1edfng cho kh\u00f4ng gian', 'Tin t\u1ee9c v\u00e0 ho\u1ea1t \u0111\u1ed9ng');
-const homeProjectPattern = /<section class="section projects-section">[\s\S]*?<\/section>/;
-if (!homeProjectPattern.test(script)) throw new Error('Could not find the homepage project section to replace with news');
-const homeNewsSection = `<section class="section home-news-section"><div class="wrap"><div class="section-head"><div><span class="eyebrow">04 / TIN T&#7912;C</span><h2 class="serif">Tin t&#7913;c m&#7899;i nh&#7845;t</h2></div><p>Tin t&#7913;c v&#224; ho&#7841;t &#273;&#7897;ng m&#7899;i t&#7915; Eurowindow.</p></div><div class="article-grid">\${featuredPosts.map(postCard).join('')}</div><div style="margin-top:32px"><a class="button link" href="/tin-tuc/">Xem t&#7845;t c&#7843; tin t&#7913;c <span class="arrow">&#8599;</span></a></div></div></section>`;
-script = script.replace(homeProjectPattern, homeNewsSection);
+
 script = script.replace('href="/du-an/' + String.fromCharCode(36) + '{x.slug}"', 'data-next-route="true" href="/cong-trinh-tieu-bieu/' + String.fromCharCode(36) + '{x.slug}/"');
 script = script.replace('href="/tin-tuc/' + String.fromCharCode(36) + '{x.slug}"', 'data-next-route="true" href="/tin-tuc/' + String.fromCharCode(36) + '{x.slug}/"');
 script = script.replace("if(!a||a.hasAttribute('download')", "if(!a||document.querySelector('#main[data-server-route]')||a.hasAttribute('data-next-route')||a.hasAttribute('download')");
@@ -513,7 +510,6 @@ body{font-size:15px}
 `;
 
 const aluminumStyles = `
-.home-news-section{background:#f4f2ed}.home-news-section .article-grid{margin-top:8px}
 .system-card img{object-fit:contain;object-position:center;background:#f3f6f8}
 .detail-gallery .gallery-slide img{object-fit:contain;object-position:center;background:#0c2b50}
 .system-marquee{overflow:hidden;position:relative}
