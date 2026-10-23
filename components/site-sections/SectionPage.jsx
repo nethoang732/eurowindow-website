@@ -53,8 +53,10 @@ function Breadcrumbs({ segments, descriptor }) {
 }
 
 function PageHero({ segments, descriptor, eyebrow }) {
+  const showroom = descriptor.type === 'showrooms';
   return (
-    <header className="section-page-hero">
+    <header className={'section-page-hero' + (showroom ? ' section-page-hero-showroom' : '')}>
+      {showroom && content.showrooms[0]?.image ? <><Image className="section-page-hero-image" src={content.showrooms[0].image} alt="" fill priority sizes="100vw" /><span className="section-page-hero-shade" aria-hidden="true" /></> : null}
       <div className="wrap">
         <Breadcrumbs segments={segments} descriptor={descriptor} />
         <p className="eyebrow">{eyebrow}</p>
