@@ -172,7 +172,7 @@ function PolicyPage({ segments, policy }) {
 export function SectionPage({ segments = [] }) {
   const descriptor = getSectionDescriptor(segments);
   if (!descriptor) return null;
-  if (descriptor.type === 'showrooms') return <><PageHero segments={segments} descriptor={descriptor} eyebrow="SHOWROOM" /><section className="section-content-area"><div className="wrap"><ShowroomDirectory /></div></section></>;
+  if (descriptor.type === 'showrooms') return <><PageHero segments={segments} descriptor={descriptor} eyebrow="SHOWROOM" /><section className="section-content-area"><div className="wrap"><ShowroomDirectory /></div></section><section className="showroom-cta"><div className="wrap"><div><p className="eyebrow">ĐỒNG HÀNH CÙNG CÔNG TRÌNH</p><h2>Nhận tư vấn và trải nghiệm showroom</h2><p>Liên hệ Eurowindow để được tư vấn giải pháp phù hợp và hỗ trợ tại showroom gần bạn.</p></div><RouteLink className="showroom-cta-link" href="/lien-he/">LIÊN HỆ NGAY <span aria-hidden="true">↗</span></RouteLink></div></section></>;
   if (descriptor.type === 'project') return <ProjectDetail project={descriptor.project} segments={segments} />;
   if (descriptor.type === 'article') return <ArticleDetail article={descriptor.article} segments={segments} />;
   if (descriptor.type === 'policy') return <PolicyPage segments={segments} policy={descriptor.policy} />;
