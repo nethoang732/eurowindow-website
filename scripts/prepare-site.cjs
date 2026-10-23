@@ -197,12 +197,12 @@ aluminumPage += `
     disableNativeDragging(track);
     const makeLoop=()=>originals.map(card=>{const clone=card.cloneNode(true);clone.removeAttribute('inert');clone.setAttribute('aria-hidden','true');clone.classList.remove('reveal','visible');clone.querySelectorAll('a,button,[tabindex]').forEach(el=>el.tabIndex=-1);disableNativeDragging(clone);return clone});
     track.replaceChildren(...makeLoop(),...originals,...makeLoop());
-    let timer=null,moving=false,drag=null,suppressClick=false,position=0,cycleWidth=0,dragFrame=0;
+    let timer=null,moving=false,drag=null,suppressClick=false,position=0,cycleWidth=0,dragFrame=0,pointerInside=false;
     const gap=()=>parseFloat(getComputedStyle(track).gap)||0;
     const measure=()=>{cycleWidth=originals.reduce((sum,card)=>sum+card.getBoundingClientRect().width,0)+gap()*originals.length;return cycleWidth};
     const distance=card=>(card?.getBoundingClientRect().width||0)+gap();
     const wrap=value=>{if(!cycleWidth)return value;while(value>=0)value-=cycleWidth;while(value< -2*cycleWidth)value+=cycleWidth;return value};
-    const schedule=()=>{clearTimeout(timer);if(!section.classList.contains('is-paused')&&!prefersReducedMotion())timer=setTimeout(slide,7000)};
+    const schedule=()=>{clearTimeout(timer);if(!section.classList.contains('is-paused')&&!pointerInside)timer=setTimeout(slide,4000)};
     const animateTo=(target,duration)=>{
       moving=true;track.style.transition='transform '+duration+'ms cubic-bezier(.22,1,.36,1)';track.style.transform='translate3d('+target+'px,0,0)';
       let fallback;
@@ -239,8 +239,8 @@ aluminumPage += `
       track.classList.add('is-sliding');animateTo(position-distance(originals[0]),720);
     };
     const marquee=section.querySelector('.system-marquee');
-    marquee?.addEventListener('pointerenter',()=>clearTimeout(timer));
-    marquee?.addEventListener('pointerleave',()=>{if(!moving&&!drag)schedule()});
+    marquee?.addEventListener('pointerenter',event=>{if(event.pointerType==='mouse'||event.pointerType==='pen'){pointerInside=true;clearTimeout(timer)}});
+    marquee?.addEventListener('pointerleave',event=>{if(event.pointerType==='mouse'||event.pointerType==='pen'){pointerInside=false;if(!moving&&!drag)schedule()}});
     const stepBy=direction=>{
       if(moving||drag)return;
       clearTimeout(timer);
