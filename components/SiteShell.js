@@ -27,7 +27,7 @@ export default function SiteShell({ initialMarkup = '' }) {
   useEffect(() => {
     let cancelled = false;
 
-    fetch(`${basePath}/site-shell.html?v=website-refresh-2026-10-18`)
+    fetch(`${basePath}/site-shell.html?v=header-contact-2026-10-23`)
       .then((response) => {
         if (!response.ok) throw new Error(`Unable to load site shell (${response.status})`);
         return response.text();
@@ -37,7 +37,7 @@ export default function SiteShell({ initialMarkup = '' }) {
         rootRef.current.innerHTML = markup;
         window.__EUROWINDOW_BASE_PATH__ = basePath;
         const script = document.createElement('script');
-        script.src = `${basePath}/site-script.js?v=product-gallery-original-2026-10-24`;
+        script.src = `${basePath}/site-script.js?v=projects-cleanup-2026-10-23`;
         rootRef.current.appendChild(script);
       })
       .catch((error) => {

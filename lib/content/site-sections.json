@@ -1,6 +1,14 @@
 {
   "showrooms": [
     {
+      "name": "SHOWROOM MẠC ĐĨNH CHI",
+      "address": "39 Bis Mạc Đĩnh Chi - Phường Tân Định - Thành phố Hồ Chí Minh",
+      "phone": "(84 - 28) 6278 8124 - 0903 11 8888",
+      "email": "Showroom.mdc@eurowindow.biz",
+      "tel": "+842862788124",
+      "image": "/images/sections/official/showroom-showroom-mac-dinh-chi-eurowindow.webp"
+    },
+    {
       "name": "SHOWROOM TÔN THẤT TÙNG",
       "address": "Số 2 Tôn Thất Tùng - Phường Kim Liên - Thành phố Hà Nội",
       "phone": "(84 - 24) 3 7 47 47 77 - 0909 888 000",
@@ -71,14 +79,6 @@
       "email": "showroom.nt@eurowindow.biz",
       "tel": "+842586250289",
       "image": "/images/sections/official/showroom-showroom-nha-trang-eurowindow.webp"
-    },
-    {
-      "name": "SHOWROOM MẠC ĐĨNH CHI",
-      "address": "39 Bis Mạc Đĩnh Chi - Phường Tân Định - Thành phố Hồ Chí Minh",
-      "phone": "(84 - 28) 6278 8124 - 0903 11 8888",
-      "email": "Showroom.mdc@eurowindow.biz",
-      "tel": "+842862788124",
-      "image": "/images/sections/official/showroom-showroom-mac-dinh-chi-eurowindow.webp"
     },
     {
       "name": "SHOWROOM BIÊN HÒA",

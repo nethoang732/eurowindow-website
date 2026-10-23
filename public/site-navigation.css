@@ -1,4 +1,18 @@
 /* Desktop navigation dropdowns */
+.header-utility{height:46px;background:linear-gradient(90deg,rgba(7,35,64,.94),rgba(12,52,86,.9));border-bottom:1px solid rgba(213,188,128,.62);color:#fff;box-shadow:0 4px 16px rgba(4,20,37,.14)}
+.header-utility-inner,.header-contact,.header-contact a,.header-utility-links{display:flex;align-items:center}
+.header-utility-inner{height:100%;justify-content:space-between;gap:24px}
+.header-contact{height:100%;gap:20px}
+.header-contact a{gap:10px;font-size:14px;font-weight:600;line-height:1;white-space:nowrap;transition:color .2s ease}
+.header-contact a:hover,.header-utility-links a:hover{color:var(--gold2)}
+.header-contact svg{width:20px;height:20px;fill:none;stroke:var(--gold2);stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex:none}
+.header-contact i{width:1px;height:23px;background:#ffffff55}
+.header-utility-links{height:100%;gap:0}
+.header-utility-links a{padding:0 18px;font-size:11px;letter-spacing:.12em;text-transform:uppercase;font-weight:700;white-space:nowrap;transition:color .2s ease}
+.header-utility-links a+a{border-left:1px solid #ffffff55}
+.site-header.scrolled .header-utility{background:linear-gradient(90deg,#e8eff5,#f6f8fa);color:var(--navy);border-color:var(--gold);box-shadow:0 3px 12px rgba(12,43,80,.08)}
+.site-header.scrolled .header-contact i{background:#0c2b5040}
+.site-header.scrolled .header-utility-links a+a{border-color:#0c2b5040}
 .site-header .brand-image{width:clamp(170px,14.5vw,204px);height:56px;display:flex;align-items:center;flex:0 0 auto;gap:0}
 .brand-image img{display:block;width:100%;height:100%;object-fit:contain;object-position:left center}
 .site-header:not(.scrolled) .brand-image img{filter:brightness(0) invert(1) drop-shadow(0 2px 8px rgba(0,0,0,.16))}
@@ -19,7 +33,15 @@
 .nav .nav-dropdown-menu a.active{color:#246da8}
 
 @media(max-width:700px){
-  .site-header .nav{display:flex;opacity:0;visibility:hidden;pointer-events:none;transform:translateY(-8px);transition:opacity .24s ease,transform .28s cubic-bezier(.22,1,.36,1),visibility 0s linear .28s}
+  .header-utility{height:42px}
+  .header-utility-inner{gap:10px}
+  .header-contact{gap:10px}
+  .header-contact a{gap:6px;font-size:11px}
+  .header-contact svg{width:16px;height:16px}
+  .header-contact i{height:17px}
+  .header-utility-links{display:none}
+  .header-contact a:last-child span{max-width:43vw;overflow:hidden;text-overflow:ellipsis}
+  .site-header .nav{inset:107px 0 0;display:flex;opacity:0;visibility:hidden;pointer-events:none;transform:translateY(-8px);transition:opacity .24s ease,transform .28s cubic-bezier(.22,1,.36,1),visibility 0s linear .28s}
   .site-header .nav.open{display:flex;opacity:1;visibility:visible;pointer-events:auto;transform:translateY(0);transition:opacity .24s ease,transform .28s cubic-bezier(.22,1,.36,1),visibility 0s}
   .site-header .brand-image{width:min(46vw,158px);height:46px}
   .footer .brand-image{width:158px;height:39px}

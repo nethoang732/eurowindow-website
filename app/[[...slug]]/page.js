@@ -32,6 +32,12 @@ function canonicalPath(segments) {
 
 export function generateMetadata({ params }) {
   const segments = params?.slug || [];
+  if (segments.length === 0) {
+    return {
+      title: 'Eurowindow - Chi nhánh Miền Nam',
+      description: 'Eurowindow - Chi nhánh Miền Nam.'
+    };
+  }
   if (segments.join('/') === 'gioi-thieu') {
     return {
       title: 'Tiên phong, Kiến tạo, Đồng hành | Eurowindow',

@@ -2,6 +2,11 @@ import './globals.css';
 import InternalRouteNavigation from '../components/InternalRouteNavigation';
 
 export const metadata = {
+  icons: {
+    icon: [{ url: '/favicon.svg?v=eurowindow-branch-20261023', type: 'image/svg+xml' }],
+    shortcut: ['/favicon.svg?v=eurowindow-branch-20261023'],
+    apple: ['/favicon.svg?v=eurowindow-branch-20261023']
+  },
   title: 'Eurowindow | Kiến tạo không gian sống',
   description: 'Eurowindow – giải pháp cửa nhôm kính kiến trúc, tinh tế trong thiết kế và chỉn chu trong từng chi tiết.'
 };
@@ -16,7 +21,7 @@ export default function RootLayout({ children }) {
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
         <link rel="stylesheet" href={basePath + '/site.css?v=asset-refresh-67f9d1c-20261023'} />
-        <link rel="stylesheet" href={basePath + '/site-navigation.css?v=brand-consistency-2026-10-20'} />
+        <link rel="stylesheet" href={basePath + '/site-navigation.css?v=header-contact-highlight-2026-10-23'} />
         <link rel="stylesheet" href={basePath + '/site-product-pages.css?v=full-site-visual-fix-2026-10-18'} />
         <link rel="stylesheet" href={basePath + '/site-content-sections.css?v=brand-consistency-2026-10-20'} />
       </head>
