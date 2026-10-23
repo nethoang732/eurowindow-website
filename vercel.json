@@ -1,26 +1,7 @@
 {
-  "rewrites": [
-    {
-      "source": "/catalogue-preview",
-      "destination": "/data/catalogue-eurowindow-2024.pdf"
-    }
-  ],
   "headers": [
     {
       "source": "/data/catalogue-eurowindow-2024.pdf",
-      "headers": [
-        {
-          "key": "Content-Type",
-          "value": "application/pdf"
-        },
-        {
-          "key": "Content-Disposition",
-          "value": "inline; filename=catalogue-eurowindow-2024.pdf"
-        }
-      ]
-    },
-    {
-      "source": "/catalogue-preview",
       "headers": [
         {
           "key": "Content-Type",
