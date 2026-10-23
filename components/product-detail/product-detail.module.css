@@ -21,3 +21,52 @@
 @media(max-width:700px){.applications,.related{padding:42px 0}.relatedGrid{grid-template-columns:1fr}.relatedCard{min-height:96px;padding:16px 48px 16px 16px}.relatedCard strong{font-size:16px}.mobileCta{position:fixed;z-index:30;right:0;bottom:0;left:0;display:block;padding:10px 20px calc(10px + env(safe-area-inset-bottom));background:#102b4c;border-top:1px solid #c2a15e}.mobileCta a{display:flex;min-height:48px;align-items:center;justify-content:center;background:#c2a15e;color:#102b4c;font:700 11px/1.4 var(--display,'Montserrat',Arial,sans-serif);letter-spacing:.1em;text-transform:uppercase;text-decoration:none}.page{padding-bottom:0}.batchPage .quote{padding-bottom:calc(44px + 76px + env(safe-area-inset-bottom))}}
 .constructionIntro{display:block;margin-bottom:18px}.constructionBody{grid-template-columns:minmax(0,.68fr) minmax(0,1.32fr);gap:18px;align-items:start}.diagramCard{padding:10px}.diagramCard img{max-height:310px;object-fit:contain}.specTable{margin:0}.specRow th,.specRow td{padding:9px 4px;font-size:11px}
 @media(max-width:700px){.constructionBody{grid-template-columns:1fr;gap:14px}.diagramCard img{max-height:280px}}
+/* Shared product detail layout aligned with the approved editorial product reference. */
+.hero{padding-top:104px;padding-bottom:50px;background:linear-gradient(112deg,#0b2d50 0%,#123d67 60%,#0d2c4c 100%)}
+.heroGrid{grid-template-columns:minmax(0,.88fr) minmax(0,1.12fr);gap:clamp(26px,4vw,54px)}
+.galleryStage{display:grid;grid-template-columns:minmax(0,1fr) 74px;gap:10px;align-items:stretch}
+.galleryMain{min-height:390px;aspect-ratio:1.24}
+.galleryMain>img{object-fit:cover}
+.galleryRail{display:flex;flex-direction:column;gap:8px;max-height:470px;overflow:auto;margin:0;padding:1px 4px 1px 0;scrollbar-width:thin;scrollbar-color:#c3a45e #ffffff1c}
+.thumb,.thumbActive{width:100%;flex:0 0 70px;padding:0;border:1px solid #ffffff45;border-bottom:2px solid #ffffff45;background:#fff}
+.thumbActive{border-color:var(--pd-gold2);border-bottom-color:var(--pd-gold2)}
+.thumb img,.thumbActive img{height:100%;object-fit:cover}
+.galleryControls{position:absolute;right:0;bottom:0;display:flex;background:#fff}
+.galleryControls button{width:34px;height:32px;border:0;border-left:1px solid #e5e6e6;background:#fff;color:var(--pd-navy);font-size:22px;line-height:1;cursor:pointer}
+.galleryControls button:hover{background:var(--pd-gold);color:var(--pd-navy)}
+.galleryIndex{right:68px;bottom:0;padding:9px 10px}
+.benefits{padding-top:54px;padding-bottom:54px;background:#f7f6f2}
+.benefitList.highlightGrid{grid-template-columns:repeat(auto-fit,minmax(min(220px,100%),1fr));gap:12px}
+.highlightGrid article{position:relative;min-height:158px;padding:19px 18px;background:#fff;border:1px solid #ebe8e0;border-top:1px solid var(--pd-gold)}
+.benefitIndex{display:flex;width:34px;height:34px;align-items:center;justify-content:center;margin:0 0 13px;border:1px solid #d7c18e;color:var(--pd-gold);font:600 11px/1 var(--display,'Montserrat',Arial,sans-serif)}
+.highlightGrid h3{font-size:14px}
+.productStory{padding:22px 0;background:#fff}
+.productStoryGrid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);align-items:stretch;gap:clamp(28px,4vw,52px)}
+.storyImage{min-height:320px;background:#edf0f0;overflow:hidden}
+.storyImage img{display:block;width:100%;height:100%;min-height:320px;object-fit:cover}
+.storyCopy{align-self:center;padding:25px 0}
+.storyCopy h2{max-width:620px;margin:12px 0;color:var(--pd-navy);font:500 clamp(30px,3.4vw,42px)/1.13 var(--display,'Montserrat',Arial,sans-serif);letter-spacing:-.04em;text-wrap:balance}
+.storyCopy>p:not(.kicker){max-width:600px;color:var(--pd-muted);font-size:13px;line-height:1.8}
+.storyLink{display:inline-flex;align-items:center;gap:10px;margin-top:8px;padding:11px 15px;border:1px solid var(--pd-gold);color:var(--pd-navy);font:700 10px/1.4 var(--display,'Montserrat',Arial,sans-serif);letter-spacing:.08em;text-transform:uppercase}
+.storyLink span{color:var(--pd-gold);font-size:15px}
+.storyThumbs{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;margin-top:18px}
+.storyThumbs img{display:block;width:100%;height:60px;object-fit:cover;background:#f1f2f1}
+.construction{padding-top:56px;padding-bottom:56px}
+.applications{padding:58px 0;background:#fff}
+.applicationGrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(230px,100%),1fr));gap:12px}
+.applicationCard{min-width:0;background:#fff;border:1px solid #e6e3dc;border-top:2px solid var(--pd-gold)}
+.applicationCard>img{display:block;width:100%;height:150px;object-fit:cover;background:#e9eeee}
+.applicationCard>div{padding:14px 15px 16px}
+.applicationCard h3{margin:0 0 7px;color:var(--pd-navy);font:600 14px/1.4 var(--display,'Montserrat',Arial,sans-serif)}
+.applicationCard p{margin:0;color:var(--pd-muted);font-size:11px;line-height:1.65}
+.related{padding:58px 0;background:#f7f6f2}
+.relatedGrid{grid-template-columns:repeat(auto-fit,minmax(min(250px,100%),1fr));gap:14px}
+.relatedCard{display:block;min-height:0;padding:0;overflow:hidden;border:1px solid #e4e0d7;background:#fff}
+.relatedCard>img{display:block;width:100%;height:170px;object-fit:cover;background:#e9eeee;transition:transform .35s ease}
+.relatedCard:hover>img{transform:scale(1.035)}
+.relatedCard>div{position:relative;display:flex;min-height:96px;flex-direction:column;gap:8px;padding:14px 44px 16px 16px}
+.relatedCard strong{font-size:14px;line-height:1.45}
+.relatedArrow{right:16px;bottom:15px}
+@media(max-width:1000px){.benefitList.highlightGrid{grid-template-columns:repeat(2,minmax(0,1fr))}.applicationGrid{grid-template-columns:repeat(2,minmax(0,1fr))}.relatedGrid{grid-template-columns:repeat(2,minmax(0,1fr))}.galleryStage{grid-template-columns:minmax(0,1fr) 64px}.galleryMain{min-height:330px}}
+@media(max-width:700px){.heroGrid{grid-template-columns:1fr}.galleryStage{grid-template-columns:1fr;gap:8px}.galleryMain{min-height:250px;aspect-ratio:1.25}.galleryRail{display:grid;grid-auto-columns:84px;grid-auto-flow:column;grid-template-rows:1fr;max-height:none;overflow-x:auto;overflow-y:hidden;padding:0 0 5px}.thumb,.thumbActive{width:84px;height:62px;min-height:0;flex:auto}.galleryIndex{right:68px}.benefitList.highlightGrid{grid-template-columns:repeat(2,minmax(0,1fr))}.highlightGrid article{min-height:148px;padding:15px}.productStory{padding:12px 0 28px}.productStoryGrid{grid-template-columns:1fr;gap:16px}.storyImage,.storyImage img{min-height:230px;max-height:320px}.storyCopy{padding:10px 0}.storyCopy h2{font-size:32px}.storyThumbs img{height:52px}.applicationGrid{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.applicationCard>img{height:110px}.applicationCard>div{padding:11px}.applicationCard h3{font-size:12px}.applicationCard p{font-size:10px}.relatedGrid{grid-template-columns:1fr 1fr;gap:8px}.relatedCard>img{height:110px}.relatedCard>div{min-height:90px;padding:11px 32px 12px 11px}.relatedCard strong{font-size:12px}.relatedArrow{right:10px;bottom:10px}}
+@media(max-width:390px){.applicationGrid,.relatedGrid{grid-template-columns:1fr}.galleryRail{grid-auto-columns:72px}.thumb,.thumbActive{width:72px}}

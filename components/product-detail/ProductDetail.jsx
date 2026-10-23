@@ -64,8 +64,16 @@ export default function ProductDetail({ product, canonicalUrl, siteOrigin }) {
         </section>
         <section className={styles.benefits} aria-labelledby="benefit-title"><div className={styles.wrap}>
           <div className={styles.sectionHeading}><div><p className={styles.kicker}>{product.showBatchExtensions ? 'Đặc điểm' : 'Công năng'}</p><h2 id="benefit-title">{product.benefitHeading || 'Giữ phần diện tích bên trong thông thoáng'}</h2></div></div>
-          <div className={styles.benefitList}>{product.benefits.map(([title, text]) => <article key={title}><h3>{title}</h3><p>{text}</p></article>)}</div>
+          <div className={`${styles.benefitList} ${styles.highlightGrid}`}>{product.benefits.map(([title, text], index) => <article key={title}><span className={styles.benefitIndex}>{String(index + 1).padStart(2, '0')}</span><h3>{title}</h3><p>{text}</p></article>)}</div>
         </div></section>
+        <section className={styles.productStory} aria-labelledby="product-story-title">
+          <div className={`${styles.wrap} ${styles.productStoryGrid}`}>
+            {product.detailImage ? <div className={styles.storyImage}><Image src={product.detailImage.src} alt={product.detailImage.alt} width={960} height={700} sizes="(max-width: 800px) 100vw, 50vw" /></div> : null}
+            <div className={styles.storyCopy}><p className={styles.kicker}>Thiết kế và vận hành</p><h2 id="product-story-title">{product.benefitHeading || product.name}</h2><p>{product.summary}</p><Link className={styles.storyLink} href="#thong-so">Xem cấu tạo và thông số <span aria-hidden="true">↓</span></Link>
+              {product.gallery.length > 1 ? <div className={styles.storyThumbs} aria-label="Một số góc nhìn sản phẩm">{product.gallery.slice(0, 4).map((image) => <Image key={image.src} src={image.src} alt={image.alt || product.name} width={150} height={100} sizes="150px" />)}</div> : null}
+            </div>
+          </div>
+        </section>
         <section className={styles.construction} id="thong-so" aria-labelledby="construction-title"><div className={styles.wrap}>
           <div className={styles.constructionIntro}><div><p className={styles.kicker}>Thông tin sản phẩm</p><h2 id="construction-title">Cấu tạo và thông số</h2></div></div>
           <div className={`${styles.constructionBody} ${product.isIllustration ? styles.constructionBodyTextOnly : ""}`}>
@@ -75,7 +83,7 @@ export default function ProductDetail({ product, canonicalUrl, siteOrigin }) {
         </div></section>
         {product.showBatchExtensions && product.applications?.length ? <section className={styles.applications} aria-labelledby="application-title"><div className={styles.wrap}>
           <div className={styles.sectionHeading}><div><p className={styles.kicker}>Vị trí sử dụng</p><h2 id="application-title">Ứng dụng theo không gian</h2></div></div>
-          <div className={styles.benefitList}>{product.applications.map(([title, text]) => <article key={title}><h3>{title}</h3><p>{text}</p></article>)}</div>
+          <div className={styles.applicationGrid}>{product.applications.map(([title, text], index) => { const image = product.gallery[index % product.gallery.length]; return <article className={styles.applicationCard} key={title}>{image ? <Image src={image.src} alt={image.alt || product.name} width={560} height={360} sizes="(max-width: 700px) 100vw, 25vw" /> : null}<div><h3>{title}</h3><p>{text}</p></div></article>; })}</div>
         </div></section> : null}
         <section className={styles.faq} aria-labelledby="faq-title"><div className={styles.wrap}>
           <div className={styles.sectionHeading}><div><p className={styles.kicker}>Giải đáp</p><h2 id="faq-title">{product.showBatchExtensions ? `Giải đáp về ${product.name}` : 'Giải đáp trước khi chọn cửa'}</h2></div></div>
@@ -83,7 +91,7 @@ export default function ProductDetail({ product, canonicalUrl, siteOrigin }) {
         </div></section>
         {product.showBatchExtensions && relatedProducts.length ? <section className={styles.related} aria-labelledby="related-title"><div className={styles.wrap}>
           <div className={styles.sectionHeading}><div><p className={styles.kicker}>Khám phá thêm</p><h2 id="related-title">Sản phẩm liên quan</h2></div></div>
-          <div className={styles.relatedGrid}>{relatedProducts.map((related) => <Link className={styles.relatedCard} href={`/san-pham/${related.familySlug || 'cua-nhom'}/${related.slug}/`} key={related.slug}><span>{related.category}</span><strong>{related.name}</strong><span className={styles.relatedArrow} aria-hidden="true">↗</span></Link>)}</div>
+          <div className={styles.relatedGrid}>{relatedProducts.map((related) => <Link className={styles.relatedCard} href={`/san-pham/${related.familySlug || 'cua-nhom'}/${related.slug}/`} key={related.slug}>{related.gallery?.[0] ? <Image src={related.gallery[0].src} alt="" width={480} height={320} sizes="(max-width: 700px) 100vw, 25vw" /> : null}<div><span>{related.category}</span><strong>{related.name}</strong><span className={styles.relatedArrow} aria-hidden="true">↗</span></div></Link>)}</div>
         </div></section> : null}
         <section className={styles.quote} id="bao-gia" aria-labelledby="quote-title"><div className={styles.wrap}><div className={styles.quoteGrid}>
           <div><p className={styles.kicker}>Trao đổi cấu hình</p><h2 id="quote-title">Bắt đầu từ vị trí lắp đặt</h2><p>Gọi (024) 3747 4700 để trao đổi cấu hình và nhận báo giá. Biểu mẫu bên cạnh chỉ kiểm tra dữ liệu trên thiết bị.</p></div>
