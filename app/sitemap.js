@@ -4,7 +4,6 @@ import { getSectionPaths, getSiteOrigin } from '../lib/content/site-section-util
 
 const indexableRoutes = [
   '/', '/gioi-thieu/', '/catalogue/', '/san-pham/', '/san-pham/cua-nhom/', '/san-pham/cua-upvc/', '/san-pham/cua-go/', '/san-pham/cua-cuon/', '/san-pham/cua-thong-minh-the-he-moi/', '/san-pham/vach-kinh-mat-dung/',
-  '/he-nhom/', '/he-nhom/ea55-ea60i/', '/he-nhom/ea70/', '/he-nhom/ea95-ea95i/', '/he-nhom/fa52/',
   '/du-an/', '/tin-tuc/', '/lien-he/', '/bao-gia/',
   ...getSectionPaths().filter((route) => !route.startsWith('chinh-sach')).map((route) => '/' + route + '/')
 ];
