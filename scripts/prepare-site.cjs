@@ -614,7 +614,7 @@ fs.writeFileSync(path.join(publicDir, 'site-script.js'), script);
 const pageShell = shell.replace(/<main id="main">[\s\S]*?<\/main>/i, '<main id="main"></main>');
 if (!pageShell.includes('<main id="main"></main>')) throw new Error('Could not create the page shell placeholder');
 fs.writeFileSync(path.join(publicDir, 'site-shell.html'), pageShell);
-"const showroomStyles = String.raw`
+const showroomStyles = String.raw`
 .section-page-hero-showroom{position:relative;isolation:isolate;display:flex;align-items:center;min-height:240px;overflow:hidden;background:#0b2b4e;color:#fff}
 .section-page-hero-showroom .section-page-hero-image,.section-page-hero-showroom .section-page-hero-shade{position:absolute;z-index:-2;inset:0;width:100%;height:100%}
 .section-page-hero-showroom .section-page-hero-image{object-fit:cover;object-position:center 48%}
