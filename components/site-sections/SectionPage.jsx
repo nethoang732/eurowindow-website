@@ -2,7 +2,9 @@ import Image from 'next/image';
 import Link from 'next/link';
 import content from '../../lib/content/site-sections.json';
 import ShowroomDirectory from './ShowroomDirectory';
+import NewsDirectory from './NewsDirectory';
 import { getSectionDescriptor, getSiteOrigin } from '../../lib/content/site-section-utils';
+import { detailedWarrantyUrl, warrantyPolicyContent } from '../../lib/content/warranty-policy';
 
 const formatDate = (value) => new Intl.DateTimeFormat('vi-VN', { day: '2-digit', month: 'long', year: 'numeric', timeZone: 'UTC' }).format(new Date(value + 'T12:00:00Z'));
 const safeJson = (value) => JSON.stringify(value).replace(/</g, '\\u003c');
@@ -55,10 +57,11 @@ function Breadcrumbs({ segments, descriptor }) {
 function PageHero({ segments, descriptor, eyebrow }) {
   const showroom = descriptor.type === 'showrooms';
   const policies = descriptor.type === 'policies';
-  const heroImage = policies ? '/images/sections/cua-kinh-hien-dai-minh-hoa.webp' : content.showrooms[0]?.image;
+  const newsLanding = descriptor.type === 'news';
+  const heroImage = policies || newsLanding ? '/images/sections/cua-kinh-hien-dai-minh-hoa.webp' : content.showrooms[0]?.image;
   return (
-    <header className={'section-page-hero' + (showroom ? ' section-page-hero-showroom' : '') + (policies ? ' section-page-hero-policies' : '')}>
-      {(showroom || policies) && heroImage ? <><Image className="section-page-hero-image" src={heroImage} alt="" fill priority sizes="100vw" /><span className="section-page-hero-shade" aria-hidden="true" /></> : null}
+    <header className={'section-page-hero' + (showroom ? ' section-page-hero-showroom' : '') + (policies ? ' section-page-hero-policies' : '') + (newsLanding ? ' section-page-hero-news' : '') + (descriptor.type === 'article' ? ' section-page-hero-article' : '')}>
+      {(showroom || policies || newsLanding) && heroImage ? <><Image className="section-page-hero-image" src={heroImage} alt="" fill priority sizes="100vw" /><span className="section-page-hero-shade" aria-hidden="true" /></> : null}
       <div className="wrap">
         <Breadcrumbs segments={segments} descriptor={descriptor} />
         <p className="eyebrow">{eyebrow}</p>
@@ -93,7 +96,7 @@ function ProjectCard({ project }) {
 function ArticleCard({ article }) {
   const category = content.newsCategories.find((item) => item.slug === article.category);
   return (
-    <article className="section-content-card">
+    <article className="section-content-card news-article-card">
       <RouteLink href={'/tin-tuc/' + article.slug + '/'} className="section-card-link">
         <SectionImage src={article.image} alt={article.title} />
         <div className="section-content-card-body"><p className="section-card-kicker">{category.name} <span>·</span> <time dateTime={article.date}>{formatDate(article.date)}</time></p><h2>{article.title}</h2><p>{article.summary}</p><span className="section-text-link">Đọc bài viết <span aria-hidden="true">↗</span></span></div>
@@ -129,7 +132,6 @@ function ArticleDetail({ article, segments }) {
         <div className="section-detail-meta"><span>{category.name}</span><time dateTime={article.date}>{formatDate(article.date)}</time></div>
         {article.image ? <div className="section-detail-image"><SectionImage src={article.image} alt={article.title} /></div> : null}
         <div className="section-detail-body">{article.body.map((paragraph, index) => <p key={index}>{paragraph}</p>)}</div>
-        {article.gallery?.length > 1 ? <div className="section-detail-gallery" aria-label="Hình ảnh bài viết">{article.gallery.slice(1).map((image, index) => <figure key={image.src}><SectionImage src={image.src} alt={image.alt || article.title} /></figure>)}</div> : null}
         {related.length ? <aside className="section-related"><h2>Bài viết liên quan</h2><div className="section-content-grid">{related.map((item) => <ArticleCard article={item} key={item.slug} />)}</div></aside> : null}
       </article>
       <JsonLd value={jsonLd} />
@@ -158,16 +160,59 @@ function VideoDirectory() {
   return <section className="section-content-area"><div className="wrap"><div className="video-title-grid">{content.videos.map((video) => <article className="video-title-card" key={video.title}><SectionImage src={video.image} alt={video.title} /><p className="section-card-kicker">VIDEO <span>·</span> <time dateTime={video.date}>{formatDate(video.date)}</time></p><h2>{video.title}</h2></article>)}</div></div></section>;
 }
 
+function PolicyInlineContent({ value }) {
+  if (!value?.segments) return value;
+  return value.segments.map((segment, index) => typeof segment === 'string'
+    ? segment
+    : <a href={segment.href} key={index} target={segment.href?.startsWith('http') ? '_blank' : undefined} rel={segment.href?.startsWith('http') ? 'noreferrer' : undefined}>{segment.text}</a>);
+}
+
+function PolicyTextBlocks({ paragraphs, bullets, lead, contacts, afterBullets }) {
+  return <>
+    {paragraphs?.map((paragraph, index) => <p key={index}><PolicyInlineContent value={paragraph} /></p>)}
+    {bullets?.length ? <ul>{bullets.map((bullet, index) => <li key={index}><PolicyInlineContent value={bullet} /></li>)}</ul> : null}
+    {lead ? <p className="policy-document-lead">{lead}</p> : null}
+    {contacts?.length ? <dl className="policy-document-contacts">{contacts.map((contact) => <div key={contact.label}><dt>{contact.label}</dt><dd>{contact.href ? <a href={contact.href}>{contact.value}</a> : contact.value}</dd></div>)}</dl> : null}
+    {afterBullets?.map((paragraph, index) => <p key={index}><PolicyInlineContent value={paragraph} /></p>)}
+  </>;
+}
+
+function PolicyDocument({ content: document }) {
+  return (
+    <article className="policy-document" aria-labelledby="policy-document-title">
+      <header className="policy-document-header">
+        <h2 id="policy-document-title">{document.documentTitle}</h2>
+        {document.code ? <p>{document.code}</p> : null}
+        {document.issue ? <p>{document.issue}</p> : null}
+      </header>
+      {document.intro?.length ? <div className="policy-document-intro"><PolicyTextBlocks paragraphs={document.intro} /></div> : null}
+      {document.sections.map((section) => (
+        <section className="policy-section" key={section.number}>
+          <h2><span>{section.number}</span> {section.title}</h2>
+          <PolicyTextBlocks paragraphs={section.paragraphs} bullets={section.bullets} lead={section.lead} contacts={section.contacts} afterBullets={section.afterBullets} />
+          {section.subsections?.map((subsection) => (
+            <section className="policy-subsection" key={subsection.number}>
+              <h3><span>{subsection.number}</span> {subsection.title}{subsection.linkLabel ? <> <a href={subsection.linkHref || detailedWarrantyUrl} target="_blank" rel="noreferrer">{subsection.linkLabel}</a></> : null}</h3>
+              <PolicyTextBlocks paragraphs={subsection.paragraphs} bullets={subsection.bullets} />
+            </section>
+          ))}
+        </section>
+      ))}
+    </article>
+  );
+}
+
 function PolicyPage({ segments, policy }) {
   const descriptor = getSectionDescriptor(segments);
+  const document = policy.slug === 'bao-hanh' ? warrantyPolicyContent : null;
   return (
     <>
       <PageHero segments={segments} descriptor={descriptor} eyebrow="Thông tin và điều khoản" />
-      <section className="section-content-area"><div className="wrap policy-notice">
+      {document ? <section className="section-content-area policy-document-area"><div className="wrap"><PolicyDocument content={document} /></div></section> : <section className="section-content-area"><div className="wrap policy-notice">
         <p className="eyebrow">CHÍNH SÁCH</p>
         <h2>{policy.name}</h2>
         <p>{policy.summary}</p>
-      </div></section>
+      </div></section>}
     </>
   );
 }
@@ -190,8 +235,8 @@ export function SectionPage({ segments = [] }) {
     const projects = content.projects.filter((item) => !descriptor.category || item.category === descriptor.category.slug);
     return <><PageHero segments={segments} descriptor={descriptor} eyebrow="CÔNG TRÌNH TIÊU BIỂU" /><section className="section-content-area"><div className="wrap"><CategoryLinks base="/cong-trinh-tieu-bieu" items={content.projectCategories} current={descriptor.category?.slug} /><div className="section-content-grid">{projects.map((item) => <ProjectCard project={item} key={item.slug} />)}</div></div></section></>;
   }
-  const articles = content.articles.filter((item) => !descriptor.category || item.category === descriptor.category.slug);
-  return <><PageHero segments={segments} descriptor={descriptor} eyebrow={descriptor.category?.name || 'TIN TỨC'} /><section className="section-content-area"><div className="wrap"><CategoryLinks base="/tin-tuc" items={content.newsCategories} current={descriptor.category?.slug} /><div className="section-content-grid">{articles.map((item) => <ArticleCard article={item} key={item.slug} />)}</div></div></section></>;
+  const articles = content.articles.filter((item) => item.image && (!descriptor.category || item.category === descriptor.category.slug)).map(({ slug, category, date, image, title, summary }) => ({ slug, category, date, image, title, summary }));
+  return <><PageHero segments={segments} descriptor={descriptor} eyebrow={descriptor.category?.name || 'TIN TỨC'} /><section className="section-content-area news-content-area"><div className="wrap"><NewsDirectory articles={articles} categories={content.newsCategories} currentCategory={descriptor.category?.slug || ''} /></div></section></>;
 }
 
 export function sectionPageExists(segments = []) {

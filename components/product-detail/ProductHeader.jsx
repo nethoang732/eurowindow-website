@@ -9,7 +9,7 @@ const links = [
   { label: 'Showroom', href: '/showroom/' },
   { label: 'C\u00f4ng tr\u00ecnh', href: '/cong-trinh-tieu-bieu/', id: 'projects', children: [['T\u1ea5t c\u1ea3 c\u00f4ng tr\u00ecnh', '/cong-trinh-tieu-bieu/'], ['C\u00f4ng tr\u00ecnh c\u1ea5p qu\u1ed1c gia', '/cong-trinh-tieu-bieu/cong-trinh-cap-quoc-gia/'], ['T\u00f2a nh\u00e0 v\u0103n ph\u00f2ng \u2013 chung c\u01b0', '/cong-trinh-tieu-bieu/toa-nha-van-phong-chung-cu/'], ['C\u00f4ng tr\u00ecnh d\u00e2n d\u1ee5ng', '/cong-trinh-tieu-bieu/cong-trinh-dan-dung/']] },
   { label: 'Tin t\u1ee9c', href: '/tin-tuc/', id: 'news', children: [['T\u1ea5t c\u1ea3 tin t\u1ee9c', '/tin-tuc/'], ['Tin t\u1ee9c s\u1ef1 ki\u1ec7n', '/tin-tuc/tin-tuc-su-kien/'], ['Tin d\u1ef1 \u00e1n', '/tin-tuc/tin-du-an/'], ['Tin n\u1ed9i b\u1ed9', '/tin-tuc/tin-noi-bo/'], ['Tin khuy\u1ebfn m\u00e3i', '/tin-tuc/tin-khuyen-mai/']] },
-  { label: 'Ch\u00ednh s\u00e1ch', href: '/chinh-sach/', id: 'policies', children: [['Ch\u00ednh s\u00e1ch b\u1ea3o h\u00e0nh', '/chinh-sach/bao-hanh/'], ['B\u1ea3o m\u1eadt th\u00f4ng tin kh\u00e1ch h\u00e0ng', '/chinh-sach/bao-mat-thong-tin/']] },
+  { label: 'Ch\u00ednh s\u00e1ch', href: '/chinh-sach/', id: 'policies', children: [['Ch\u00ednh s\u00e1ch b\u1ea3o h\u00e0nh', '/chinh-sach/bao-hanh/']] },
   { label: 'Li\u00ean h\u1ec7', href: '/bao-gia/' }
 ];
 
