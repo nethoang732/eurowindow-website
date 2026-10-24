@@ -127,8 +127,9 @@ function ArticleDetail({ article, segments }) {
       <PageHero segments={segments} descriptor={descriptor} eyebrow={category.name} />
       <article className="section-detail wrap">
         <div className="section-detail-meta"><span>{category.name}</span><time dateTime={article.date}>{formatDate(article.date)}</time></div>
-        <div className="section-detail-image"><SectionImage src={article.image} alt={article.title} /></div>
+        {article.image ? <div className="section-detail-image"><SectionImage src={article.image} alt={article.title} /></div> : null}
         <div className="section-detail-body">{article.body.map((paragraph, index) => <p key={index}>{paragraph}</p>)}</div>
+        {article.gallery?.length > 1 ? <div className="section-detail-gallery" aria-label="Hình ảnh bài viết">{article.gallery.slice(1).map((image, index) => <figure key={image.src}><SectionImage src={image.src} alt={image.alt || article.title} /></figure>)}</div> : null}
         {related.length ? <aside className="section-related"><h2>Bài viết liên quan</h2><div className="section-content-grid">{related.map((item) => <ArticleCard article={item} key={item.slug} />)}</div></aside> : null}
       </article>
       <JsonLd value={jsonLd} />

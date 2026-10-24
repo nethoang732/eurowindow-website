@@ -51,6 +51,7 @@
 .section-detail-body{max-width:740px;margin:0 auto;color:#425a70;font-size:16px;line-height:1.9}
 .section-detail-body h2,.section-related h2{margin:32px 0 12px;color:var(--navy);font:500 28px/1.25 var(--display)}
 .section-detail-body ul{padding-left:22px}.section-detail-body li{margin:8px 0}
+.section-detail-gallery{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;max-width:840px;margin:40px auto}.section-detail-gallery figure{min-width:0;margin:0}.section-detail-gallery .section-card-image{height:auto;aspect-ratio:3/2}
 .section-related{margin-top:70px}.section-related .section-content-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
 .section-expired-note{margin:22px 0;padding:14px 18px;border-left:3px solid #b98d48;background:#f8f4eb;color:#624d2b;font-size:13px;line-height:1.6}
 .video-title-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px}
@@ -95,3 +96,5 @@
 @media(max-width:1000px){.policy-grid{gap:16px}.policy-card{grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);min-height:260px}.policy-card-image img{min-height:260px}.policy-card-body{padding:20px}}
 @media(max-width:700px){.section-page-hero.section-page-hero-policies{min-height:320px}.section-page-hero-policies .wrap{width:calc(100% - 36px);padding-top:calc(var(--site-header-stack,111px) + 40px);padding-bottom:30px}.section-page-hero-policies .section-page-hero-image{object-position:58% center}.section-page-hero-policies .section-page-hero-shade{background:linear-gradient(90deg,#071e35f2 0%,#0b2d4be8 58%,#0b2d4b78 100%)}.section-page-hero-policies h1{font-size:clamp(40px,11vw,56px)}.section-page-hero-policies .section-hero-copy{max-width:440px;font-size:13px}.policy-content{padding:30px 0 36px}.policy-content>.wrap{width:calc(100% - 36px)}.policy-grid{grid-template-columns:1fr;gap:14px}.policy-card{grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);min-height:225px}.policy-card-image img{min-height:225px}.policy-card-body{padding:17px}.policy-card-icon{width:28px;height:28px;margin-bottom:8px}.policy-card-icon svg{width:25px;height:25px}.policy-card-body h2{font-size:20px}.policy-card-summary{margin-top:8px;font-size:11px}.policy-card-link{margin-top:10px;font-size:11px}}
 @media(max-width:430px){.policy-card{grid-template-columns:1fr}.policy-card-image,.policy-card-image img{height:190px;min-height:190px}.policy-card-body{padding:18px}}
+
+@media(max-width:700px){.section-detail-gallery{grid-template-columns:1fr;gap:10px;margin:28px auto}.section-detail-gallery .section-card-image{aspect-ratio:4/3}}
