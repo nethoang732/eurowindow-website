@@ -268,6 +268,7 @@ section.section:has(> .wrap > .detail-grid){padding:clamp(56px,6vw,78px) 0}
 @media(max-width:700px){.product-pricing-faq{padding:22px 0}.product-pricing-faq-layout{width:calc(100% - 40px);grid-template-columns:1fr;gap:12px}.product-pricing-faq-offer,.product-pricing-faq-answers{padding:19px;border-radius:10px}.product-pricing-faq-offer .section-head h2{font-size:29px}.product-pricing-faq-answers .section-head h2{font-size:27px}.product-pricing-faq-answers .aluminum-faq-item{padding:11px 2px}}
 
 /* Keep the featured product rail in one clean horizontal row. */
+.system-section>.wrap{width:min(1760px,calc(100% - 64px))}
 .system-section .system-marquee{position:relative;width:100%;overflow:hidden;touch-action:pan-y;mask-image:linear-gradient(90deg,transparent,#000 2.5%,#000 97.5%,transparent)}
 .system-section .system-track{display:flex!important;flex-flow:row nowrap!important;grid-template-columns:none!important;gap:16px;width:max-content;overflow:visible!important;padding:0;touch-action:pan-y;cursor:grab;user-select:none;-webkit-user-select:none;transition:transform .72s cubic-bezier(.22,1,.36,1)}
 .system-section .system-track a,.system-section .system-track img{-webkit-user-drag:none;user-drag:none;user-select:none;-webkit-user-select:none}
@@ -287,7 +288,7 @@ section.section:has(> .wrap > .detail-grid){padding:clamp(56px,6vw,78px) 0}
 .system-section .system-track.is-sliding{will-change:transform}
 .system-section .system-card[aria-hidden="true"]{pointer-events:none}
 .category-section .category-info{right:76px}
-@media(max-width:700px){.system-section .system-track{gap:12px}.system-section .system-card{flex-basis:78vw}.system-section .system-card img{height:215px}.category-section .category-info{right:66px}}
+@media(max-width:700px){.system-section>.wrap{width:calc(100% - 40px)}.system-section .system-track{gap:12px}.system-section .system-card{flex-basis:78vw}.system-section .system-card img{height:215px}.category-section .category-info{right:66px}}
 
 .door-catalog-card-hit{display:block;height:100%;color:inherit;text-decoration:none}.door-catalog-card-hit:focus-visible{outline:3px solid #b99a58;outline-offset:3px}.door-catalog-card-cta{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:18px;padding-top:12px;border-top:1px solid rgba(20,48,77,.18);color:#173b60;font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase}.door-catalog-card-cta span{color:#b99a58;font-size:16px;transition:transform .2s ease}.door-catalog-card-hit:hover .door-catalog-card-cta span{transform:translate(2px,-2px)}
 .system-section .system-marquee-control{min-height:38px;padding:0 14px;border:1px solid #ffffff55;border-radius:22px;background:transparent;color:#fff;font:600 10px/1 var(--display,'Montserrat',Arial,sans-serif);letter-spacing:.08em;text-transform:uppercase;cursor:pointer;transition:background .2s,border-color .2s,color .2s}

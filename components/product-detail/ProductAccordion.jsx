@@ -2,8 +2,9 @@
 
 import { useState } from 'react';
 import styles from './product-detail.module.css';
+import ProductText from './ProductText';
 
-export default function ProductAccordion({ items }) {
+export default function ProductAccordion({ items, emphasisTerms = [] }) {
   const [openIndex, setOpenIndex] = useState(-1);
 
   return (
@@ -31,7 +32,7 @@ export default function ProductAccordion({ items }) {
               id={panelId}
               aria-hidden={!isOpen}
             >
-              <div className={styles.faqPanelInner}><p>{answer}</p></div>
+              <div className={styles.faqPanelInner}><p><ProductText terms={emphasisTerms}>{answer}</ProductText></p></div>
             </div>
           </section>
         );

@@ -69,7 +69,7 @@ export function generateMetadata({ params }) {
 export default function Page({ params }) {
   const segments = params?.slug || [];
   const basePath = process.env.NEXT_PUBLIC_BASE_PATH || (process.env.GITHUB_ACTIONS === 'true' ? '/eurowindow-website' : '');
-  const script = <Script src={basePath + '/site-script.js?v=asset-refresh-67f9d1c-20261023'} strategy="afterInteractive" />;
+  const script = <Script src={basePath + '/site-script.js?v=contact-unified-v1-20261024'} strategy="afterInteractive" />;
   if (!sectionPageExists(segments)) {
     return <><div dangerouslySetInnerHTML={{ __html: siteShell }} />{script}</>;
   }

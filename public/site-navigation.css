@@ -1,3 +1,5 @@
+:root{--site-header-stack:128px}
+@media(max-width:700px){:root{--site-header-stack:111px}}
 /* Desktop navigation dropdowns */
 .header-utility{height:46px;background:linear-gradient(90deg,rgba(7,35,64,.94),rgba(12,52,86,.9));border-bottom:1px solid rgba(213,188,128,.62);color:#fff;box-shadow:0 4px 16px rgba(4,20,37,.14)}
 .header-utility-inner,.header-contact,.header-contact a,.header-utility-links{display:flex;align-items:center}

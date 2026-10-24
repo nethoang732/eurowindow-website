@@ -4,16 +4,19 @@ import ProductGallery from './ProductGallery';
 import ProductStoryGallery from './ProductStoryGallery';
 import ProductQuoteForm from './ProductQuoteForm';
 import ProductAccordion from './ProductAccordion';
+import ProductText from './ProductText';
 import { ProductFooter, ProductHeader } from './ProductHeader';
 import { getAluminumProduct } from '../../lib/products/cua-nhom';
 import { getCatalogProduct } from '../../lib/products/catalog-products';
+import { applyEditorialContent } from '../../lib/products/editorial-content';
 import styles from './product-detail.module.css';
 
 function JsonLd({ data }) {
   return <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(data).replace(/</g, '\\u003c') }} />;
 }
 
-export default function ProductDetail({ product, canonicalUrl, siteOrigin }) {
+export default function ProductDetail({ product: sourceProduct, canonicalUrl, siteOrigin }) {
+  const product = applyEditorialContent(sourceProduct);
   const imageUrls = siteOrigin
     ? product.gallery.filter(item => !item.src.startsWith('data:') && !item.src.toLowerCase().endsWith('.svg')).map(item => new URL(item.src, siteOrigin).toString())
     : undefined;
@@ -34,6 +37,13 @@ export default function ProductDetail({ product, canonicalUrl, siteOrigin }) {
     ]
   };
   const relatedProducts = (product.related || []).map((slug) => getAluminumProduct(slug) || getCatalogProduct(slug)).filter(Boolean);
+  // Keep the hero image distinct from the single editorial gallery and
+  // continue through the remaining product photos in application cards.
+  const galleryImages = product.gallery || [];
+  const storyImages = galleryImages.length > 1
+    ? [...galleryImages.slice(1), galleryImages[0]]
+    : galleryImages;
+  const emphasisTerms = [product.name, product.category, product.familyTitle, ...(product.heroFacts || [])];
   const familyPath = `/san-pham/${product.familySlug || 'cua-nhom'}/`;
   const constructionRows = new Map();
   [...(product.constructionFacts || []), ...(product.specifications || [])].forEach(([label, value]) => {
@@ -55,7 +65,7 @@ export default function ProductDetail({ product, canonicalUrl, siteOrigin }) {
               <div className={styles.heroCopy}>
                 <p className={styles.kicker}>{product.heroKicker || 'Cửa đi nhôm · Mở quay ngoài'}</p>
                 <h1 id="product-title">{product.name}</h1>
-                <p className={styles.lead}>{product.summary}</p>
+                <p className={styles.lead}><ProductText terms={emphasisTerms}>{product.summary}</ProductText></p>
                 <div className={styles.actions}><Link className={styles.primaryButton} href="#bao-gia">Nhận tư vấn cấu hình</Link><Link className={styles.secondaryLink} href="#thong-so">{product.showBatchExtensions ? 'Xem cấu tạo và thông số' : 'Xem cấu tạo và kích thước'} <span aria-hidden="true">↓</span></Link></div>
                 {product.heroFacts?.length ? <p className={styles.factLine}>{product.heroFacts.map((fact, index) => <span key={fact}>{index > 0 ? <span aria-hidden="true"> · </span> : null}{fact}</span>)}</p> : <p className={styles.factLine}>2 cánh <span aria-hidden="true">·</span> Mở ra ngoài <span aria-hidden="true">·</span> EA60i / EA55</p>}
               </div>
@@ -65,12 +75,21 @@ export default function ProductDetail({ product, canonicalUrl, siteOrigin }) {
         </section>
         <section className={styles.benefits} aria-labelledby="benefit-title"><div className={styles.wrap}>
           <div className={styles.sectionHeading}><div><p className={styles.kicker}>{product.showBatchExtensions ? 'Đặc điểm' : 'Công năng'}</p><h2 id="benefit-title">{product.benefitHeading || 'Giữ phần diện tích bên trong thông thoáng'}</h2></div></div>
-          <div className={`${styles.benefitList} ${styles.highlightGrid}`}>{product.benefits.map(([title, text], index) => <article key={title}><span className={styles.benefitIndex}>{String(index + 1).padStart(2, '0')}</span><h3>{title}</h3><p>{text}</p></article>)}</div>
+          <div className={`${styles.benefitList} ${styles.highlightGrid}`}>{product.benefits.map(([title, text], index) => <article key={title}><span className={styles.benefitIndex}>{String(index + 1).padStart(2, '0')}</span><h3>{title}</h3><p><ProductText terms={emphasisTerms}>{text}</ProductText></p></article>)}</div>
         </div></section>
+        {product.editorialIntro?.length || product.editorialSections?.length ? <section className={styles.editorial} aria-labelledby="editorial-title"><div className={styles.wrap}>
+          <div className={styles.sectionHeading}><div><p className={styles.kicker}>Thông tin sản phẩm</p><h2 id="editorial-title">Tìm hiểu chi tiết {product.name}</h2></div></div>
+          {product.editorialIntro?.map((paragraph, index) => <p className={styles.editorialLead} key={`intro-${index}`}>{paragraph}</p>)}
+          <div className={styles.editorialGrid}>{product.editorialSections?.map((section, index) => <article className={styles.editorialBlock} key={`${section.heading}-${index}`}>
+            {section.heading ? <h3>{section.heading}</h3> : null}
+            {section.paragraphs.map((paragraph, paragraphIndex) => <p key={paragraphIndex}>{paragraph}</p>)}
+            {section.captions.map((caption, captionIndex) => <p className={styles.editorialCaption} key={`caption-${captionIndex}`}>{caption}</p>)}
+          </article>)}</div>
+        </div></section> : null}
         <section className={styles.productStory} aria-labelledby="product-story-title">
           <div className={`${styles.wrap} ${styles.productStoryGrid}`}>
-            {product.detailImage ? <ProductStoryGallery images={product.gallery} productName={product.name} /> : null}
-            <div className={styles.storyCopy}><p className={styles.kicker}>Thiết kế và vận hành</p><h2 id="product-story-title">{product.benefitHeading || product.name}</h2><p>{product.summary}</p><Link className={styles.storyLink} href="#thong-so">Xem cấu tạo và thông số <span aria-hidden="true">↓</span></Link>
+            {product.detailImage ? <ProductStoryGallery images={storyImages} productName={product.name} /> : null}
+            <div className={styles.storyCopy}><p className={styles.kicker}>Thiết kế và vận hành</p><h2 id="product-story-title">{product.benefitHeading || product.name}</h2><p><ProductText terms={emphasisTerms}>{product.summary}</ProductText></p><Link className={styles.storyLink} href="#thong-so">Xem cấu tạo và thông số <span aria-hidden="true">↓</span></Link>
 
             </div>
           </div>
@@ -78,17 +97,18 @@ export default function ProductDetail({ product, canonicalUrl, siteOrigin }) {
         <section className={styles.construction} id="thong-so" aria-labelledby="construction-title"><div className={styles.wrap}>
           <div className={styles.constructionIntro}><div><p className={styles.kicker}>Thông tin sản phẩm</p><h2 id="construction-title">Cấu tạo và thông số</h2></div></div>
           <div className={`${styles.constructionBody} ${product.isIllustration ? styles.constructionBodyTextOnly : ""}`}>
-            {!product.isIllustration && product.detailImage ? <div className={styles.diagramCard}><Image src={product.detailImage.src} alt={product.detailImage.alt} width={720} height={540} sizes="(max-width: 800px) 100vw, 40vw" /></div> : null}
-            {constructionRows.size ? <table className={styles.specTable} aria-label="Cấu tạo và thông số sản phẩm"><tbody>{[...constructionRows.values()].map(([label, value]) => <tr className={styles.specRow} key={label}><th scope="row">{label}</th><td>{value}</td></tr>)}</tbody></table> : null}
+            {constructionRows.size ? <table className={styles.specTable} aria-label="Cấu tạo và thông số sản phẩm"><tbody>{[...constructionRows.values()].map(([label, value]) => <tr className={styles.specRow} key={label}><th scope="row">{label}</th><td><ProductText terms={emphasisTerms}>{value}</ProductText></td></tr>)}</tbody></table> : null}
           </div>
         </div></section>
         {product.showBatchExtensions && product.applications?.length ? <section className={styles.applications} aria-labelledby="application-title"><div className={styles.wrap}>
           <div className={styles.sectionHeading}><div><p className={styles.kicker}>Vị trí sử dụng</p><h2 id="application-title">Ứng dụng theo không gian</h2></div></div>
-          <div className={styles.applicationGrid}>{product.applications.map(([title, text], index) => { const image = product.gallery[index % product.gallery.length]; return <article className={styles.applicationCard} key={title}>{image ? <Image src={image.src} alt={image.alt || product.name} width={560} height={360} sizes="(max-width: 700px) 100vw, 25vw" /> : null}<div><h3>{title}</h3><p>{text}</p></div></article>; })}</div>
+          {product.applicationText?.map((paragraph, index) => <p className={styles.applicationIntro} key={`application-${index}`}>{paragraph}</p>)}
+          {product.applicationPlaces?.length ? <div className={styles.applicationPlaces}>{product.applicationPlaces.map((place) => <span key={place}>{place}</span>)}</div> : null}
+          <div className={styles.applicationGrid}>{product.applications.map(([title, text], index) => { const image = galleryImages.length ? galleryImages[(index + 3) % galleryImages.length] : null; return <article className={styles.applicationCard} key={title}>{image ? <Image src={image.src} alt={image.alt || product.name} width={560} height={360} sizes="(max-width: 700px) 100vw, 25vw" /> : null}<div><h3>{title}</h3><p><ProductText terms={emphasisTerms}>{text}</ProductText></p></div></article>; })}</div>
         </div></section> : null}
         <section className={styles.faq} aria-labelledby="faq-title"><div className={styles.wrap}>
           <div className={styles.sectionHeading}><div><p className={styles.kicker}>Giải đáp</p><h2 id="faq-title">{product.showBatchExtensions ? `Giải đáp về ${product.name}` : 'Giải đáp trước khi chọn cửa'}</h2></div></div>
-          <ProductAccordion items={product.faqs} />
+          <ProductAccordion items={product.faqs} emphasisTerms={emphasisTerms} />
         </div></section>
         {product.showBatchExtensions && relatedProducts.length ? <section className={styles.related} aria-labelledby="related-title"><div className={styles.wrap}>
           <div className={styles.sectionHeading}><div><p className={styles.kicker}>Khám phá thêm</p><h2 id="related-title">Sản phẩm liên quan</h2></div></div>
