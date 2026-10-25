@@ -320,7 +320,8 @@ script = script.replace("document.querySelector('#main').innerHTML=html;const ti
 script = script.replace("a.getAttribute('href')===p|| (p.startsWith(a.getAttribute('href')+'/')", "stripBase(a.getAttribute('href'))===p|| (p.startsWith(stripBase(a.getAttribute('href'))+'/')");
 script = script.replace("u.pathname===(location.pathname||'/')", "stripBase(u.pathname)===stripBase(location.pathname||'/')");
 script = script.replace('navigate(u.pathname+u.search)', 'navigate(stripBase(u.pathname)+u.search)');
-script = script.replace("if(u.origin===location.origin){e.preventDefault();", "if(u.origin===location.origin){if(document.querySelector('#main[data-server-route]')||a.hasAttribute('data-next-route'))return;const productPath=stripBase(u.pathname).split('/').filter(Boolean);if(productPath.length===3&&productPath[0]==='san-pham'&&['cua-nhom','cua-upvc','cua-go','cua-cuon','cua-thong-minh-the-he-moi','vach-kinh-mat-dung'].includes(productPath[1]))return;e.preventDefault();");
+script = script.replace("if(u.origin===location.origin){e.preventDefault();", "if(u.origin===location.origin){if(e.defaultPrevented||!document.querySelector('#main')||document.querySelector('#main[data-server-route]')||a.hasAttribute('data-next-route'))return;const productPath=stripBase(u.pathname).split('/').filter(Boolean);if(productPath.length===3&&productPath[0]==='san-pham'&&['cua-nhom','cua-upvc','cua-go','cua-cuon','cua-thong-minh-the-he-moi','vach-kinh-mat-dung'].includes(productPath[1]))return;e.preventDefault();");
+script = script.replace("window.addEventListener('scroll',()=>document.querySelector('#header').classList.toggle('scrolled',window.scrollY>35),{passive:true});render();", "window.addEventListener('scroll',()=>document.querySelector('#header').classList.toggle('scrolled',window.scrollY>35),{passive:true});window.__EUROWINDOW_RENDER__=render;render();");
 script = script.replace("function navigate(url){history.pushState({},'',url);render()}", "function navigate(url){history.pushState({},'',BASE_PATH+url);render()}");
 script = script.replace("if(!a||a.target==='_blank'||e.metaKey", "if(!a||a.hasAttribute('download')||a.target==='_blank'||e.metaKey");
 script = script.replace("document.querySelector(u.hash)?.scrollIntoView({behavior:'smooth'})", "window.__EUROWINDOW_LENIS__?window.__EUROWINDOW_LENIS__.scrollTo(document.querySelector(u.hash)):document.querySelector(u.hash)?.scrollIntoView({behavior:'smooth'})");
@@ -644,11 +645,12 @@ script = script.replace("const titles={'/':", "const titles={'/catalogue':'Catal
 if(renderFunctionIndex<0)throw new Error('Could not locate route renderer for Catalogue viewer');
 script=script.slice(0,renderFunctionIndex)+cataloguePdfViewerScript+'\n'+script.slice(renderFunctionIndex);
 const legacyRenderer = 'function render(){';
-const guardedRenderer = "function render(){if(document.querySelector('#main[data-server-route]'))return;";
+const guardedRenderer = "function render(){if(!document.querySelector('#main')||document.querySelector('#main[data-server-route]'))return;";
 if (!script.includes(legacyRenderer)) throw new Error('Could not locate the legacy renderer for server route protection');
 script = script.replace(legacyRenderer, guardedRenderer);
 if (!script.includes(guardedRenderer)) throw new Error('Could not protect server-rendered routes from the legacy renderer');
 script=script.replace("document.querySelector('#main').innerHTML=html;", "document.querySelector('#main').innerHTML=html;if(p==='/catalogue')initCataloguePdfViewer();");
+script = `if(window.__EUROWINDOW_LEGACY_SCRIPT_READY__){window.__EUROWINDOW_RENDER__?.();}else{(()=>{${script}\nwindow.__EUROWINDOW_LEGACY_SCRIPT_READY__=true;})();}`;
 fs.writeFileSync(path.join(publicDir, 'site-script.js'), script);
 const pageShell = shell.replace(/<main id="main">[\s\S]*?<\/main>/i, '<main id="main"></main>');
 if (!pageShell.includes('<main id="main"></main>')) throw new Error('Could not create the page shell placeholder');

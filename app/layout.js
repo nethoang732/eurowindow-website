@@ -1,5 +1,6 @@
 import './globals.css';
 import InternalRouteNavigation from '../components/InternalRouteNavigation';
+import FloatingContactButtons from '../components/FloatingContactButtons';
 
 export const metadata = {
   icons: {
@@ -25,7 +26,7 @@ export default function RootLayout({ children }) {
         <link rel="stylesheet" href={basePath + '/site-product-pages.css?v=full-site-visual-fix-2026-10-18'} />
         <link rel="stylesheet" href={basePath + '/site-content-sections.css?v=policy-documents-v2-20261024'} />
       </head>
-      <body><InternalRouteNavigation />{children}</body>
+      <body><InternalRouteNavigation /><FloatingContactButtons />{children}</body>
     </html>
   );
 }

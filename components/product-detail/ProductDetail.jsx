@@ -53,7 +53,6 @@ export default function ProductDetail({ product: sourceProduct, canonicalUrl, si
 
   return (
     <>
-      <a className={styles.skipLink} href="#main-content">Bỏ qua đến nội dung chính</a>
       <JsonLd data={productSchema} /><JsonLd data={breadcrumbSchema} /><ProductHeader />
       <main id="main-content" className={`${styles.page} ${product.showBatchExtensions ? styles.batchPage : ""}`}>
         <section className={styles.hero} aria-labelledby="product-title">

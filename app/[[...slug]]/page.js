@@ -1,6 +1,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import Script from 'next/script';
+import LegacySiteScript from '../../components/LegacySiteScript';
 import { SectionPage, sectionPageExists } from '../../components/site-sections/SectionPage';
 import { getSectionDescriptor, getSectionPaths, getSiteOrigin } from '../../lib/content/site-section-utils';
 import content from '../../lib/content/site-sections.json';
@@ -69,9 +70,9 @@ export function generateMetadata({ params }) {
 export default function Page({ params }) {
   const segments = params?.slug || [];
   const basePath = process.env.NEXT_PUBLIC_BASE_PATH || (process.env.GITHUB_ACTIONS === 'true' ? '/eurowindow-website' : '');
-  const script = <Script src={basePath + '/site-script.js?v=header-nav-fix-v1-20261024'} strategy="afterInteractive" />;
+  const script = <Script src={basePath + '/site-script.js?v=hero-video-only-v1-20261025'} strategy="afterInteractive" />;
   if (!sectionPageExists(segments)) {
-    return <><div dangerouslySetInnerHTML={{ __html: siteShell }} />{script}</>;
+    return <><div dangerouslySetInnerHTML={{ __html: siteShell }} /><LegacySiteScript routeKey={segments.join('/')} /></>;
   }
   const parts = siteShell.split('<main id="main"></main>');
   if (parts.length !== 2) throw new Error('Could not place server-rendered section inside the site shell');

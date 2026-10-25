@@ -3,6 +3,7 @@ import Link from 'next/link';
 import content from '../../lib/content/site-sections.json';
 import ShowroomDirectory from './ShowroomDirectory';
 import NewsDirectory from './NewsDirectory';
+import ProjectDirectory from './ProjectDirectory';
 import { getSectionDescriptor, getSiteOrigin } from '../../lib/content/site-section-utils';
 import { detailedWarrantyUrl, warrantyPolicyContent } from '../../lib/content/warranty-policy';
 
@@ -103,10 +104,6 @@ function ArticleCard({ article }) {
       </RouteLink>
     </article>
   );
-}
-
-function CategoryLinks({ base, items, current }) {
-  return <nav className="section-category-nav" aria-label="Danh mục"><RouteLink className={!current ? 'is-current' : ''} href={base + '/'}>Tất cả</RouteLink>{items.map((item) => <RouteLink key={item.slug} className={current === item.slug ? 'is-current' : ''} href={base + '/' + item.slug + '/'}>{item.name}</RouteLink>)}</nav>;
 }
 
 function JsonLd({ value }) {
@@ -232,11 +229,12 @@ export function SectionPage({ segments = [] }) {
   </article>)}</div></div></section></>;
   if (descriptor.type === 'videos') return <><PageHero segments={segments} descriptor={descriptor} eyebrow="VIDEO" /><VideoDirectory /></>;
   if (descriptor.type === 'project-category' || descriptor.type === 'projects') {
-    const projects = content.projects.filter((item) => !descriptor.category || item.category === descriptor.category.slug);
-    return <><PageHero segments={segments} descriptor={descriptor} eyebrow="CÔNG TRÌNH TIÊU BIỂU" /><section className="section-content-area"><div className="wrap"><CategoryLinks base="/cong-trinh-tieu-bieu" items={content.projectCategories} current={descriptor.category?.slug} /><div className="section-content-grid">{projects.map((item) => <ProjectCard project={item} key={item.slug} />)}</div></div></section></>;
+    const projectsDescriptor = descriptor.category ? getSectionDescriptor(['cong-trinh-tieu-bieu']) : descriptor;
+    return <><PageHero segments={segments} descriptor={projectsDescriptor} eyebrow="CÔNG TRÌNH TIÊU BIỂU" /><section className="section-content-area"><div className="wrap"><ProjectDirectory projects={content.projects} categories={content.projectCategories} currentCategory={descriptor.category?.slug || ''} /></div></section></>;
   }
-  const articles = content.articles.filter((item) => item.image && (!descriptor.category || item.category === descriptor.category.slug)).map(({ slug, category, date, image, title, summary }) => ({ slug, category, date, image, title, summary }));
-  return <><PageHero segments={segments} descriptor={descriptor} eyebrow={descriptor.category?.name || 'TIN TỨC'} /><section className="section-content-area news-content-area"><div className="wrap"><NewsDirectory articles={articles} categories={content.newsCategories} currentCategory={descriptor.category?.slug || ''} /></div></section></>;
+  const articles = content.articles.filter((item) => item.image).map(({ slug, category, date, image, title, summary }) => ({ slug, category, date, image, title, summary }));
+  const newsDescriptor = descriptor.category ? getSectionDescriptor(['tin-tuc']) : descriptor;
+  return <><PageHero segments={segments} descriptor={newsDescriptor} eyebrow="TIN TỨC" /><section className="section-content-area news-content-area"><div className="wrap"><NewsDirectory articles={articles} categories={content.newsCategories} currentCategory={descriptor.category?.slug || ''} /></div></section></>;
 }
 
 export function sectionPageExists(segments = []) {

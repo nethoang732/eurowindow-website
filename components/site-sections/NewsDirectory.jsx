@@ -1,12 +1,21 @@
 'use client';
 
-import { useId, useMemo, useState } from 'react';
+import { useCallback, useEffect, useId, useMemo, useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 
 const PAGE_SIZE = 8;
 const formatDate = (value) => new Intl.DateTimeFormat('vi-VN', { day: '2-digit', month: 'long', year: 'numeric', timeZone: 'UTC' }).format(new Date(value + 'T12:00:00Z'));
 const categoryLabel = (value) => value.toLocaleLowerCase('vi').replace(/(^|\s)\p{L}/gu, (letter) => letter.toLocaleUpperCase('vi'));
+
+function categoryFromPath(pathname) {
+  return pathname.match(/\/tin-tuc\/([^/]+)\/?$/)?.[1] || '';
+}
+
+function categoryPath(category) {
+  const basePath = process.env.NEXT_PUBLIC_BASE_PATH || (process.env.GITHUB_ACTIONS === 'true' ? '/eurowindow-website' : '');
+  return `${basePath}/tin-tuc/${category ? `${category}/` : ''}`;
+}
 
 function NewsCard({ article, category, featured = false }) {
   return (
@@ -35,16 +44,33 @@ export default function NewsDirectory({ articles, categories, currentCategory = 
   const searchId = useId();
   const [query, setQuery] = useState('');
   const [page, setPage] = useState(1);
+  const [selectedCategory, setSelectedCategory] = useState(currentCategory);
+  useEffect(() => {
+    const syncCategory = () => {
+      setSelectedCategory(categoryFromPath(window.location.pathname));
+      setPage(1);
+    };
+    window.addEventListener('popstate', syncCategory);
+    return () => window.removeEventListener('popstate', syncCategory);
+  }, []);
+  const selectCategory = useCallback((event, category) => {
+    if (event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+    event.preventDefault();
+    const nextPath = categoryPath(category);
+    if (window.location.pathname !== nextPath) window.history.pushState({ newsCategory: category }, '', nextPath);
+    setSelectedCategory(category);
+    setPage(1);
+  }, []);
   const categoryNames = useMemo(() => Object.fromEntries(categories.map((category) => [category.slug, category.name])), [categories]);
   const filtered = useMemo(() => {
     const normalizedQuery = query.trim().toLocaleLowerCase('vi');
     return articles.filter((article) => {
-      if (currentCategory && article.category !== currentCategory) return false;
+      if (selectedCategory && article.category !== selectedCategory) return false;
       if (!normalizedQuery) return true;
       const text = `${article.title} ${article.summary || ''} ${categoryNames[article.category] || ''}`.toLocaleLowerCase('vi');
       return text.includes(normalizedQuery);
     });
-  }, [articles, categoryNames, currentCategory, query]);
+  }, [articles, categoryNames, selectedCategory, query]);
   const pageCount = Math.max(1, Math.ceil(filtered.length / PAGE_SIZE));
   const safePage = Math.min(page, pageCount);
   const visible = filtered.slice((safePage - 1) * PAGE_SIZE, safePage * PAGE_SIZE);
@@ -55,8 +81,8 @@ export default function NewsDirectory({ articles, categories, currentCategory = 
     <div className="news-directory">
       <div className="news-toolbar">
         <nav className="news-category-tabs" aria-label="Lọc tin theo danh mục">
-          <Link href="/tin-tuc/" data-next-route="true" className={!currentCategory ? 'is-current' : ''}>Tất cả</Link>
-          {categories.map((category) => <Link key={category.slug} href={`/tin-tuc/${category.slug}/`} data-next-route="true" className={currentCategory === category.slug ? 'is-current' : ''}>{categoryLabel(category.name)}</Link>)}
+          <a href={categoryPath('')} onClick={(event) => selectCategory(event, '')} aria-current={!selectedCategory ? 'page' : undefined} className={!selectedCategory ? 'is-current' : ''}>Tất cả</a>
+          {categories.map((category) => <a key={category.slug} href={categoryPath(category.slug)} onClick={(event) => selectCategory(event, category.slug)} aria-current={selectedCategory === category.slug ? 'page' : undefined} className={selectedCategory === category.slug ? 'is-current' : ''}>{categoryLabel(category.name)}</a>)}
         </nav>
         <label className="news-search" htmlFor={searchId}>
           <span className="sr-only">Tìm kiếm tin tức</span>

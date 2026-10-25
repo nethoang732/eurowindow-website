@@ -37,7 +37,7 @@ export default function SiteShell({ initialMarkup = '' }) {
         rootRef.current.innerHTML = markup;
         window.__EUROWINDOW_BASE_PATH__ = basePath;
         const script = document.createElement('script');
-        script.src = `${basePath}/site-script.js?v=header-nav-fix-v1-20261024`;
+        script.src = `${basePath}/site-script.js?v=hero-video-only-v1-20261025`;
         rootRef.current.appendChild(script);
       })
       .catch((error) => {

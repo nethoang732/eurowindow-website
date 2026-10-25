@@ -105,15 +105,19 @@ export function ProductFooter() {
     <footer className="footer">
       <div className="wrap">
         <div className="footer-grid">
-          <div>
-            <Link className="brand brand-image" href="/" aria-label="Eurowindow, trang chủ"><Image src="/eurowindow-logo.png" alt="Eurowindow" width={216} height={54} /></Link>
-            <p className="footer-copy">Giải pháp cửa nhôm kính cho những công trình đề cao ánh sáng, độ bền và vẻ đẹp kiến trúc.</p>
-            <div className="footer-links"><Link href="/bao-gia/">Bắt đầu dự án ↗</Link></div>
+          <div className="footer-brand-column">
+            <Link className="brand brand-image" href="/" aria-label="Eurowindow, trang ch&#7911;"><Image src="/eurowindow-logo.png" alt="Eurowindow" width={216} height={54} /></Link>
+            <p className="footer-copy">Eurowindow cung c&#7845;p gi&#7843;i ph&#225;p t&#7893;ng th&#7875; v&#7873; c&#7917;a, v&#225;ch nh&#244;m k&#237;nh ti&#234;u chu&#7849;n Ch&#226;u &#194;u v&#224; v&#7853;t li&#7879;u ki&#7871;n tr&#250;c cao c&#7845;p cho c&#225;c c&#244;ng tr&#236;nh hi&#7879;n &#273;&#7841;i.</p><a className="footer-call-cta" href="tel:0967111082"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6.6 3.5 9 3l2 4.2-2 1.7a15 15 0 0 0 6.1 6.1l1.7-2 4.2 2-.5 2.4a2 2 0 0 1-2 1.6A15.5 15.5 0 0 1 5 5.5a2 2 0 0 1 1.6-2Z" /></svg><span><small>G&#7885;i t&#432; v&#7845;n</small><strong>0967 111 082</strong></span><b aria-hidden="true"></b></a>
           </div>
-          <div><h4>Khám phá</h4><div className="footer-links"><Link href="/gioi-thieu/">Về Eurowindow</Link><Link href="/san-pham/">Sản phẩm</Link><Link href="/he-nhom/">Hệ nhôm</Link><Link href="/du-an/">Công trình</Link></div></div>
-          <div><h4>Thông tin</h4><div className="footer-links"><Link href="/tin-tuc/">Góc kiến trúc</Link><Link href="/lien-he/">Liên hệ</Link><Link href="/bao-gia/">Yêu cầu báo giá</Link><a href="tel:+842437474700">(024) 3747 4700</a></div></div>
+          <div><h4>K&#7871;t n&#7889;i</h4><div className="footer-contact-list">
+            <a className="footer-contact-item" href="tel:0967111082"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6.6 3.5 9 3l2 4.2-2 1.7a15 15 0 0 0 6.1 6.1l1.7-2 4.2 2-.5 2.4a2 2 0 0 1-2 1.6A15.5 15.5 0 0 1 5 5.5a2 2 0 0 1 1.6-2Z" /></svg><span><small>Hotline t&#432; v&#7845;n</small><strong>0967 111 082</strong></span></a>
+            <a className="footer-contact-item" href="mailto:hoangnm3@eurowindow.biz"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="1" /><path d="m4 7 8 6 8-6" /></svg><span><small>Email</small><strong>hoangnm3@eurowindow.biz</strong></span></a>
+            <div className="footer-contact-item"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 10c0 5-8 12-8 12S4 15 4 10a8 8 0 1 1 16 0Z" /><circle cx="12" cy="10" r="2.5" /></svg><span><small>&#272;&#7883;a ch&#7881;</small><strong>02 T&#244;n Th&#7845;t T&#249;ng, Kim Li&#234;n,<br />H&#224; N&#7897;i</strong></span></div>
+          </div></div>
+          <div><h4>Kh&#225;m ph&#225;</h4><div className="footer-links"><Link href="/gioi-thieu/">V&#7873; Eurowindow</Link><Link href="/san-pham/">S&#7843;n ph&#7849;m</Link><Link href="/he-nhom/">H&#7879; nh&#244;m</Link><Link href="/cong-trinh-tieu-bieu/">C&#244;ng tr&#236;nh ti&#234;u bi&#7875;u</Link><Link href="/showroom/">H&#7879; th&#7889;ng showroom</Link></div></div>
+          <div><h4>Th&#244;ng tin</h4><div className="footer-links"><Link href="/tin-tuc/">Tin t&#7913;c</Link><Link href="/chinh-sach/">Ch&#237;nh s&#225;ch b&#7843;o h&#224;nh</Link><Link href="/bao-gia/">Li&#234;n h&#7879;</Link></div></div>
         </div>
-        <div className="footer-bottom"><span>© 2026 Eurowindow.</span></div>
+        <div className="footer-bottom"><span>&copy; 2026 Eurowindow. T&#7845;t c&#7843; quy&#7873;n &#273;&#432;&#7907;c b&#7843;o l&#432;u.</span><div className="footer-social" aria-label="M&#7841;ng x&#227; h&#7897;i"><a href="https://www.facebook.com/eurowindow.biz/" target="_blank" rel="noopener noreferrer" aria-label="Facebook" title="Facebook"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M13.5 21v-8h2.7l.4-3h-3.1V8.1c0-.9.3-1.5 1.6-1.5h1.7V3.9c-.3 0-1.3-.1-2.5-.1-2.5 0-4.2 1.5-4.2 4.3V10H7.3v3h2.8v8" /></svg></a><a href="https://zalo.me/0967111082" target="_blank" rel="noopener noreferrer" aria-label="Zalo" title="Zalo"><span className="footer-zalo-mark">Z</span></a><a href="https://www.youtube.com/eurowindow" target="_blank" rel="noopener noreferrer" aria-label="YouTube" title="YouTube"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21 8.2a2.8 2.8 0 0 0-2-2C17.2 5.7 12 5.7 12 5.7s-5.2 0-7 .5a2.8 2.8 0 0 0-2 2A29 29 0 0 0 2.5 12a29 29 0 0 0 .5 3.8 2.8 2.8 0 0 0 2 2c1.8.5 7 .5 7 .5s5.2 0 7-.5a2.8 2.8 0 0 0 2-2A29 29 0 0 0 21.5 12a29 29 0 0 0-.5-3.8Z" /><path d="m10 15 5-3-5-3v6Z" /></svg></a></div></div>
       </div>
     </footer>
   );
