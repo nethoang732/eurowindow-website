@@ -10,11 +10,11 @@ export default function SiteShell({ initialMarkup = '' }) {
   useEffect(() => {
     const lenis = new Lenis({
       autoRaf: true,
-      smoothWheel: true,
+      smoothWheel: false,
       syncTouch: false,
       // The site keeps smooth scrolling enabled for every visitor. Reduced-motion
       // preferences are handled by shortening and softening decorative transitions.
-      respectReducedMotion: false
+      respectReducedMotion: true
     });
     window.__EUROWINDOW_LENIS__ = lenis;
 
@@ -26,6 +26,7 @@ export default function SiteShell({ initialMarkup = '' }) {
 
   useEffect(() => {
     let cancelled = false;
+    let siteScript = null;
 
     fetch(`${basePath}/site-shell.html?v=header-nav-fix-v1-20261024`)
       .then((response) => {
@@ -36,9 +37,9 @@ export default function SiteShell({ initialMarkup = '' }) {
         if (cancelled || !rootRef.current) return;
         rootRef.current.innerHTML = markup;
         window.__EUROWINDOW_BASE_PATH__ = basePath;
-        const script = document.createElement('script');
-        script.src = `${basePath}/site-script.js?v=hero-video-only-v1-20261025`;
-        rootRef.current.appendChild(script);
+        siteScript = document.createElement('script');
+        siteScript.src = `${basePath}/site-script.js?v=hero-video-only-v1-20261025`;
+        rootRef.current.appendChild(siteScript);
       })
       .catch((error) => {
         if (!cancelled && rootRef.current) {

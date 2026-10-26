@@ -4,6 +4,7 @@ import ProductGallery from './ProductGallery';
 import ProductStoryGallery from './ProductStoryGallery';
 import ProductQuoteForm from './ProductQuoteForm';
 import ProductAccordion from './ProductAccordion';
+import MobileProductCta from './MobileProductCta';
 import ProductText from './ProductText';
 import { ProductFooter, ProductHeader } from './ProductHeader';
 import { getAluminumProduct } from '../../lib/products/cua-nhom';
@@ -55,7 +56,7 @@ export default function ProductDetail({ product: sourceProduct, canonicalUrl, si
     <>
       <JsonLd data={productSchema} /><JsonLd data={breadcrumbSchema} /><ProductHeader />
       <main id="main-content" className={`${styles.page} ${product.showBatchExtensions ? styles.batchPage : ""}`}>
-        <section className={styles.hero} aria-labelledby="product-title">
+        <section className={styles.hero} data-product-hero aria-labelledby="product-title">
           <div className={styles.wrap}>
             <nav className={styles.breadcrumb} aria-label="Breadcrumb">
               <Link href="/">Trang chủ</Link><span aria-hidden="true">/</span><Link href="/san-pham/">Sản phẩm</Link><span aria-hidden="true">/</span><Link href={familyPath}>{product.familyTitle || 'Cửa nhôm'}</Link><span aria-hidden="true">/</span><span aria-current="page">{product.name}</span>
@@ -117,7 +118,7 @@ export default function ProductDetail({ product: sourceProduct, canonicalUrl, si
           <div><p className={styles.kicker}>Trao đổi cấu hình</p><h2 id="quote-title">Bắt đầu từ vị trí lắp đặt</h2><p>Gọi (024) 3747 4700 để trao đổi cấu hình và nhận báo giá. Biểu mẫu bên cạnh chỉ kiểm tra dữ liệu trên thiết bị.</p></div>
           <ProductQuoteForm productName={product.name} />
         </div></div></section>
-        {product.showBatchExtensions ? <div className={styles.mobileCta}><Link href="#bao-gia">Nhận tư vấn cấu hình</Link></div> : null}
+        {product.showBatchExtensions ? <MobileProductCta /> : null}
       </main>
       <ProductFooter />
     </>

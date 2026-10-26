@@ -156,3 +156,5 @@ html.lenis.lenis-smooth {
     transition: none;
   }
 }
+
+@media(max-width:700px){.floating-contact__button{width:44px;height:44px;min-width:44px;min-height:44px}}

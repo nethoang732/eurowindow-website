@@ -131,3 +131,9 @@
 .applicationPlaces{display:flex;flex-wrap:wrap;gap:8px;margin:16px 0 20px}
 .applicationPlaces span{padding:8px 12px;border:1px solid #d8d1c1;background:#f8f6f0;color:var(--pd-navy);font-size:13px;font-weight:600}
 @media(max-width:700px){.editorial{padding:40px 0}.editorialGrid{grid-template-columns:1fr;gap:10px}.editorialBlock{padding:17px}.editorialBlock h3{font-size:17px}.editorialBlock p,.editorialLead,.applicationIntro{font-size:14px}.applicationPlaces{gap:6px}.applicationPlaces span{font-size:12px}}
+
+@media(max-width:1000px){.galleryControls button{min-width:44px;min-height:44px}}
+@media(max-width:700px){.galleryControls button{width:44px;height:44px}.construction,.quote{scroll-margin-top:92px}.mobileCta[hidden]{display:none!important}}
+@media(pointer:coarse){.galleryControls button{min-width:44px;min-height:44px}}
+.galleryStage,.galleryMain{min-width:0}.galleryMain{width:100%;max-width:100%}
+@media(prefers-reduced-motion:reduce){.page *,.page *::before,.page *::after{animation-duration:.01ms!important;animation-iteration-count:1!important;scroll-behavior:auto!important;transition-duration:.01ms!important}}

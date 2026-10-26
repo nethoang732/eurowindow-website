@@ -109,17 +109,17 @@
     {
       "slug": "cong-trinh-cap-quoc-gia",
       "name": "CÔNG TRÌNH CẤP QUỐC GIA",
-      "description": "Tổng hợp các công trình cấp quốc gia của Eurowindow đã cung cấp và thi công hoàn thiện."
+      "description": "Các công trình cấp quốc gia có sự tham gia cung cấp hoặc thi công hoàn thiện của Eurowindow."
     },
     {
       "slug": "toa-nha-van-phong-chung-cu",
       "name": "TÒA NHÀ VP - CHUNG CƯ",
-      "description": "Tổng hợp các công trình tòa nhà văn phòng - chung cư của Eurowindow."
+      "description": "Công trình văn phòng và chung cư có sản phẩm Eurowindow được sử dụng."
     },
     {
       "slug": "cong-trinh-dan-dung",
       "name": "CÔNG TRÌNH DÂN DỤNG",
-      "description": "Tổng hợp các công trình dân dụng của Eurowindow đã cung cấp và thi công hoàn thiện."
+      "description": "Nhà ở và công trình dân dụng sử dụng sản phẩm Eurowindow."
     }
   ],
   "projects": [
@@ -185,22 +185,22 @@
     {
       "slug": "tin-tuc-su-kien",
       "name": "TIN TỨC SỰ KIỆN",
-      "description": "Tổng hợp toàn bộ các tin tức sự kiện mới nhất về Eurowindow nhanh - chính xác"
+      "description": "Tin sự kiện và hoạt động mới của Eurowindow."
     },
     {
       "slug": "tin-du-an",
       "name": "TIN DỰ ÁN",
-      "description": "TIN DỰ ÁN"
+      "description": "Cập nhật thông tin về các dự án có sự tham gia của Eurowindow."
     },
     {
       "slug": "tin-noi-bo",
       "name": "TIN NỘI BỘ",
-      "description": "Tổng hợp toàn bộ các thông tin nội bộ mới nhất của Eurowindow"
+      "description": "Tin tức về hoạt động và đời sống nội bộ Eurowindow."
     },
     {
       "slug": "tin-khuyen-mai",
       "name": "TIN KHUYẾN MÃI",
-      "description": "Tổng hợp toàn bộ các thông tin khuyến mại mới nhất của Eurowindow đến khách hàng"
+      "description": "Thông tin chương trình khuyến mãi và thể lệ do Eurowindow công bố."
     }
   ],
   "articles": [

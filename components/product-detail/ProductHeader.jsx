@@ -1,5 +1,5 @@
 'use client';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 
@@ -17,6 +17,7 @@ export function ProductHeader() {
   const [open, setOpen] = useState(false);
   const [openDropdown, setOpenDropdown] = useState(null);
   const [scrolled, setScrolled] = useState(false);
+  const menuButtonRef = useRef(null);
 
   useEffect(() => {
     const updateHeader = () => setScrolled(window.scrollY > 35);
@@ -27,13 +28,22 @@ export function ProductHeader() {
 
   useEffect(() => {
     const closeOnEscape = (event) => {
-      if (event.key === 'Escape') {
+      if (event.key !== 'Escape') return;
+      if (openDropdown) {
+        event.preventDefault();
         setOpenDropdown(null);
+        document.querySelector('.nav-dropdown-' + openDropdown + ' .nav-dropdown-toggle')?.focus();
+        return;
+      }
+      if (open) {
+        event.preventDefault();
         setOpen(false);
+        menuButtonRef.current?.focus();
       }
     };
     const closeOnOutsideClick = (event) => {
       if (!event.target.closest('.nav-dropdown')) setOpenDropdown(null);
+      if (open && !event.target.closest('.site-header')) setOpen(false);
     };
     document.addEventListener('keydown', closeOnEscape);
     document.addEventListener('click', closeOnOutsideClick);
@@ -41,7 +51,7 @@ export function ProductHeader() {
       document.removeEventListener('keydown', closeOnEscape);
       document.removeEventListener('click', closeOnOutsideClick);
     };
-  }, []);
+  }, [open, openDropdown]);
 
   const closeNavigation = () => {
     setOpen(false);
@@ -73,6 +83,7 @@ export function ProductHeader() {
         <Link className="brand brand-image" href="/" aria-label="Eurowindow, trang chủ">
           <Image src="/eurowindow-logo.png" alt="Eurowindow – Tiên phong. Kiến tạo. Đồng hành." width={216} height={54} priority />
         </Link>
+        <button ref={menuButtonRef} className="menu-btn" type="button" aria-label={open ? '??ng menu' : 'M? menu'} aria-expanded={open} aria-controls="nav" onClick={() => { setOpen(value => !value); setOpenDropdown(null); }}><span aria-hidden="true">{open ? '?' : '?'}</span></button>
         <nav id="nav" className={open ? 'nav open' : 'nav'} aria-label="Điều hướng chính">
           {links.map(({ label, href, id, children }) => children ? (
             <div
@@ -80,7 +91,9 @@ export function ProductHeader() {
               key={href}
               onPointerEnter={(event) => { if (event.pointerType === 'mouse') setOpenDropdown(id); }}
               onPointerLeave={(event) => { if (event.pointerType === 'mouse') setOpenDropdown((current) => current === id ? null : current); }}
-              onFocus={() => setOpenDropdown(id)}
+              onFocus={(event) => {
+                if (window.matchMedia('(min-width: 701px)').matches && !event.currentTarget.contains(event.relatedTarget)) setOpenDropdown(id);
+              }}
               onBlur={(event) => { if (!event.currentTarget.contains(event.relatedTarget)) setOpenDropdown(null); }}
             >
               <div className="nav-dropdown-head">
@@ -94,7 +107,7 @@ export function ProductHeader() {
           ) : <Link key={href} href={href} onClick={closeNavigation}>{label}</Link>)}
         </nav>
         <Link className="head-cta" href="/bao-gia/">Nhận tư vấn <span className="arrow" aria-hidden="true">↗</span></Link>
-        <button className="menu-btn" type="button" aria-label={open ? 'Đóng menu' : 'Mở menu'} aria-expanded={open} aria-controls="nav" onClick={() => { setOpen(value => !value); setOpenDropdown(null); }}><span aria-hidden="true">{open ? '×' : '☰'}</span></button>
+
       </div>
     </header>
   );

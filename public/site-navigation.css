@@ -61,3 +61,37 @@
 
 @media(prefers-reduced-motion:reduce){html:not([data-motion-mode="full"]) .site-header .nav,html:not([data-motion-mode="full"]) .nav-dropdown-menu,html:not([data-motion-mode="full"]) .nav-dropdown-menu a{transition-duration:.18s!important}}
 
+
+@media(max-width:700px){
+  #menuBtn,.site-header .menu-btn{display:grid;width:44px;min-width:44px;height:44px;min-height:44px;place-items:center}
+  .site-header .nav>a,.site-header .nav .nav-dropdown-trigger,.site-header .nav .nav-dropdown-menu a{display:flex;min-height:44px;align-items:center}
+  .nav-dropdown .nav-dropdown-toggle{width:44px;min-width:44px;min-height:48px}
+  #main .gallery-controls button{width:44px;height:44px;min-width:44px;min-height:44px}
+  #main .filter{min-height:44px}
+  .catalogue-pdf-toolbar button{width:44px;height:44px;min-width:44px;min-height:44px}
+  .catalogue-pdf-toolbar input{min-width:44px;min-height:44px}
+}
+
+@media(min-width:701px) and (max-width:1000px){
+  #main .gallery-controls button,.catalogue-pdf-toolbar button{min-width:44px;min-height:44px}
+  .catalogue-pdf-toolbar input{min-height:44px}
+  #main .filter{min-height:44px}
+  .site-header .head-cta{display:inline-flex;min-height:44px;align-items:center}
+}
+
+@media(prefers-reduced-motion:reduce){
+  html:not([data-motion-mode="full"]),html:not([data-motion-mode="full"]) *{scroll-behavior:auto!important;animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
+}
+
+@media(pointer:coarse){
+  .site-header .nav>a,.site-header .nav .nav-dropdown-trigger,.site-header .nav .nav-dropdown-toggle,.site-header .head-cta{min-height:44px}
+  #main .filter,#main .gallery-controls button,.catalogue-pdf-toolbar button{min-height:44px;min-width:44px}
+  .catalogue-pdf-toolbar input{min-height:44px;min-width:44px}
+}
+
+
+@media(max-width:700px){.door-catalog-filter{min-height:44px}}
+@media(pointer:coarse){.door-catalog-filter{min-height:44px}}
+
+@media(max-width:700px){.door-catalog-tab{min-height:44px}.door-catalog-filter{min-height:44px}}
+@media(pointer:coarse){.door-catalog-tab{min-height:44px}.door-catalog-filter{min-height:44px}}
