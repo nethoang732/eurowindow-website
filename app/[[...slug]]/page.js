@@ -34,7 +34,7 @@ function canonicalPath(segments) {
 export function generateMetadata({ params }) {
   const segments = params?.slug || [];
   if (segments.length === 0) {
-    return { title: 'Eurowindow - Chi nh?nh Mi?n Nam', description: 'Eurowindow - Chi nh?nh Mi?n Nam.' };
+    return { title: 'Eurowindow - Chi nhánh Miền Nam', description: 'Eurowindow - Chi nhánh Miền Nam.' };
   }
   const path = segments.join('/');
   if (segments.join('/') === 'gioi-thieu') {
