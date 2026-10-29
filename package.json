@@ -6,7 +6,7 @@
     "predev": "node scripts/prepare-site.cjs",
     "dev": "next dev",
     "prebuild": "node scripts/prepare-site.cjs",
-    "build": "next build",
+    "build": "node scripts/build-next.cjs",
     "start": "next start"
   },
   "dependencies": {

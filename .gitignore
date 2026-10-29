@@ -1,9 +1,12 @@
 node_modules/
 .npm-cache/
 .next/
+.next-dev/
 out/
 .backups/
 .env.local
 public/site-shell.html
 public/site.css
 public/site-script.js
+.vercel
+.env*

@@ -39,6 +39,7 @@ jobs:
         run: npm run build
         env:
           NEXT_PUBLIC_BASE_PATH: /eurowindow-website
+          NEXT_PUBLIC_CONTACT_API_URL: https://eurowindow-website.vercel.app/api/contact
 
       - name: Configure Pages
         uses: actions/configure-pages@v5

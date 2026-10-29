@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import styles from './product-detail.module.css';
 
-const FORM_ENDPOINT = 'https://formsubmit.co/ajax/Hoangnm3@eurowindow.biz';
+const CONTACT_API_URL = process.env.NEXT_PUBLIC_CONTACT_API_URL || '/api/contact';
 
 export default function ProductQuoteForm({ productName }) {
   const [message, setMessage] = useState('');
@@ -24,12 +24,21 @@ export default function ProductQuoteForm({ productName }) {
     setMessage('Đang gửi yêu cầu...');
 
     try {
-      const payload = Object.fromEntries(new FormData(form).entries());
-      delete payload.website;
-      payload._subject = 'Yêu cầu báo giá sản phẩm từ website Eurowindow';
-      payload._template = 'table';
+      const formData = new FormData(form);
+      const payload = {
+        name: formData.get('Họ và tên'),
+        phone: formData.get('Số điện thoại'),
+        email: formData.get('Email') || '',
+        projectAddress: formData.get('Địa chỉ công trình'),
+        interest: formData.get('Nhu cầu') || '',
+        product: formData.get('Sản phẩm') || productName,
+        installationLocation: formData.get('Vị trí lắp đặt'),
+        message: formData.get('Kích thước ô chờ hoặc ghi chú'),
+        website: formData.get('website'),
+        pageUrl: window.location.href,
+      };
 
-      const response = await fetch(FORM_ENDPOINT, {
+      const response = await fetch(CONTACT_API_URL, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -39,8 +48,9 @@ export default function ProductQuoteForm({ productName }) {
       });
       const result = await response.json().catch(() => null);
 
-      if (!response.ok || !(result?.success === true || result?.success === 'true')) {
-        throw new Error('Form delivery failed');
+      if (!response.ok || result?.success !== true) {
+        setMessage(result?.message || 'Chưa gửi được yêu cầu. Vui lòng thử lại hoặc gọi hotline (024) 3747 4700.');
+        return;
       }
 
       setMessage('Yêu cầu đã được gửi. Eurowindow sẽ sớm liên hệ với bạn.');

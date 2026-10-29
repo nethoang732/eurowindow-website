@@ -37,6 +37,7 @@ export default function SiteShell({ initialMarkup = '' }) {
         if (cancelled || !rootRef.current) return;
         rootRef.current.innerHTML = markup;
         window.__EUROWINDOW_BASE_PATH__ = basePath;
+        window.__EUROWINDOW_CONTACT_API__ = process.env.NEXT_PUBLIC_CONTACT_API_URL || `${basePath}/api/contact`;
         siteScript = document.createElement('script');
         siteScript.src = `${basePath}/site-script.js?v=header-unified-v3-20261029`;
         rootRef.current.appendChild(siteScript);

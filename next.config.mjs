@@ -3,8 +3,10 @@ const basePath = process.env.NEXT_PUBLIC_BASE_PATH ||
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  // Keep local development on the normal Next.js server; export only for production builds.
-  ...(process.env.NODE_ENV === 'production' ? { output: 'export' } : {}),
+  // The Vercel runtime hosts the contact API. Keep static export only for GitHub Pages.
+  // Use a separate dev cache so `next build` cannot overwrite files used by `next dev`.
+  distDir: process.env.NODE_ENV === 'development' ? '.next-dev' : '.next',
+  ...(process.env.GITHUB_ACTIONS === 'true' ? { output: 'export' } : {}),
   trailingSlash: true,
   basePath,
   assetPrefix: basePath ? `${basePath}/` : undefined,
