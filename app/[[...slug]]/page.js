@@ -2,6 +2,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import Script from 'next/script';
 import LegacySiteScript from '../../components/LegacySiteScript';
+import HomepageMotionLoader from '../../components/HomepageMotionLoader';
 import { SectionPage, sectionPageExists } from '../../components/site-sections/SectionPage';
 import { getSectionDescriptor, getSectionPaths, getSiteOrigin } from '../../lib/content/site-section-utils';
 import content from '../../lib/content/site-sections.json';
@@ -45,11 +46,11 @@ export function generateMetadata({ params }) {
   }
   const productPages = {
     'san-pham': ['Giải pháp cửa, kính và vách kính', 'Xem các dòng cửa, kính và vách kính Eurowindow, cùng thông tin để lựa chọn theo vị trí lắp đặt và nhu cầu sử dụng.'],
-    'san-pham/cua-nhom': ['Cửa nhôm: cửa đi, cửa sổ và vách kính', 'Cửa đi, cửa sổ và vách nhôm kính với nhiều kiểu mở. Phương án phụ thuộc vào kích thước ô chờ và yêu cầu của công trình.'],
+    'san-pham/cua-nhom': ['Cửa nhôm Eurowindow: cửa đi, cửa sổ và vách kính', 'Tìm hiểu ưu điểm, cấu tạo, vật liệu và kiểu mở cửa nhôm Eurowindow. Lựa chọn cửa đi, cửa sổ và vách nhôm kính theo vị trí lắp đặt, yêu cầu sử dụng và hồ sơ kỹ thuật.'],
     'san-pham/cua-upvc': ['Cửa uPVC Eurowindow', 'Cửa đi và cửa sổ uPVC với lựa chọn kiểu mở, kính và phụ kiện theo thiết kế từng công trình.'],
     'san-pham/cua-go': ['Cửa gỗ Eurowindow', 'Cửa gỗ tự nhiên, gỗ công nghiệp, gỗ ghép thanh và composite. Chọn vật liệu, bề mặt và vị trí lắp theo điều kiện sử dụng.'],
     'san-pham/cua-cuon': ['Cửa cuốn Eurowindow', 'Cửa cuốn nhôm khe thoáng EASD45. Xem cấu tạo nan và trao đổi kích thước ô chờ, mặt tiền trước khi chốt mẫu.'],
-    'san-pham/cua-thong-minh-the-he-moi': ['Cửa thông minh Eurowindow', 'Cửa tự động, cửa điều khiển và kính điện. Tính năng vận hành tùy từng mẫu và mẫu sản phẩm.'],
+    'san-pham/cua-thong-minh-the-he-moi': ['Cửa thông minh Eurowindow', 'Khám phá cửa thông minh Eurowindow: cửa tự động, kính điện đổi màu, cửa sổ điều khiển giọng nói và các giải pháp kết nối Smarthome.'],
     'san-pham/vach-kinh-mat-dung': ['Kính và vách kính Eurowindow', 'Các loại kính và hệ vách kính cho cửa, vách ngăn và mặt dựng. Cấu tạo cần chọn theo vị trí và yêu cầu kỹ thuật.'],
     'san-pham/cua-di-mo-quay': ['Cửa đi mở quay', 'Tìm hiểu cửa đi mở quay, hướng mở và khoảng thao tác cần tính theo mặt bằng công trình.'],
     'san-pham/cua-di-mo-truot': ['Cửa đi mở trượt', 'Cửa đi mở trượt phù hợp vị trí cần dành khoảng trống bên cạnh cửa. Chọn số cánh và hướng trượt theo mặt bằng.'],
@@ -104,9 +105,10 @@ export function generateMetadata({ params }) {
 export default function Page({ params }) {
   const segments = params?.slug || [];
   const basePath = process.env.NEXT_PUBLIC_BASE_PATH || (process.env.GITHUB_ACTIONS === 'true' ? '/eurowindow-website' : '');
-  const script = <Script src={basePath + '/site-script.js?v=hero-video-only-v1-20261025'} strategy="afterInteractive" />;
+  const script = <Script src={basePath + '/site-script.js?v=header-unified-v3-20261029'} strategy="afterInteractive" />;
   if (!sectionPageExists(segments)) {
-    return <><div dangerouslySetInnerHTML={{ __html: siteShell }} /><LegacySiteScript routeKey={segments.join('/')} /></>;
+    const isHomePage = segments.length === 0;
+    return <><div dangerouslySetInnerHTML={{ __html: siteShell }} /><LegacySiteScript routeKey={segments.join('/')} />{isHomePage ? <HomepageMotionLoader /> : null}</>;
   }
   const parts = siteShell.split('<main id="main"></main>');
   if (parts.length !== 2) throw new Error('Could not place server-rendered section inside the site shell');

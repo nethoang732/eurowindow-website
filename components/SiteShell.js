@@ -28,7 +28,7 @@ export default function SiteShell({ initialMarkup = '' }) {
     let cancelled = false;
     let siteScript = null;
 
-    fetch(`${basePath}/site-shell.html?v=header-nav-fix-v1-20261024`)
+    fetch(`${basePath}/site-shell.html?v=header-unified-v3-20261029`)
       .then((response) => {
         if (!response.ok) throw new Error(`Unable to load site shell (${response.status})`);
         return response.text();
@@ -38,7 +38,7 @@ export default function SiteShell({ initialMarkup = '' }) {
         rootRef.current.innerHTML = markup;
         window.__EUROWINDOW_BASE_PATH__ = basePath;
         siteScript = document.createElement('script');
-        siteScript.src = `${basePath}/site-script.js?v=hero-video-only-v1-20261025`;
+        siteScript.src = `${basePath}/site-script.js?v=header-unified-v3-20261029`;
         rootRef.current.appendChild(siteScript);
       })
       .catch((error) => {

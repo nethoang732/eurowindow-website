@@ -1,0 +1,287 @@
+/* Shared consultation banner used on legacy pages; the homepage has its own contact layout. */
+.quote-band:not(.home-contact) {
+  box-sizing: border-box;
+  position: relative;
+  isolation: isolate;
+  display: flex;
+  min-height: 360px;
+  align-items: center;
+  padding: 43px 0;
+  overflow: hidden;
+  background: radial-gradient(ellipse at 68% 48%, #124c78 0%, #0b3b67 38%, #072d53 78%);
+  color: #fff;
+}
+
+.quote-band:not(.home-contact)::before {
+  position: absolute;
+  z-index: 0;
+  inset: 0;
+  background:
+    linear-gradient(57deg, transparent 0 8%, #d5a94a 8.04% 8.1%, transparent 8.14%),
+    linear-gradient(123deg, transparent 0 94.6%, #d5a94a 94.66% 94.72%, transparent 94.78%);
+  content: "";
+  opacity: .85;
+  pointer-events: none;
+}
+
+.quote-band:not(.home-contact)::after {
+  z-index: 0;
+  top: 50%;
+  right: 7%;
+  transform: translateY(-50%);
+  color: #ffffff08;
+  font-size: clamp(220px, 24vw, 420px);
+  line-height: 1;
+  pointer-events: none;
+}
+
+.quote-band:not(.home-contact) > .wrap.quote-grid {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  width: min(100% - 40px, 1320px);
+  min-height: 0;
+  margin-inline: auto;
+  grid-template-columns: minmax(0, .95fr) minmax(0, 1.05fr);
+  gap: clamp(40px, 5vw, 76px);
+  align-items: center;
+}
+
+.quote-band:not(.home-contact) .quote-copy,
+.quote-band:not(.home-contact) > .wrap.quote-grid > div:first-child {
+  min-width: 0;
+}
+
+.quote-band:not(.home-contact) .quote-copy > .eyebrow,
+.quote-band:not(.home-contact) > .wrap.quote-grid > div:first-child > .eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 0;
+  color: #e7b853;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: .13em;
+  text-transform: uppercase;
+}
+
+.quote-band:not(.home-contact) .quote-copy > .eyebrow::before,
+.quote-band:not(.home-contact) > .wrap.quote-grid > div:first-child > .eyebrow::before {
+  width: 28px;
+  height: 2px;
+  flex: none;
+  background: #d5a94a;
+  content: "";
+}
+
+.quote-band:not(.home-contact) .quote-copy h2,
+.quote-band:not(.home-contact) > .wrap.quote-grid > div:first-child > h2 {
+  max-width: 560px;
+  margin: 15px 0 12px;
+  color: #fff;
+  font: 600 clamp(42px, 3.8vw, 60px)/1.02 var(--display, "Montserrat", sans-serif);
+  letter-spacing: -.045em;
+}
+
+.quote-band:not(.home-contact) .quote-copy h2 .gold,
+.quote-band:not(.home-contact) > .wrap.quote-grid > div:first-child > h2 .gold {
+  color: #e1b253;
+  font-weight: 650;
+}
+
+.quote-band:not(.home-contact) .quote-copy > p,
+.quote-band:not(.home-contact) > .wrap.quote-grid > div:first-child > p {
+  max-width: 500px;
+  margin: 0;
+  color: #d1dfec;
+  font-size: 15px;
+  line-height: 1.55;
+}
+
+.quote-band:not(.home-contact) .quote-form {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+  margin: 0;
+  padding: 22px;
+  border: 1px solid #ffffffd9;
+  border-radius: 12px;
+  background: #fdfdfc;
+  color: #102f53;
+  box-shadow: 0 20px 54px #00172e52;
+}
+
+.quote-band:not(.home-contact) .quote-form .field {
+  width: 100%;
+  min-width: 0;
+  min-height: 44px;
+  margin: 0;
+  padding: 10px 13px 10px 42px;
+  border: 1px solid #d9dfe7;
+  border-radius: 5px;
+  background-color: #fff;
+  color: #17395d;
+  font: 500 14px/1.35 var(--display, "Montserrat", sans-serif);
+  outline: none;
+}
+
+.quote-band:not(.home-contact) .quote-form .field::placeholder {
+  color: #8793a2;
+  opacity: 1;
+}
+
+.quote-band:not(.home-contact) .quote-form input[name="email"],
+.quote-band:not(.home-contact) .quote-form select[name="interest"] {
+  grid-column: 1 / -1;
+}
+
+.quote-band:not(.home-contact) .quote-form input[name="name"] {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%230d3156' stroke-width='1.8'%3E%3Ccircle cx='12' cy='8' r='4'/%3E%3Cpath d='M4 21v-2a8 8 0 0 1 16 0v2'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: 14px center;
+  background-size: 18px;
+}
+
+.quote-band:not(.home-contact) .quote-form input[name="phone"] {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%230d3156' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6.5 3.5h-2a2 2 0 0 0-2 2c0 9 7 16 16 16a2 2 0 0 0 2-2v-2l-5-2-2 2a14 14 0 0 1-7-7l2-2z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: 14px center;
+  background-size: 18px;
+}
+
+.quote-band:not(.home-contact) .quote-form input[name="email"] {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%230d3156' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='3' y='5' width='18' height='14' rx='1'/%3E%3Cpath d='m4 7 8 6 8-6'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: 14px center;
+  background-size: 18px;
+}
+
+.quote-band:not(.home-contact) .quote-form select[name="interest"] {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%230d3156' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m12 3 9 5-9 5-9-5 9-5Zm-9 9 9 5 9-5M3 16l9 5 9-5'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: 14px center;
+  background-size: 18px;
+}
+
+.quote-band:not(.home-contact) .quote-form .field:focus-visible {
+  border-color: #b58d42;
+  outline: 2px solid #c6a25b70;
+  outline-offset: 1px;
+}
+
+.quote-band:not(.home-contact) .quote-form .button {
+  display: flex;
+  min-height: 48px;
+  grid-column: 1 / -1;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin: 2px 0 0;
+  border: 0;
+  border-radius: 4px;
+  background: linear-gradient(105deg, #d7b45f, #e6c16e);
+  color: #082c50;
+  font: 700 12px/1.2 var(--display, "Montserrat", sans-serif);
+  letter-spacing: .07em;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.quote-band:not(.home-contact) .quote-form .button:hover {
+  background: linear-gradient(105deg, #e4c576, #edce82);
+}
+
+.quote-band:not(.home-contact) .quote-form .form-note {
+  grid-column: 1 / -1;
+  margin: 0;
+  color: #778496;
+  font-size: 10px;
+  line-height: 1.4;
+}
+
+.quote-band:not(.home-contact) .quote-form .form-message:empty {
+  display: none;
+}
+
+@media (max-width: 900px) {
+  .quote-band:not(.home-contact) {
+    min-height: 0;
+    padding: 42px 0;
+  }
+
+  .quote-band:not(.home-contact) > .wrap.quote-grid {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 20px;
+  }
+
+  .quote-band:not(.home-contact) .quote-form {
+    width: 100%;
+  }
+
+  .quote-band:not(.home-contact) .quote-copy h2,
+  .quote-band:not(.home-contact) > .wrap.quote-grid > div:first-child > h2 {
+    font-size: clamp(42px, 6.5vw, 58px);
+  }
+}
+
+@media (max-width: 700px) {
+  .quote-band:not(.home-contact) {
+    min-height: 652px;
+    padding: 28px 0;
+  }
+
+  .quote-band:not(.home-contact) > .wrap.quote-grid {
+    width: calc(100% - 36px);
+    min-height: 0;
+    align-content: center;
+    gap: 18px;
+  }
+
+  .quote-band:not(.home-contact) .quote-copy > .eyebrow,
+  .quote-band:not(.home-contact) > .wrap.quote-grid > div:first-child > .eyebrow {
+    font-size: 10px;
+  }
+
+  .quote-band:not(.home-contact) .quote-copy h2,
+  .quote-band:not(.home-contact) > .wrap.quote-grid > div:first-child > h2 {
+    margin: 11px 0 9px;
+    font-size: clamp(36px, 9.5vw, 44px);
+    line-height: 1.04;
+  }
+
+  .quote-band:not(.home-contact) .quote-copy > p,
+  .quote-band:not(.home-contact) > .wrap.quote-grid > div:first-child > p {
+    font-size: 14px;
+    line-height: 1.5;
+  }
+
+  .quote-band:not(.home-contact) .quote-form {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 8px;
+    padding: 16px;
+    border-radius: 9px;
+  }
+
+  .quote-band:not(.home-contact) .quote-form input[name="name"],
+  .quote-band:not(.home-contact) .quote-form input[name="phone"],
+  .quote-band:not(.home-contact) .quote-form input[name="email"],
+  .quote-band:not(.home-contact) .quote-form select[name="interest"] {
+    grid-column: 1 / -1;
+  }
+
+  .quote-band:not(.home-contact) .quote-form .field {
+    min-height: 44px;
+    font-size: 14px;
+  }
+
+  .quote-band:not(.home-contact) .quote-form .button {
+    min-height: 48px;
+    margin-top: 2px;
+  }
+
+  .quote-band:not(.home-contact)::after {
+    right: -5%;
+    font-size: 230px;
+  }
+}

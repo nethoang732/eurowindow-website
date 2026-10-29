@@ -3,6 +3,7 @@ node_modules/
 .next/
 out/
 .backups/
+.env.local
 public/site-shell.html
 public/site.css
 public/site-script.js

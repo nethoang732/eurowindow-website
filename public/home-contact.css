@@ -1,0 +1,628 @@
+#main.home-page .home-contact {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  margin-top: clamp(24px, 3vw, 46px);
+  padding: clamp(64px, 5vw, 82px) 0 14px;
+  border-top: 2px solid #c6a65f;
+  background: #071f3d;
+  color: #f8f7f2;
+}
+
+#main.home-page .home-contact::before {
+  position: absolute;
+  z-index: -1;
+  inset: 0;
+  background-image:
+    linear-gradient(90deg, #05234a 0%, #05234a 48%, rgba(5, 35, 74, 0.88) 62%, rgba(5, 35, 74, 0.42) 100%),
+    repeating-linear-gradient(90deg, transparent 0 118px, #d5bc8009 119px 121px, transparent 122px 240px),
+    url('/images/sections/nha-pho-hien-dai-minh-hoa.webp');
+  background-position: center, center, right center;
+  background-size: cover;
+  content: '';
+  pointer-events: none;
+}
+
+#main.home-page .home-contact::after {
+  position: absolute;
+  z-index: 0;
+  top: -0.5em;
+  left: 29%;
+  color: #ffffff0d;
+  content: 'EW';
+  font-family: var(--display);
+  font-size: clamp(420px, 48vw, 950px);
+  font-weight: 800;
+  letter-spacing: -0.14em;
+  line-height: 1;
+  pointer-events: none;
+  white-space: nowrap;
+}
+
+#main.home-page .home-contact > .wrap {
+  position: relative;
+  z-index: 1;
+  width: min(1620px, 82vw);
+}
+
+#main.home-page .home-contact-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 0.65fr) minmax(0, 1fr);
+  align-items: stretch;
+  column-gap: clamp(60px, 7vw, 140px);
+  row-gap: 0;
+}
+
+#main.home-page .home-contact-intro {
+  align-self: start;
+  transform: translateY(-20px);
+  grid-column: 1;
+  grid-row: 1;
+  padding: 0;
+}
+
+#main.home-page .home-contact .eyebrow {
+  color: #d5bc80;
+  font-size: 11px;
+  letter-spacing: 0.13em;
+}
+
+#main.home-page .home-contact-intro h2 {
+  margin: 0 0 10px;
+  max-width: 100%;
+  color: #fff;
+  font-size: clamp(46px, 4vw, 78px);
+  line-height: 1.04;
+  letter-spacing: -0.055em;
+}
+
+#main.home-page .home-contact-intro h2 .gold {
+  display: block;
+  color: #d5bc80;
+}
+
+#main.home-page .home-contact-intro > p {
+  max-width: 390px;
+  margin: 0;
+  color: #d5e0eb;
+  font-size: 15px;
+  line-height: 1.7;
+}
+
+#main.home-page .home-contact-support {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  column-gap: clamp(28px, 3.4vw, 68px);
+  margin-top: 25px;
+}
+
+#main.home-page .home-contact-support-item {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+  padding: 0;
+  border-right: 1px solid #ffffff40;
+}
+
+#main.home-page .home-contact-support-item:first-child {
+  padding-left: 0;
+}
+
+#main.home-page .home-contact-support-item:last-child {
+  padding-right: 0;
+  border-right: 0;
+}
+
+#main.home-page .home-contact-support-icon,
+#main.home-page .home-contact-detail-icon {
+  display: grid;
+  place-items: center;
+  flex: none;
+  border: 1px solid #d1ad5a;
+  border-radius: 50%;
+  color: #e0b85f;
+}
+
+#main.home-page .home-contact-support-icon {
+  width: 58px;
+  height: 58px;
+  background: #ffffff0d;
+}
+
+#main.home-page .home-contact-support-icon svg,
+#main.home-page .home-contact-detail-icon svg {
+  width: 28px;
+  height: 28px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+#main.home-page .home-contact-support-item strong,
+#main.home-page .home-contact-support-item small {
+  display: block;
+}
+
+#main.home-page .home-contact-support-item strong {
+  max-width: 140px;
+  color: #fff;
+  font-size: 18px;
+  font-weight: 500;
+  line-height: 1.35;
+}
+
+#main.home-page .home-contact-support-item small {
+  margin-top: 3px;
+  color: #c0cedd;
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+#main.home-page .home-contact-support-item small {
+  display: none;
+}
+
+#main.home-page .home-contact-form-panel {
+  align-self: start;
+  grid-column: 2;
+  grid-row: 1 / span 2;
+  padding: clamp(17px, 1.2vw, 22px) clamp(30px, 2vw, 40px);
+  border: 1px solid #fff;
+  border-radius: 12px;
+  background: #fbfaf7;
+  box-shadow: 0 22px 70px #03152c55;
+}
+
+#main.home-page .home-contact-form-heading h3,
+#main.home-page .home-contact-info h3 {
+  margin: 0;
+  font-family: var(--display);
+  font-size: clamp(22px, 2vw, 29px);
+  font-weight: 650;
+  letter-spacing: -0.035em;
+  line-height: 1.2;
+}
+
+#main.home-page .home-contact-form-heading h3 {
+  color: #0c2b50;
+}
+
+#main.home-page .home-contact-info h3 {
+  color: #fff;
+}
+
+#main.home-page .home-contact-form-heading p,
+#main.home-page .home-contact-info-content > p {
+  margin: 6px 0 13px;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+#main.home-page .home-contact-form-heading p {
+  color: #68798c;
+  font-size: clamp(14px, 1vw, 18px);
+}
+
+#main.home-page .home-contact-form {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px 14px;
+  margin: 0;
+}
+
+#main.home-page .home-contact-field {
+  position: relative;
+  display: block;
+  min-width: 0;
+  color: #183858;
+  font-size: 11px;
+  font-weight: 600;
+}
+
+#main.home-page .home-contact-field > span {
+  color: #a87930;
+}
+
+#main.home-page .home-contact-field-accessible {
+  position: absolute !important;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  clip-path: inset(50%);
+}
+
+#main.home-page .home-contact-field .field {
+  width: 100%;
+  min-width: 0;
+  min-height: 44px;
+  margin: 0;
+  padding: 11px 14px 11px 54px;
+  border: 1px solid #dedbd4;
+  border-radius: 0;
+  background: #fff;
+  color: #172c42;
+  font-size: 16px;
+  font-weight: 400;
+  letter-spacing: normal;
+  text-transform: none;
+  transition: border-color 160ms ease, box-shadow 160ms ease;
+}
+
+#main.home-page .home-contact-field::before {
+  position: absolute;
+  z-index: 1;
+  top: 13px;
+  left: 16px;
+  width: 19px;
+  height: 19px;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+  content: '';
+  pointer-events: none;
+}
+
+#main.home-page .home-contact-field:nth-child(1)::before {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%230c2b50' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='12' cy='8' r='3.5'/%3E%3Cpath d='M5 21v-1a7 7 0 0 1 14 0v1'/%3E%3C/svg%3E");
+}
+
+#main.home-page .home-contact-field:nth-child(2)::before {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%230c2b50' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6.6 3.5 9 3l2 4.2-2 1.7a15 15 0 0 0 6.1 6.1l1.7-2 4.2 2-.5 2.4a2 2 0 0 1-2 1.6A15.5 15.5 0 0 1 5 5.5a2 2 0 0 1 1.6-2Z'/%3E%3C/svg%3E");
+}
+
+#main.home-page .home-contact-field:nth-child(3)::before {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%230c2b50' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='3' y='5' width='18' height='14'/%3E%3Cpath d='m4 7 8 6 8-6'/%3E%3C/svg%3E");
+}
+
+#main.home-page .home-contact-field:nth-child(4)::before {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%230c2b50' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m12 3 9 5-9 5-9-5 9-5Z'/%3E%3Cpath d='m3 12 9 5 9-5M3 16l9 5 9-5'/%3E%3C/svg%3E");
+}
+
+#main.home-page .home-contact-field:nth-child(5)::before {
+  top: 18px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%230c2b50' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 3h8l4 4v14H6z'/%3E%3Cpath d='M14 3v5h5M9 12h6M9 16h6'/%3E%3C/svg%3E");
+}
+
+#main.home-page .home-contact-form > .home-contact-field:nth-child(3),
+#main.home-page .home-contact-form > .home-contact-field:nth-child(4) {
+  grid-column: 1 / -1;
+}
+
+#main.home-page .home-contact-field .field:focus {
+  border-color: #b99a58;
+  outline: 0;
+  box-shadow: 0 0 0 3px #b99a5826;
+}
+
+#main.home-page .home-contact-field--full,
+#main.home-page .home-contact-submit,
+#main.home-page .home-contact-form .form-note,
+#main.home-page .home-contact-form .form-message {
+  grid-column: 1 / -1;
+}
+
+#main.home-page .home-contact-field textarea.field {
+  min-height: 68px;
+  resize: vertical;
+}
+
+#main.home-page .home-contact-field .field::placeholder {
+  color: #8994a2;
+  opacity: 1;
+}
+
+#main.home-page .home-contact-honeypot {
+  position: absolute;
+  left: -10000px;
+  width: 1px;
+  height: 1px;
+}
+
+#main.home-page .home-contact-submit {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  min-height: 46px;
+  margin: 0;
+  border: 1px solid #b99a58;
+  border-radius: 0;
+  background: #c5a45f;
+  color: #102c4c;
+  font-size: clamp(12px, 0.9vw, 16px);
+  letter-spacing: 0.06em;
+  transition: background-color 160ms ease, border-color 160ms ease;
+}
+
+#main.home-page .home-contact-submit:hover {
+  transform: none;
+  border-color: #d1b373;
+  background: #d1b373;
+}
+
+#main.home-page .home-contact-form .form-note {
+  margin: 0;
+  color: #768397;
+  font-size: 12px;
+  line-height: 1.5;
+  text-align: center;
+}
+
+#main.home-page .home-contact-info {
+  display: block;
+  grid-column: 1;
+  grid-row: 2;
+  align-self: start;
+  min-height: 0;
+  margin-top: 15px;
+  padding: 14px 0 0;
+  border: 0;
+  border-top: 1px solid #d5bc8066;
+  background: none;
+  color: #fff;
+}
+
+#main.home-page .home-contact-info-content {
+  width: 100%;
+  display: block;
+}
+
+#main.home-page .home-contact-info-content > h3,
+#main.home-page .home-contact-info-content > p,
+#main.home-page .home-contact-detail:not([href^='tel:']) {
+  display: none;
+}
+
+#main.home-page .home-contact-info h3 {
+  font-size: clamp(23px, 2vw, 29px);
+}
+
+#main.home-page .home-contact-info-content > p {
+  max-width: 280px;
+  margin: 8px 0 16px;
+  color: #e1e8f0;
+}
+
+#main.home-page .home-contact-detail {
+  display: grid;
+  grid-template-columns: 60px minmax(0, 1fr);
+  align-items: center;
+  gap: 12px;
+  min-width: 0;
+  margin-top: 0;
+  color: inherit;
+  text-decoration: none;
+}
+
+#main.home-page a.home-contact-detail:hover strong {
+  color: #e5c77e;
+}
+
+#main.home-page .home-contact-detail-icon {
+  width: 60px;
+  height: 60px;
+  border-color: #d0b36e;
+  color: #e1bf70;
+}
+
+#main.home-page .home-contact-detail-icon svg {
+  width: 22px;
+  height: 22px;
+}
+
+#main.home-page .home-contact-detail small,
+#main.home-page .home-contact-detail strong {
+  display: block;
+  overflow-wrap: anywhere;
+}
+
+#main.home-page .home-contact-detail small {
+  margin-bottom: 3px;
+  color: #d6e0eb;
+  font-size: 12px;
+}
+
+#main.home-page .home-contact-detail strong {
+  color: #fff;
+  font-size: 21px;
+  font-weight: 700;
+  line-height: 1.3;
+  transition: color 160ms ease;
+}
+
+#main.home-page .home-contact a:focus-visible,
+#main.home-page .home-contact button:focus-visible,
+#main.home-page .home-contact input:focus-visible,
+#main.home-page .home-contact select:focus-visible,
+#main.home-page .home-contact textarea:focus-visible {
+  outline: 2px solid #b99a58;
+  outline-offset: 3px;
+}
+
+@media (max-width: 1180px) {
+  #main.home-page .home-contact > .wrap {
+    width: min(960px, calc(100% - 48px));
+  }
+
+  #main.home-page .home-contact-grid {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 30px;
+  }
+
+  #main.home-page .home-contact-intro,
+  #main.home-page .home-contact-form-panel,
+  #main.home-page .home-contact-info {
+    grid-column: 1;
+    grid-row: auto;
+  }
+
+  #main.home-page .home-contact-intro {
+    transform: none;
+  }
+
+  #main.home-page .home-contact-intro h2 {
+    margin: 14px 0 16px;
+  }
+
+  #main.home-page .home-contact-support {
+    margin-top: 34px;
+  }
+
+  #main.home-page .home-contact-info {
+    order: 2;
+    margin-top: 0;
+  }
+
+  #main.home-page .home-contact-form-panel {
+    order: 3;
+  }
+
+  #main.home-page .home-contact-detail {
+    width: auto;
+    margin-right: 0;
+  }
+}
+
+@media (max-width: 700px) {
+  #main.home-page .home-contact {
+    margin-top: 38px;
+    padding: 88px 0 22px;
+  }
+
+  #main.home-page .home-contact::before {
+    background-image:
+      linear-gradient(90deg, rgba(6, 33, 66, 0.94), rgba(6, 33, 66, 0.82)),
+      repeating-linear-gradient(90deg, transparent 0 118px, #d5bc8009 119px 121px, transparent 122px 240px),
+      url('/images/sections/nha-pho-hien-dai-minh-hoa.webp');
+  }
+
+  #main.home-page .home-contact > .wrap {
+    width: calc(100% - 36px);
+  }
+
+  #main.home-page .home-contact-grid {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 16px;
+  }
+
+  #main.home-page .home-contact-intro,
+  #main.home-page .home-contact-form-panel,
+  #main.home-page .home-contact-info {
+    grid-column: auto;
+    grid-row: auto;
+  }
+
+  #main.home-page .home-contact-intro { order: 1; }
+  #main.home-page .home-contact-info { order: 2; }
+  #main.home-page .home-contact-form-panel { order: 3; }
+
+  #main.home-page .home-contact-intro {
+    padding: 0;
+  }
+
+  #main.home-page .home-contact-intro h2 {
+    margin: 12px 0 9px;
+    font-size: clamp(39px, 11vw, 52px);
+  }
+
+  #main.home-page .home-contact-intro > p {
+    font-size: 14px;
+  }
+
+  #main.home-page .home-contact-support {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    column-gap: 0;
+    margin-top: 14px;
+  }
+
+  #main.home-page .home-contact-support-item {
+    align-items: flex-start;
+    gap: 9px;
+    padding: 0 9px;
+  }
+
+  #main.home-page .home-contact-support-item:first-child { padding-left: 0; }
+  #main.home-page .home-contact-support-item:last-child { padding-right: 0; }
+
+  #main.home-page .home-contact-support-item strong {
+    max-width: 90px;
+    font-size: 12px;
+  }
+
+  #main.home-page .home-contact-support-icon {
+    width: 44px;
+    height: 44px;
+  }
+
+  #main.home-page .home-contact-support-icon svg {
+    width: 20px;
+    height: 20px;
+  }
+
+  #main.home-page .home-contact::after {
+    display: none;
+  }
+
+  #main.home-page .home-contact-form-panel {
+    padding: 18px 16px;
+  }
+
+  #main.home-page .home-contact-form {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 10px;
+  }
+
+  #main.home-page .home-contact-field--full,
+  #main.home-page .home-contact-submit,
+  #main.home-page .home-contact-form .form-note,
+  #main.home-page .home-contact-form .form-message {
+    grid-column: 1;
+  }
+
+  #main.home-page .home-contact-field .field {
+    min-height: 48px;
+    font-size: 16px;
+  }
+
+  #main.home-page .home-contact-field textarea.field {
+    min-height: 82px;
+  }
+
+  #main.home-page .home-contact-submit {
+    min-height: 48px;
+  }
+
+  #main.home-page .home-contact-info {
+    min-height: 0;
+    margin-top: -8px;
+    padding: 14px 0 0;
+  }
+
+  #main.home-page .home-contact-detail {
+    display: grid;
+    grid-template-columns: 56px minmax(0, 1fr);
+    width: auto;
+    margin: 10px 0 0;
+  }
+
+  #main.home-page .home-contact-detail-icon {
+    width: 48px;
+    height: 48px;
+  }
+
+  #main.home-page .home-contact-detail strong {
+    font-size: 21px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #main.home-page .home-contact * {
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+  }
+}

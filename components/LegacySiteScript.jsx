@@ -14,7 +14,7 @@ export default function LegacySiteScript({ routeKey }) {
     if (document.querySelector('script[data-eurowindow-legacy-script]')) return;
 
     const script = document.createElement('script');
-    script.src = `${basePath}/site-script.js?v=hero-video-only-v1-20261025`;
+    script.src = `${basePath}/site-script.js?v=header-unified-v3-20261029`;
     script.dataset.eurowindowLegacyScript = 'true';
     document.body.appendChild(script);
   }, [routeKey]);

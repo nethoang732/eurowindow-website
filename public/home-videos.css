@@ -1,0 +1,393 @@
+#main.home-page .home-video-section {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  padding: clamp(38px, 4.2vw, 62px) 0 clamp(28px, 3.2vw, 46px);
+  background: #f4f2ed;
+  color: #102b4c;
+}
+
+#main.home-page .home-video-section::before {
+  position: absolute;
+  z-index: -1;
+  inset: 0;
+  background: linear-gradient(90deg, #f7f5f0f2 0%, #f7f5f0de 42%, #f7f5f0a6 100%),
+    url('/images/sections/nha-pho-hien-dai-minh-hoa.webp') right center / cover no-repeat;
+  content: '';
+  pointer-events: none;
+}
+
+#main.home-page .home-video-wrap {
+  width: min(1620px, calc(100% - 9vw));
+}
+
+#main.home-page .home-video-feature-grid {
+  display: grid;
+  grid-template-columns: minmax(250px, 0.68fr) minmax(0, 1.32fr);
+  gap: clamp(28px, 3.6vw, 64px);
+  align-items: center;
+}
+
+#main.home-page .home-video-intro .eyebrow,
+#main.home-page .home-video-card-label,
+#main.home-page .home-video-feature-caption small {
+  color: #b99148;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+#main.home-page .home-video-intro h2 {
+  max-width: 520px;
+  margin: 14px 0 12px;
+  color: #102b4c;
+  font-family: var(--display, 'Montserrat', sans-serif);
+  font-size: clamp(38px, 3.2vw, 60px);
+  font-weight: 600;
+  letter-spacing: -0.055em;
+  line-height: 1.12;
+}
+
+#main.home-page .home-video-intro h2 span {
+  color: #c6a25b;
+}
+
+#main.home-page .home-video-intro > p {
+  max-width: 440px;
+  margin: 0;
+  color: #728096;
+  font-size: 16px;
+  line-height: 1.65;
+}
+
+#main.home-page .home-video-all {
+  display: inline-flex;
+  min-height: 48px;
+  align-items: center;
+  gap: 22px;
+  margin-top: 18px;
+  padding: 0 24px;
+  border: 1px solid #c6a25b;
+  background: #c6a25b;
+  color: #102b4c;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.07em;
+  text-decoration: none;
+  text-transform: uppercase;
+  transition: background-color 180ms ease, color 180ms ease;
+}
+
+#main.home-page .home-video-all:hover {
+  background: #102b4c;
+  color: #fff;
+}
+
+#main.home-page .home-video-feature {
+  position: relative;
+  display: block;
+  min-width: 0;
+  overflow: hidden;
+  aspect-ratio: 2.28 / 1;
+  background: #102b4c;
+  color: #fff;
+  text-decoration: none;
+  box-shadow: 9px 9px 0 #ffffffa8, 10px 10px 0 1px #c6a25b;
+}
+
+#main.home-page .home-video-feature > img,
+#main.home-page .home-video-card-image > img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+#main.home-page .home-video-feature iframe {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+  background: #071f3d;
+}
+
+#main.home-page .home-video-feature.is-playing::after {
+  display: none;
+}
+
+#main.home-page .home-video-feature > img {
+  position: absolute;
+  inset: 0;
+  transition: transform 550ms cubic-bezier(.2,.7,.2,1);
+}
+
+#main.home-page .home-video-feature::after {
+  position: absolute;
+  inset: 30% 0 0;
+  background: linear-gradient(180deg, transparent 0%, #061c32e8 100%);
+  content: '';
+  pointer-events: none;
+}
+
+#main.home-page .home-video-feature:hover > img,
+#main.home-page .home-video-card:hover .home-video-card-image > img {
+  transform: scale(1.035);
+}
+
+#main.home-page .home-video-play,
+#main.home-page .home-video-card-play {
+  position: absolute;
+  z-index: 1;
+  top: 50%;
+  left: 50%;
+  display: grid;
+  width: 72px;
+  height: 72px;
+  place-items: center;
+  transform: translate(-50%, -50%);
+  border: 1px solid #ffffffd9;
+  border-radius: 50%;
+  background: #061c324d;
+  color: #fff;
+  backdrop-filter: blur(4px);
+  transition: background-color 180ms ease, color 180ms ease, border-color 180ms ease;
+}
+
+#main.home-page .home-video-play svg,
+#main.home-page .home-video-card-play svg {
+  width: 25px;
+  height: 25px;
+  fill: currentColor;
+}
+
+#main.home-page .home-video-feature:hover .home-video-play,
+#main.home-page .home-video-card:hover .home-video-card-play {
+  border-color: #d0ad68;
+  background: #c6a25b;
+  color: #102b4c;
+}
+
+#main.home-page .home-video-feature-caption {
+  position: absolute;
+  z-index: 1;
+  right: 24px;
+  bottom: 21px;
+  left: 28px;
+  display: grid;
+  gap: 7px;
+}
+
+#main.home-page .home-video-feature-caption small {
+  color: #e2bd70;
+}
+
+#main.home-page .home-video-feature-caption strong {
+  max-width: 520px;
+  color: #fff;
+  font-family: var(--display, 'Montserrat', sans-serif);
+  font-size: clamp(19px, 1.5vw, 27px);
+  font-weight: 600;
+  line-height: 1.25;
+}
+
+#main.home-page .home-video-list {
+  display: grid;
+  grid-auto-columns: calc((100% - 64px) / 5);
+  grid-auto-flow: column;
+  gap: 16px;
+  margin-top: clamp(22px, 2.8vw, 36px);
+  overflow-x: auto;
+  overscroll-behavior-inline: contain;
+  -webkit-overflow-scrolling: touch;
+  scroll-behavior: auto;
+  scroll-snap-type: none;
+  scrollbar-width: none;
+}
+
+#main.home-page .home-video-list::-webkit-scrollbar {
+  display: none;
+}
+
+#main.home-page .home-video-card {
+  display: grid;
+  min-width: 0;
+  align-content: start;
+  gap: 8px;
+  color: #102b4c;
+  text-decoration: none;
+  scroll-snap-align: start;
+}
+
+#main.home-page .home-video-card-image {
+  position: relative;
+  display: block;
+  overflow: hidden;
+  aspect-ratio: 1.78 / 1;
+  background: #d6d8d7;
+}
+
+#main.home-page .home-video-card-image > img {
+  transition: transform 420ms cubic-bezier(.2,.7,.2,1);
+}
+
+#main.home-page .home-video-card-play {
+  width: 52px;
+  height: 52px;
+}
+
+#main.home-page .home-video-card-play svg {
+  width: 20px;
+  height: 20px;
+}
+
+#main.home-page .home-video-card-label {
+  margin-top: 5px;
+  font-size: 9px;
+  letter-spacing: 0.1em;
+}
+
+#main.home-page .home-video-card > strong {
+  max-width: 34ch;
+  font-family: var(--display, 'Montserrat', sans-serif);
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 1.4;
+}
+
+#main.home-page .home-video-card.is-current .home-video-card-image {
+  outline: 2px solid #c6a25b;
+  outline-offset: -2px;
+}
+
+#main.home-page .home-video-controls {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 12px;
+}
+
+#main.home-page .home-video-controls button {
+  display: grid;
+  width: 44px;
+  height: 44px;
+  place-items: center;
+  border: 1px solid #102b4c5c;
+  border-radius: 50%;
+  background: transparent;
+  color: #102b4c;
+  font: inherit;
+  font-size: 19px;
+  cursor: pointer;
+  transition: background-color 180ms ease, color 180ms ease, border-color 180ms ease;
+}
+
+#main.home-page .home-video-controls button:hover {
+  border-color: #c6a25b;
+  background: #c6a25b;
+}
+
+#main.home-page .home-video-feature:focus-visible,
+#main.home-page .home-video-card:focus-visible,
+#main.home-page .home-video-controls button:focus-visible,
+#main.home-page .home-video-all:focus-visible {
+  outline: 3px solid #c6a25b;
+  outline-offset: 4px;
+}
+
+@media (max-width: 900px) {
+  #main.home-page .home-video-wrap {
+    width: min(760px, calc(100% - 48px));
+  }
+
+  #main.home-page .home-video-feature-grid {
+    grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+    gap: 26px;
+  }
+
+  #main.home-page .home-video-list {
+    grid-auto-columns: calc((100% - 48px) / 4);
+  }
+}
+
+@media (max-width: 700px) {
+  #main.home-page .home-video-section {
+    padding: 36px 0 28px;
+  }
+
+  #main.home-page .home-video-section::before {
+    background: linear-gradient(90deg, #f7f5f0ef, #f7f5f0d9),
+      url('/images/sections/nha-pho-hien-dai-minh-hoa.webp') center / cover no-repeat;
+  }
+
+  #main.home-page .home-video-wrap {
+    width: calc(100% - 36px);
+  }
+
+  #main.home-page .home-video-feature-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  #main.home-page .home-video-intro h2 {
+    max-width: 480px;
+    margin: 10px 0 8px;
+    font-size: clamp(32px, 8.5vw, 43px);
+  }
+
+  #main.home-page .home-video-intro > p {
+    max-width: 42ch;
+    font-size: 14px;
+  }
+
+  #main.home-page .home-video-all {
+    min-height: 44px;
+    margin-top: 13px;
+  }
+
+  #main.home-page .home-video-feature {
+    aspect-ratio: 1.65 / 1;
+    box-shadow: 5px 5px 0 #ffffffa8, 6px 6px 0 1px #c6a25b;
+  }
+
+  #main.home-page .home-video-play {
+    width: 58px;
+    height: 58px;
+  }
+
+  #main.home-page .home-video-feature-caption {
+    right: 14px;
+    bottom: 15px;
+    left: 16px;
+  }
+
+  #main.home-page .home-video-feature-caption strong {
+    max-width: 28ch;
+    font-size: 17px;
+  }
+
+  #main.home-page .home-video-list {
+    grid-auto-columns: 66%;
+    gap: 10px;
+    margin-top: 18px;
+    padding-right: 12px;
+  }
+
+  #main.home-page .home-video-card > strong {
+    font-size: 14px;
+  }
+
+  #main.home-page .home-video-controls {
+    margin-top: 13px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #main.home-page .home-video-section *,
+  #main.home-page .home-video-section *::before,
+  #main.home-page .home-video-section *::after {
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+  }
+}

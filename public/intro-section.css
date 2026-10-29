@@ -1,0 +1,286 @@
+﻿#main.home-page #intro {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  padding: clamp(82px, 8vw, 124px) 0 !important;
+  background: var(--cream);
+}
+
+#main.home-page #intro::before {
+  position: absolute;
+  z-index: -1;
+  inset: 0 auto 0 0;
+  width: clamp(360px, 31vw, 590px);
+  background: linear-gradient(145deg, #092443, #0c3764 78%, #0c2b50);
+  content: '';
+}
+
+#main.home-page #intro::after {
+  position: absolute;
+  z-index: -1;
+  inset: 0 0 0 auto;
+  width: 24%;
+  background-image: linear-gradient(#c7bda81a 1px, transparent 1px), linear-gradient(90deg, #c7bda81a 1px, transparent 1px);
+  background-size: 54px 64px;
+  content: '';
+  mask-image: linear-gradient(90deg, transparent, #000 50%);
+  pointer-events: none;
+}
+
+#main.home-page #intro .intro-grid {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  width: min(1450px, calc(100% - 64px));
+  grid-template-columns: minmax(0, .92fr) minmax(0, 1.08fr);
+  gap: clamp(58px, 7vw, 110px);
+  align-items: center;
+}
+
+#main.home-page #intro .intro-art {
+  position: relative;
+  isolation: isolate;
+  height: clamp(540px, 45vw, 690px);
+  margin: 0 14px 0 0;
+}
+
+#main.home-page #intro .intro-art::before {
+  position: absolute;
+  z-index: 0;
+  inset: -18px -18px 18px 18px;
+  border: 1px solid #c5a764;
+  content: '';
+  pointer-events: none;
+}
+
+#main.home-page #intro .intro-art::after {
+  content: none;
+}
+
+#main.home-page #intro .intro-art img {
+  position: relative;
+  z-index: 1;
+  object-position: center 42%;
+}
+
+#main.home-page #intro .intro-caption {
+  position: absolute;
+  z-index: 2;
+  right: auto;
+  bottom: 0;
+  left: 0;
+  display: grid;
+  gap: 4px;
+  min-width: 190px;
+  padding: 15px 20px 16px;
+  border-left: 2px solid var(--gold2);
+  background: var(--navy);
+  color: #fff;
+  font-size: 10px;
+  line-height: 1.45;
+  letter-spacing: .1em;
+}
+
+#main.home-page #intro .intro-caption span {
+  color: var(--gold2);
+  font-weight: 700;
+}
+
+#main.home-page #intro .intro-caption strong {
+  font-size: 12px;
+  letter-spacing: .08em;
+}
+
+#main.home-page #intro .intro-caption small {
+  color: #ffffffb8;
+  font-size: 9px;
+  letter-spacing: .08em;
+}
+
+#main.home-page #intro .intro-copy {
+  position: relative;
+  z-index: 2;
+  min-width: 0;
+  padding: 6px 0;
+}
+
+#main.home-page #intro .intro-copy .eyebrow {
+  margin-bottom: 24px;
+  color: #a88037;
+  font-size: 11px;
+  letter-spacing: .16em;
+}
+
+#main.home-page #intro .intro-copy .eyebrow::before {
+  width: 38px;
+}
+
+#main.home-page #intro .intro-pretitle {
+  margin: 0 0 1px;
+  color: var(--navy);
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+
+#main.home-page #intro .intro-wordmark {
+  display: block;
+  width: min(100%, 600px);
+  height: auto;
+  margin: 0 0 14px;
+  object-fit: contain;
+  object-position: left center;
+}
+
+#main.home-page #intro .intro-copy h2 {
+  max-width: 820px;
+  margin: 0 0 22px;
+  color: var(--navy);
+  font-family: var(--display, 'Montserrat', Arial, sans-serif);
+  font-size: clamp(40px, 4vw, 60px);
+  font-weight: 500;
+  line-height: 1.13;
+  letter-spacing: -.045em;
+  text-wrap: balance;
+}
+
+#main.home-page #intro .intro-copy h2 .intro-title-main,
+#main.home-page #intro .intro-copy h2 .intro-title-accent {
+  display: block;
+}
+
+#main.home-page #intro .intro-copy h2 .intro-title-main {
+  white-space: nowrap;
+}
+
+#main.home-page #intro .intro-copy h2 .intro-title-accent {
+  margin-top: .06em;
+  color: #b18c4f;
+}
+
+#main.home-page #intro .intro-description {
+  max-width: 700px;
+  margin: 0;
+  color: #526273;
+  font-size: 15px;
+  line-height: 1.7;
+}
+
+#main.home-page #intro .intro-divider {
+  width: 62px;
+  height: 2px;
+  margin: 24px 0 9px;
+  background: #b18c4f;
+}
+
+#main.home-page #intro .intro-copy .button.link {
+  display: inline-flex;
+  min-height: 44px;
+  gap: 14px;
+  padding: 8px 0;
+  color: var(--navy);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: .12em;
+}
+
+@media (max-width: 900px) and (min-width: 701px) {
+  #main.home-page #intro .intro-grid {
+    width: min(800px, calc(100% - 48px));
+    grid-template-columns: minmax(0, .85fr) minmax(0, 1.15fr);
+    gap: 42px;
+  }
+
+  #main.home-page #intro .intro-art {
+    height: 540px;
+  }
+
+  #main.home-page #intro .intro-copy h2 {
+    font-size: clamp(22px, 3.4vw, 30px);
+  }
+}
+
+@media (max-width: 700px) {
+  #main.home-page #intro {
+    padding: 70px 0 76px !important;
+    background: var(--cream);
+  }
+
+  #main.home-page #intro::before {
+    inset: 0 0 auto;
+    width: 100%;
+    height: 320px;
+  }
+
+  #main.home-page #intro::after {
+    display: none;
+  }
+
+  #main.home-page #intro .intro-grid {
+    width: calc(100% - 28px);
+    grid-template-columns: minmax(0, 1fr);
+    gap: 40px;
+  }
+
+  #main.home-page #intro .intro-art {
+    height: auto;
+    aspect-ratio: 1.08;
+    margin: 0 10px 0 0;
+  }
+
+  #main.home-page #intro .intro-art::before {
+    inset: -10px -10px 10px 10px;
+  }
+
+  #main.home-page #intro .intro-art img {
+    object-position: center 38%;
+  }
+
+  #main.home-page #intro .intro-caption {
+    min-width: 165px;
+    padding: 12px 15px;
+    font-size: 9px;
+  }
+
+  #main.home-page #intro .intro-caption strong {
+    font-size: 10px;
+  }
+
+  #main.home-page #intro .intro-copy {
+    padding: 0 1px;
+  }
+
+  #main.home-page #intro .intro-copy .eyebrow {
+    margin-bottom: 20px;
+    font-size: 10px;
+  }
+
+  #main.home-page #intro .intro-pretitle {
+    font-size: 13px;
+  }
+
+  #main.home-page #intro .intro-wordmark {
+    width: min(100%, 360px);
+    margin-bottom: 15px;
+  }
+
+  #main.home-page #intro .intro-copy h2 {
+    margin-bottom: 19px;
+    font-size: clamp(19px, 6.2vw, 24px);
+    line-height: 1.12;
+  }
+
+  #main.home-page #intro .intro-copy h2 .intro-title-accent {
+    margin-top: .1em;
+  }
+
+  #main.home-page #intro .intro-description {
+    font-size: 14px;
+    line-height: 1.7;
+  }
+
+  #main.home-page #intro .intro-divider {
+    margin-top: 21px;
+  }
+}

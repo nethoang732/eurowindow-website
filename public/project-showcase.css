@@ -1,0 +1,337 @@
+#main.home-page .projects-section {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  padding: clamp(78px, 7.2vw, 108px) 0 clamp(70px, 6vw, 92px);
+  background: #f3f0e9;
+}
+
+#main.home-page .projects-section::before {
+  position: absolute;
+  z-index: -1;
+  inset: 0;
+  background:
+    linear-gradient(90deg, transparent 2.1%, #e4ddd3 2.2%, transparent 4.1%),
+    repeating-linear-gradient(90deg, #ffffff00 0 72px, #ffffff80 73px 78px, #ffffff00 79px 186px);
+  content: '';
+  opacity: .48;
+  pointer-events: none;
+}
+
+#main.home-page .projects-section > .wrap {
+  width: min(1660px, calc(100% - 64px));
+}
+
+#main.home-page .projects-heading {
+  align-items: end;
+  margin-bottom: clamp(28px, 3.6vw, 52px);
+}
+
+#main.home-page .projects-heading .eyebrow {
+  color: #bd9149;
+  font-size: 11px;
+  letter-spacing: .11em;
+}
+
+#main.home-page .projects-heading .eyebrow::before {
+  width: 34px;
+}
+
+#main.home-page .projects-heading h2 {
+  margin-top: 13px;
+  color: #102a43;
+  font-size: clamp(42px, 4vw, 62px);
+  letter-spacing: -.055em;
+}
+
+#main.home-page .projects-all-link {
+  position: relative;
+  display: inline-flex;
+  min-height: 44px;
+  gap: 13px;
+  margin-bottom: 3px;
+  color: #12365b;
+  font-size: 11px;
+  letter-spacing: .04em;
+  white-space: nowrap;
+}
+
+#main.home-page .projects-all-link::before {
+  width: 36px;
+  height: 1px;
+  margin-right: 1px;
+  background: #bd9149;
+  content: '';
+}
+
+#main.home-page .projects-section .project-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: clamp(12px, 1.15vw, 21px);
+  align-items: stretch;
+}
+
+#main.home-page .projects-section .project-feature-card {
+  position: relative;
+  display: block;
+  min-width: 0;
+  height: auto;
+  aspect-ratio: 1.03 / 1;
+  overflow: hidden;
+  background: #0e2634;
+  color: #fff;
+  isolation: isolate;
+  text-decoration: none;
+}
+
+#main.home-page .projects-section .project-feature-image {
+  position: absolute;
+  z-index: -2;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform .65s cubic-bezier(.2,.7,.2,1);
+}
+
+#main.home-page .projects-section .project-feature-shade {
+  position: absolute;
+  z-index: -1;
+  inset: 0;
+  background: linear-gradient(180deg, #071c2d00 34%, #071c2d57 53%, #071c2df2 100%);
+  pointer-events: none;
+}
+
+#main.home-page .projects-section .project-feature-content {
+  position: absolute;
+  inset: auto 24px 16px clamp(22px, 2.1vw, 36px);
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+#main.home-page .projects-section .project-feature-number {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  margin-bottom: 8px;
+  color: #f1d49b;
+  font-family: var(--display, 'Montserrat', Arial, sans-serif);
+  font-size: 14px;
+  line-height: 1;
+}
+
+#main.home-page .projects-section .project-feature-number i {
+  display: block;
+  width: 30px;
+  height: 1px;
+  background: #f1d49b;
+}
+
+#main.home-page .projects-section .project-feature-type {
+  margin-bottom: 6px;
+  color: #ffffffed;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: .045em;
+  text-transform: uppercase;
+}
+
+#main.home-page .projects-section .project-feature-content h3 {
+  max-width: calc(100% - 12px);
+  margin: 0 0 7px;
+  color: #fff;
+  font-family: var(--display, 'Montserrat', Arial, sans-serif);
+  font-size: clamp(21px, 2vw, 34px);
+  font-weight: 500;
+  line-height: 1.15;
+  letter-spacing: -.035em;
+}
+
+#main.home-page .projects-section .project-feature-card:last-child .project-feature-content h3 {
+  font-size: clamp(17px, 1.65vw, 28px);
+  letter-spacing: -.025em;
+}
+
+#main.home-page .projects-section .project-feature-description {
+  display: -webkit-box;
+  width: 100%;
+  min-height: 3.9em;
+  overflow: hidden;
+  margin: 0 0 8px;
+  color: #ffffffec;
+  font-size: clamp(11px, .9vw, 14px);
+  line-height: 1.45;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+}
+
+#main.home-page .projects-section .project-feature-link {
+  display: inline-flex;
+  min-height: 38px;
+  align-items: center;
+  gap: 12px;
+  color: #fff;
+  font-size: 11px;
+  font-weight: 650;
+  letter-spacing: .045em;
+  text-transform: uppercase;
+}
+
+#main.home-page .projects-section .project-feature-link::before {
+  width: 35px;
+  height: 1px;
+  background: #dfb866;
+  content: '';
+}
+
+#main.home-page .projects-section .project-feature-link span {
+  font-size: 20px;
+  line-height: 1;
+}
+
+#main.home-page .projects-section .project-feature-arrow {
+  position: absolute;
+  right: 22px;
+  bottom: 21px;
+  z-index: 2;
+  display: grid;
+  width: 52px;
+  height: 52px;
+  place-items: center;
+  border: 1px solid #e0b765;
+  border-radius: 50%;
+  color: #fff;
+  font-size: 24px;
+  line-height: 1;
+  transition: color .2s ease, background-color .2s ease;
+}
+
+#main.home-page .projects-section .project-feature-card:hover .project-feature-image {
+  transform: scale(1.035);
+}
+
+#main.home-page .projects-section .project-feature-card:hover .project-feature-arrow {
+  background: #d7ae63;
+  color: #102a43;
+}
+
+#main.home-page .projects-section .project-feature-card:focus-visible,
+#main.home-page .projects-section .projects-all-link:focus-visible {
+  outline: 3px solid #bd9149;
+  outline-offset: 4px;
+}
+
+@media (max-width: 1000px) and (min-width: 701px) {
+  #main.home-page .projects-section > .wrap {
+    width: min(860px, calc(100% - 48px));
+  }
+
+  #main.home-page .projects-section .project-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px;
+  }
+
+  #main.home-page .projects-section .project-feature-card:last-child {
+    grid-column: 1 / -1;
+    aspect-ratio: 1.8 / 1;
+  }
+
+  #main.home-page .projects-section .project-feature-description {
+    font-size: 13px;
+  }
+}
+
+@media (max-width: 700px) {
+  #main.home-page .projects-section {
+    padding: 70px 0 74px;
+  }
+
+  #main.home-page .projects-section > .wrap {
+    width: calc(100% - 32px);
+  }
+
+  #main.home-page .projects-heading {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    gap: 10px;
+    margin-bottom: 22px;
+  }
+
+  #main.home-page .projects-heading h2 {
+    max-width: 12ch;
+    margin-top: 11px;
+    font-size: clamp(34px, 9.5vw, 43px);
+    text-wrap: balance;
+  }
+
+  #main.home-page .projects-all-link {
+    margin: 0;
+    font-size: 10px;
+  }
+
+  #main.home-page .projects-section .project-grid {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 14px;
+  }
+
+  #main.home-page .projects-section .project-feature-card,
+  #main.home-page .projects-section .project-feature-card:last-child {
+    grid-column: auto;
+    aspect-ratio: 1.12 / 1;
+  }
+
+  #main.home-page .projects-section .project-feature-shade {
+    background: linear-gradient(180deg, #071c2d00 22%, #071c2d70 47%, #071c2df5 100%);
+  }
+
+  #main.home-page .projects-section .project-feature-content {
+    right: 18px;
+    bottom: 13px;
+    left: 18px;
+  }
+
+  #main.home-page .projects-section .project-feature-number {
+    margin-bottom: 7px;
+    font-size: 12px;
+  }
+
+  #main.home-page .projects-section .project-feature-type {
+    margin-bottom: 5px;
+    font-size: 10px;
+  }
+
+  #main.home-page .projects-section .project-feature-content h3,
+  #main.home-page .projects-section .project-feature-card:last-child .project-feature-content h3 {
+    max-width: calc(100% - 45px);
+    margin-bottom: 5px;
+    font-size: clamp(19px, 5.7vw, 24px);
+    line-height: 1.17;
+  }
+
+  #main.home-page .projects-section .project-feature-description {
+    min-height: 3.1em;
+    margin-bottom: 4px;
+    font-size: 11px;
+    line-height: 1.4;
+    -webkit-line-clamp: 2;
+  }
+
+  #main.home-page .projects-section .project-feature-link {
+    min-height: 38px;
+    font-size: 10px;
+  }
+
+  #main.home-page .projects-section .project-feature-arrow {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #main.home-page .projects-section .project-feature-image,
+  #main.home-page .projects-section .project-feature-arrow {
+    transition: none;
+  }
+}
