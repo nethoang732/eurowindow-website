@@ -832,8 +832,22 @@ if (!script.includes('const homeContact = () =>')) {
 }
 if (!script.includes('${homeVideos()}${homeContact()}')) {
   const homepageCta = '${homeFaq()}${cta()}';
-  if (!script.includes(homepageCta)) throw new Error('Could not find the homepage-only CTA');
-  script = script.replace(homepageCta, '${homeVideos()}${homeContact()}');
+  if (script.includes(homepageCta)) {
+    script = script.replace(homepageCta, '${homeVideos()}${homeContact()}');
+  } else {
+    // Older checked-in homepage shells place the shared CTA directly after the
+    // project sections and do not include the newer FAQ block. Keep the video
+    // and contact sections homepage-only in both source variants.
+    const homeStart = script.indexOf('function home(){');
+    const homeEnd = script.indexOf('\n  function ', homeStart + 1);
+    const homeMarkup = homeStart >= 0
+      ? script.slice(homeStart, homeEnd >= 0 ? homeEnd : undefined)
+      : '';
+    if (!homeMarkup.includes('${cta()}')) {
+      throw new Error('Could not find a homepage insertion point for the video and contact sections');
+    }
+    script = script.replace('${cta()}', '${homeVideos()}${homeContact()}${cta()}');
+  }
 }
 const videoScrollHook = 'wireProductListingImages();wireFeaturedSystemMarquee()';
 if (!script.includes(videoScrollHook)) throw new Error('Could not find homepage video control hook');
