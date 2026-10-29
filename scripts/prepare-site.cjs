@@ -682,7 +682,7 @@ script = script.replace("const titles={'/':", "const titles={'/catalogue':'Catal
 if(renderFunctionIndex<0)throw new Error('Could not locate route renderer for Catalogue viewer');
 script=script.slice(0,renderFunctionIndex)+cataloguePdfViewerScript+'\n'+script.slice(renderFunctionIndex);
 const legacyRenderer = 'function render(){';
-const guardedRenderer = "function render(){if(!document.querySelector('#main')||document.querySelector('#main[data-server-route]'))return;";
+const guardedRenderer = "function render(){if(!document.querySelector('#main'))return;if(document.querySelector('#main[data-server-route]')){wirePage();return;}";
 if (!script.includes(legacyRenderer)) throw new Error('Could not locate the legacy renderer for server route protection');
 script = script.replace(legacyRenderer, guardedRenderer);
 if (!script.includes(guardedRenderer)) throw new Error('Could not protect server-rendered routes from the legacy renderer');
