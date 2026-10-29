@@ -18,7 +18,7 @@ function ProjectCard({ project, category }) {
     <article className="section-content-card">
       <Link className="section-card-link" href={`/cong-trinh-tieu-bieu/${project.slug}/`} data-next-route="true">
         {project.image ? <div className="section-card-image"><Image src={project.image} alt={project.name} width={1440} height={960} sizes="(max-width: 700px) 100vw, (max-width: 1100px) 50vw, 50vw" /></div> : null}
-        <div className="section-content-card-body"><p className="section-card-kicker">{category?.name || 'Công trình tiêu biểu'}</p><h2>{project.name}</h2>{project.summary ? <p>{project.summary}</p> : null}<span className="section-text-link">Xem thông tin công trình <span aria-hidden="true">↗</span></span></div>
+        <div className="section-content-card-body"><p className="section-card-kicker">{category?.name || 'Công trình tiêu biểu'}</p><h2>{project.name}</h2>{project.summary ? <p>{project.summary}</p> : null}<span className="section-text-link">Xem thông tin công trình <span aria-hidden="true">→</span></span></div>
       </Link>
     </article>
   );

@@ -46,7 +46,7 @@ export default function ProductStoryGallery({ images, productName }) {
           height={700}
           sizes="(max-width: 800px) 100vw, 50vw"
         />
-        <span className={styles.storyImageHint}>Phóng to ảnh ↗</span>
+        <span className={styles.storyImageHint}>Phóng to ảnh →</span>
         {images.length > 1 ? (
           <span className={styles.storyImageCount} aria-live="polite">
             {String(activeIndex + 1).padStart(2, '0')} / {String(images.length).padStart(2, '0')}

@@ -34,7 +34,7 @@ export default function FloatingContactButtons() {
       >
         <span className="floating-contact__icon floating-contact__icon--zalo" aria-hidden="true">Z</span>
         <span className="floating-contact__label">Chat Zalo</span>
-        <span className="floating-contact__arrow" aria-hidden="true">↗</span>
+        <span className="floating-contact__arrow" aria-hidden="true">→</span>
       </a>
       <a
         className="floating-contact__button floating-contact__button--call"
@@ -48,7 +48,7 @@ export default function FloatingContactButtons() {
           </svg>
         </span>
         <span className="floating-contact__label">Gọi 0967 111 082</span>
-        <span className="floating-contact__arrow" aria-hidden="true">↗</span>
+        <span className="floating-contact__arrow" aria-hidden="true">→</span>
       </a>
     </aside>
   );

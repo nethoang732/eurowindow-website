@@ -106,7 +106,7 @@ export function ProductHeader() {
             </div>
           ) : <Link key={href} href={href} onClick={closeNavigation}>{label}</Link>)}
         </nav>
-        <Link className="head-cta" href="/bao-gia/">Nhận tư vấn <span className="arrow" aria-hidden="true">↗</span></Link>
+        <Link className="head-cta" href="/bao-gia/">Nhận tư vấn <span className="arrow" aria-hidden="true">→</span></Link>
 
       </div>
     </header>

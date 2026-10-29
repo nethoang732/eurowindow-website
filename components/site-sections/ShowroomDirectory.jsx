@@ -89,7 +89,7 @@ export default function ShowroomDirectory() {
               <h3>{item.name.replace(/^SHOWROOM\s+/i, 'Showroom ')}</h3>
               <p className="showroom-address">{item.address}</p>
               <div className="showroom-contact"><a href={'tel:' + item.tel}><Icon name="phone"/><span>{item.phone}</span></a>{item.email ? <a href={'mailto:' + item.email}><Icon name="mail"/><span>{item.email}</span></a> : null}</div>
-              <div className="showroom-card-links"><button type="button" onClick={() => setSelected(item)}>Xem trên bản đồ <span aria-hidden="true">→</span></button><a href={mapSearch(item.address)} target="_blank" rel="noreferrer">Chỉ đường <span aria-hidden="true">↗</span></a></div>
+              <div className="showroom-card-links"><button type="button" onClick={() => setSelected(item)}>Xem trên bản đồ <span aria-hidden="true">→</span></button><a href={mapSearch(item.address)} target="_blank" rel="noreferrer">Chỉ đường <span aria-hidden="true">→</span></a></div>
             </div>
           </article>)}
         </div> : <div className="showroom-empty"><h3>Không tìm thấy showroom</h3><p>Thử từ khóa khác hoặc xóa bộ lọc để xem toàn bộ địa điểm.</p></div>}
@@ -97,8 +97,8 @@ export default function ShowroomDirectory() {
       </section>
 
       <section className="showroom-map-section" aria-labelledby="showroom-map-title">
-        <div className="showroom-map-copy"><p className="eyebrow">BẢN ĐỒ SHOWROOM</p><h2 id="showroom-map-title">Tìm showroom gần bạn</h2><p>Khám phá vị trí các showroom Eurowindow trên toàn quốc để được tư vấn và trải nghiệm sản phẩm trực tiếp.</p><a href={mapSearch(selected.address)} target="_blank" rel="noreferrer">XEM ĐƯỜNG ĐI <span aria-hidden="true">↗</span></a></div>
-        <div className="showroom-map-frame"><iframe title={'Bản đồ vị trí ' + selected.name} src={'https://maps.google.com/maps?q=' + encodeURIComponent(selected.address) + '&output=embed'} loading="lazy" referrerPolicy="no-referrer-when-downgrade"/><div className="showroom-map-card">{selected.image ? <Image src={selected.image} alt="" width={140} height={120} sizes="70px"/> : null}<div><strong>{selected.name.replace(/^SHOWROOM\s+/i, 'Showroom ')}</strong><p>{selected.address}</p><a href={'tel:' + selected.tel}>{selected.phone}</a><a href={mapSearch(selected.address)} target="_blank" rel="noreferrer">Xem chỉ đường ↗</a></div></div></div>
+        <div className="showroom-map-copy"><p className="eyebrow">BẢN ĐỒ SHOWROOM</p><h2 id="showroom-map-title">Tìm showroom gần bạn</h2><p>Khám phá vị trí các showroom Eurowindow trên toàn quốc để được tư vấn và trải nghiệm sản phẩm trực tiếp.</p><a href={mapSearch(selected.address)} target="_blank" rel="noreferrer">XEM ĐƯỜNG ĐI <span aria-hidden="true">→</span></a></div>
+        <div className="showroom-map-frame"><iframe title={'Bản đồ vị trí ' + selected.name} src={'https://maps.google.com/maps?q=' + encodeURIComponent(selected.address) + '&output=embed'} loading="lazy" referrerPolicy="no-referrer-when-downgrade"/><div className="showroom-map-card">{selected.image ? <Image src={selected.image} alt="" width={140} height={120} sizes="70px"/> : null}<div><strong>{selected.name.replace(/^SHOWROOM\s+/i, 'Showroom ')}</strong><p>{selected.address}</p><a href={'tel:' + selected.tel}>{selected.phone}</a><a href={mapSearch(selected.address)} target="_blank" rel="noreferrer">Xem chỉ đường →</a></div></div></div>
       </section>
     </div>
   );

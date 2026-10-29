@@ -27,7 +27,7 @@ function NewsCard({ article, category, featured = false }) {
         <p className="news-card-meta"><span>{category}</span><i aria-hidden="true">|</i><time dateTime={article.date}>{formatDate(article.date)}</time></p>
         <h2>{article.title}</h2>
         {article.summary ? <p className="news-card-summary">{article.summary}</p> : null}
-        <span className="news-card-action">Đọc bài viết <span aria-hidden="true">↗</span></span>
+        <span className="news-card-action">Đọc bài viết <span aria-hidden="true">→</span></span>
       </div>
       <span className="news-card-arrow" aria-hidden="true">→</span>
     </Link>
