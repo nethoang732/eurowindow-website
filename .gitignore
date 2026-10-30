@@ -10,3 +10,4 @@ public/site.css
 public/site-script.js
 .vercel
 .env*
+!.env.example

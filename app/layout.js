@@ -1,6 +1,7 @@
 import './globals.css';
 import InternalRouteNavigation from '../components/InternalRouteNavigation';
 import FloatingContactButtons from '../components/FloatingContactButtons';
+import ContactSuccessDialog from '../components/ContactSuccessDialog';
 
 export const metadata = {
   icons: {
@@ -24,7 +25,7 @@ export default function RootLayout({ children }) {
         <script dangerouslySetInnerHTML={{ __html: "document.addEventListener('load',function(event){if(event.target&&event.target.id==='eurowindow-google-fonts')event.target.media='all'},true)" }} />
         <link id="eurowindow-google-fonts" href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet" media="print" />
         <link rel="stylesheet" href={basePath + '/site.css?v=hero-playlist-v1-20261024'} />
-        <link rel="stylesheet" href={basePath + '/site-navigation.css?v=header-unified-v4-20261029'} />
+        <link rel="stylesheet" href={basePath + '/site-navigation.css?v=mobile-menu-contrast-v1-20261030'} />
         <link rel="stylesheet" href={basePath + '/site-product-pages.css?v=full-site-visual-fix-2026-10-18'} />
         <link rel="stylesheet" href={basePath + '/site-content-sections.css?v=policy-documents-v2-20261024'} />
         <link rel="stylesheet" href={basePath + '/home-hero.css?v=brand-hero-v4-20261027'} />
@@ -37,7 +38,7 @@ export default function RootLayout({ children }) {
         <link rel="stylesheet" href={basePath + '/home-contact.css?v=contact-height-v1-20261028'} />
         <link rel="stylesheet" href={basePath + '/quote-band.css?v=reference-contact-v1-20261028'} />
       </head>
-      <body><InternalRouteNavigation /><FloatingContactButtons />{children}</body>
+      <body><InternalRouteNavigation /><FloatingContactButtons /><ContactSuccessDialog />{children}</body>
     </html>
   );
 }

@@ -852,6 +852,9 @@ if (!script.includes('${homeVideos()}${homeContact()}')) {
 const videoScrollHook = 'wireProductListingImages();wireFeaturedSystemMarquee()';
 if (!script.includes(videoScrollHook)) throw new Error('Could not find homepage video control hook');
 script = script.replace(videoScrollHook, videoScrollHook + ';wireHomeVideos();');
+const contactSuccessPattern = /(msg\.textContent=result\.message\|\|[^;]+;)(f\.reset\(\))/;
+if (!contactSuccessPattern.test(script)) throw new Error('Could not find the successful contact form response');
+script = script.replace(contactSuccessPattern, "$1window.dispatchEvent(new CustomEvent('eurowindow:contact-success'));$2");
 fs.writeFileSync(path.join(publicDir, 'site-script.js'), script);
 const pageShell = shell.replace(/<main id="main">[\s\S]*?<\/main>/i, '<main id="main"></main>');
 if (!pageShell.includes('<main id="main"></main>')) throw new Error('Could not create the page shell placeholder');

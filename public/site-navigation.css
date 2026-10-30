@@ -145,6 +145,10 @@
   .site-header:has(.nav.open){background:#0c2b50!important;color:#fff!important;border-bottom-color:#d4ae5d;}
   .site-header:has(.nav.open) .header-utility{background:#0c2b50!important;color:#fff!important;}
   .site-header:has(.nav.open) .head-inner{background:#0c2b50;}
+  /* The legacy site.css switches the scrolled navigation to white. Keep the open
+     mobile drawer navy so its links never inherit white-on-white contrast. */
+  .site-header.scrolled .nav.open,
+  .site-header .nav.open{background:#0c2b50!important;color:#fff!important;}
   .site-header:has(.nav.open) .brand-image img{filter:brightness(0) invert(1)!important;}
   .site-header .nav>a,
   .site-header .nav .nav-dropdown-trigger,
@@ -174,4 +178,6 @@
   .site-header .nav .nav-dropdown-menu a[aria-current="page"]{
     box-shadow:inset 2px 0 #d4ae5d;
   }
+  .site-header .nav.open .nav-dropdown-menu{background:transparent!important;color:#fff!important;}
+  .site-header .nav.open .nav-dropdown-menu a{border-color:#ffffff20!important;}
 }

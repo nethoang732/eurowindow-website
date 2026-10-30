@@ -83,7 +83,7 @@ export function ProductHeader() {
         <Link className="brand brand-image" href="/" aria-label="Eurowindow, trang chủ">
           <Image src="/eurowindow-logo.png" alt="Eurowindow – Tiên phong. Kiến tạo. Đồng hành." width={216} height={54} priority />
         </Link>
-        <button ref={menuButtonRef} className="menu-btn" type="button" aria-label={open ? '??ng menu' : 'M? menu'} aria-expanded={open} aria-controls="nav" onClick={() => { setOpen(value => !value); setOpenDropdown(null); }}><span aria-hidden="true">{open ? '?' : '?'}</span></button>
+        <button ref={menuButtonRef} className="menu-btn" type="button" aria-label={open ? '\u0110\u00f3ng menu' : 'M\u1edf menu'} aria-expanded={open} aria-controls="nav" onClick={() => { setOpen(value => !value); setOpenDropdown(null); }}><span aria-hidden="true">{open ? '\u00d7' : '\u2630'}</span></button>
         <nav id="nav" className={open ? 'nav open' : 'nav'} aria-label="Điều hướng chính">
           {links.map(({ label, href, id, children }) => children ? (
             <div

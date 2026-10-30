@@ -55,6 +55,7 @@ export default function ProductQuoteForm({ productName }) {
 
       setMessage('Yêu cầu đã được gửi. Eurowindow sẽ sớm liên hệ với bạn.');
       form.reset();
+      window.dispatchEvent(new CustomEvent('eurowindow:contact-success'));
     } catch {
       setMessage('Chưa gửi được yêu cầu. Vui lòng thử lại hoặc gọi hotline (024) 3747 4700.');
     } finally {

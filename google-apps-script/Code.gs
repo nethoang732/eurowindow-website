@@ -193,8 +193,8 @@ function sendNotification_(data, customerId, date) {
       + escapeHtml_(row[1] || '—') + '</td></tr>';
   }).join('');
   const plainText = rows.map(function (row) { return row[0] + ': ' + (row[1] || '—'); }).join('\n');
-  const subject = 'Yêu cầu tư vấn mới ' + customerId + ' | Eurowindow';
-  const htmlBody = '<div style="margin:0;padding:28px 12px;background:#f3f5f7;font-family:Arial,sans-serif;color:#24374a">'
+  const subject = 'Eurowindow website consultation request | ' + customerId;
+  const htmlBody = encodeEmailHtml_('<div lang="vi" style="margin:0;padding:28px 12px;background:#f3f5f7;font-family:Arial,sans-serif;color:#24374a">'
     + '<div style="max-width:720px;margin:0 auto;background:#fff;border:1px solid #dbe2e9">'
     + '<div style="padding:22px 28px;background:#0b2c4d;border-bottom:4px solid #c5a45b;color:#fff">'
     + '<div style="font-size:12px;letter-spacing:2px;color:#e1c57f;text-transform:uppercase">Eurowindow · Website</div>'
@@ -202,8 +202,17 @@ function sendNotification_(data, customerId, date) {
     + '<div style="padding:24px 28px"><p style="margin:0 0 16px;color:#65758a">Thông tin khách hàng gửi từ website Eurowindow.</p>'
     + '<table role="presentation" cellpadding="0" cellspacing="0" style="width:100%;border-collapse:collapse;font-size:14px">'
     + htmlRows + '</table><p style="margin:20px 0 0;padding-top:14px;border-top:1px solid #e2e7ec;font-size:12px;color:#758398">Trạng thái tiếp nhận: <strong style="color:#0b2c4d">Mới</strong></p>'
-    + '</div></div></div>';
+    + '</div></div></div>');
   MailApp.sendEmail({ to: CONFIG.recipient, subject: subject, body: plainText, htmlBody: htmlBody, name: 'Eurowindow Website' });
+}
+
+function encodeEmailHtml_(html) {
+  // Numeric character references keep Vietnamese text readable in clients that
+  // misinterpret the message's declared charset, including some Outlook setups.
+  return Array.from(String(html)).map(function (character) {
+    const codePoint = character.codePointAt(0);
+    return codePoint > 127 ? '&#' + codePoint + ';' : character;
+  }).join('');
 }
 
 function safeCell_(value) {
