@@ -10,7 +10,18 @@ const nextConfig = {
   trailingSlash: true,
   basePath,
   assetPrefix: basePath ? `${basePath}/` : undefined,
-  images: { unoptimized: true }
+  images: { unoptimized: true },
+  ...(process.env.GITHUB_ACTIONS === 'true' ? {} : {
+    async redirects() {
+      return [
+        {
+          source: '/he-nhom/:path*',
+          destination: '/san-pham/cua-nhom/',
+          permanent: true
+        }
+      ];
+    }
+  })
 };
 
 export default nextConfig;

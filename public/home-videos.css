@@ -12,7 +12,7 @@
   z-index: -1;
   inset: 0;
   background: linear-gradient(90deg, #f7f5f0f2 0%, #f7f5f0de 42%, #f7f5f0a6 100%),
-    url('/images/sections/nha-pho-hien-dai-minh-hoa.webp') right center / cover no-repeat;
+    url('/images/sections/nha-pho-hien-dai-minh-hoa.optimized.webp') right center / cover no-repeat;
   content: '';
   pointer-events: none;
 }
@@ -318,7 +318,7 @@
 
   #main.home-page .home-video-section::before {
     background: linear-gradient(90deg, #f7f5f0ef, #f7f5f0d9),
-      url('/images/sections/nha-pho-hien-dai-minh-hoa.webp') center / cover no-repeat;
+      url('/images/sections/nha-pho-hien-dai-minh-hoa.optimized.webp') center / cover no-repeat;
   }
 
   #main.home-page .home-video-wrap {

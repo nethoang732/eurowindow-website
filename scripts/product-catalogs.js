@@ -4,7 +4,7 @@
   const productCatalogData={
     'cua-upvc':[
       ['Cửa đi uPVC 1 cánh mở quay ngoài','/images/eurowindow-products/cua-di-upvc-1-canh-mo-quay-ngoai-eurowindow.webp','Cửa đi','Mở quay ngoài','Cửa đi mở quay'],
-      ['Cửa đi uPVC 2 cánh mở quay ngoài','/images/door-reference/upvc-Cua-di-uPVC-mo-quay-2-canh.jpg','Cửa đi','Mở quay ngoài','Cửa đi mở quay'],
+      ['Cửa đi uPVC 2 cánh mở quay ngoài','/images/door-reference/upvc-Cua-di-uPVC-mo-quay-2-canh.optimized.webp','Cửa đi','Mở quay ngoài','Cửa đi mở quay'],
       ['Cửa đi uPVC 2 cánh mở trượt','/images/eurowindow-products/cua-di-upvc-2-canh-mo-truot-eurowindow.webp','Cửa đi','Mở trượt','Cửa đi mở trượt'],
       ['Cửa đi uPVC 4 cánh xếp trượt','/images/eurowindow-products/cua-di-upvc-4-canh-xep-truot-eurowindow.webp','Cửa đi','Xếp trượt','Cửa đi xếp trượt'],
       ['Cửa đi uPVC 6 cánh xếp trượt','/images/eurowindow-products/cua-di-upvc-xep-truot-6-canh-eurowindow.webp','Cửa đi','Xếp trượt','Cửa đi xếp trượt'],

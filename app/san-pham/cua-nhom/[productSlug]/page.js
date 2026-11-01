@@ -1,14 +1,7 @@
 import { notFound } from 'next/navigation';
 import ProductDetail from '../../../../components/product-detail/ProductDetail';
 import { aluminumProducts, getAluminumProduct } from '../../../../lib/products/cua-nhom';
-
-const siteOrigin = () => {
-  const configured = process.env.VERCEL_PROJECT_PRODUCTION_URL || process.env.NEXT_PUBLIC_VERCEL_PROJECT_PRODUCTION_URL || process.env.NEXT_PUBLIC_SITE_URL;
-  if (!configured) return undefined;
-  const url = new URL(configured.startsWith('http') ? configured : 'https://' + configured);
-  if (url.hostname.toLowerCase() === 'eurowindow.biz' || url.hostname.toLowerCase().endsWith('.eurowindow.biz')) return undefined;
-  return url.origin;
-};
+import { getRobotsMetadata, getSiteOrigin, limitMetaDescription } from '../../../../lib/content/site-section-utils';
 const pagePath = (product) => '/san-pham/cua-nhom/' + product.slug + '/';
 export const dynamicParams = false;
 export function generateStaticParams() {
@@ -18,14 +11,15 @@ export function generateStaticParams() {
 export function generateMetadata({ params }) {
   const product = getAluminumProduct(params.productSlug);
   if (!product) return {};
-  const origin = siteOrigin();
+  const origin = getSiteOrigin();
   const canonical = origin ? new URL(pagePath(product), origin).toString() : undefined;
-  const description = product.summary.slice(0, 155);
+  const description = limitMetaDescription(product.summary);
   return {
     title: product.name + ' | Eurowindow',
     description,
     openGraph: { type: 'website', locale: 'vi_VN', title: product.name + ' | Eurowindow', description, ...(canonical ? { url: canonical } : {}) },
-    robots: { index: true, follow: true },
+    twitter: { card: 'summary', title: product.name + ' | Eurowindow', description },
+    robots: getRobotsMetadata(),
     ...(canonical ? { alternates: { canonical } } : {})
   };
 }
@@ -33,7 +27,7 @@ export function generateMetadata({ params }) {
 export default function ProductRoute({ params }) {
   const product = getAluminumProduct(params.productSlug);
   if (!product) notFound();
-  const origin = siteOrigin();
+  const origin = getSiteOrigin();
   const canonicalUrl = origin ? new URL(pagePath(product), origin).toString() : undefined;
   return <ProductDetail product={product} canonicalUrl={canonicalUrl} siteOrigin={origin} />;
 }

@@ -1,3 +1,0 @@
-User-agent: *
-Allow: /
-Sitemap: https://eurowindow-architecture.woodsy-poppy-0078.chatgpt.site/sitemap.xml

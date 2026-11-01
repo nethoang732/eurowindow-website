@@ -1,0 +1,23 @@
+# Keep project secrets and local environment files out of source deployments.
+.env*
+**/.env*
+
+# Exclude generated build output and browser-test artifacts. Keep dist/ because prebuild reads dist/index.html.
+.git
+node_modules
+.next
+.next-dev
+out
+output
+.playwright-cli
+.npm-cache
+
+# Exclude unrelated workspace artifacts and editor/agent configuration.
+Thiep-hoa-20-10
+mobile-preview-iphone-17.png
+docs
+PHASE7*.md
+.vscode
+.agents
+.codex
+.aws

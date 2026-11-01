@@ -3,9 +3,13 @@ import { catalogProducts } from '../lib/products/catalog-products';
 import { getSectionPaths, getSiteOrigin } from '../lib/content/site-section-utils';
 
 const indexableRoutes = [
-  '/', '/gioi-thieu/', '/catalogue/', '/san-pham/', '/san-pham/cua-nhom/', '/san-pham/cua-upvc/', '/san-pham/cua-go/', '/san-pham/cua-cuon/', '/san-pham/cua-thong-minh-the-he-moi/', '/san-pham/vach-kinh-mat-dung/',
-  '/du-an/', '/tin-tuc/', '/lien-he/', '/bao-gia/',
-  ...getSectionPaths().filter((route) => !route.startsWith('chinh-sach')).map((route) => '/' + route + '/')
+  '/', '/gioi-thieu/', '/catalogue/', '/san-pham/',
+  '/san-pham/cua-nhom/', '/san-pham/cua-upvc/', '/san-pham/cua-go/', '/san-pham/cua-cuon/',
+  '/san-pham/cua-thong-minh-the-he-moi/', '/san-pham/vach-kinh-mat-dung/',
+  '/san-pham/cua-di-mo-quay/', '/san-pham/cua-di-mo-truot/', '/san-pham/cua-xep-truot/',
+  '/san-pham/cua-so-mo-quay/', '/san-pham/cua-so-mo-hat/',
+  '/tin-tuc/', '/lien-he/', '/bao-gia/',
+  ...getSectionPaths().map((route) => '/' + route + '/')
 ];
 
 export default function sitemap() {

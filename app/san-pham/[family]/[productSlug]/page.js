@@ -1,14 +1,7 @@
 import { notFound } from 'next/navigation';
 import ProductDetail from '../../../../components/product-detail/ProductDetail';
 import { catalogProducts, getCatalogProductByRoute } from '../../../../lib/products/catalog-products';
-
-const origin = () => {
-  const configured = process.env.VERCEL_PROJECT_PRODUCTION_URL || process.env.NEXT_PUBLIC_VERCEL_PROJECT_PRODUCTION_URL || process.env.NEXT_PUBLIC_SITE_URL;
-  if (!configured) return undefined;
-  const url = new URL(configured.startsWith('http') ? configured : `https://${configured}`);
-  if (url.hostname.toLowerCase() === 'eurowindow.biz' || url.hostname.toLowerCase().endsWith('.eurowindow.biz')) return undefined;
-  return url.origin;
-};
+import { getRobotsMetadata, getSiteOrigin, limitMetaDescription } from '../../../../lib/content/site-section-utils';
 const pagePath = (product) => `/san-pham/${product.familySlug}/${product.slug}/`;
 export const dynamicParams = false;
 
@@ -19,12 +12,18 @@ export function generateStaticParams() {
 export function generateMetadata({ params }) {
   const product = getCatalogProductByRoute(params.family, params.productSlug);
   if (!product) return {};
-  const siteOrigin = origin();
+  const siteOrigin = getSiteOrigin();
   const canonical = siteOrigin ? new URL(pagePath(product), siteOrigin).toString() : undefined;
+  const descriptions = {
+    'kinh-an-toan-nhieu-lop': 'Kính an toàn nhiều lớp ghép các lớp kính với màng liên kết, hỗ trợ giữ mảnh kính khi nứt vỡ; chiều dày được chọn theo ứng dụng.',
+    'kinh-cach-nhiet-an-toan-act': 'Kính cách nhiệt an toàn ACT: thông tin sản phẩm, ứng dụng và các yếu tố lựa chọn theo từng vị trí công trình.'
+  };
+  const description = descriptions[product.slug] || limitMetaDescription(product.summary);
   return {
-    title: `${product.name} | Eurowindow`, description: product.summary.slice(0, 155),
-    openGraph: { type: 'website', locale: 'vi_VN', title: `${product.name} | Eurowindow`, description: product.summary.slice(0, 155), ...(canonical ? { url: canonical } : {}) },
-    robots: { index: true, follow: true },
+    title: `${product.name} | Eurowindow`, description,
+    openGraph: { type: 'website', locale: 'vi_VN', title: `${product.name} | Eurowindow`, description, ...(canonical ? { url: canonical } : {}) },
+    twitter: { card: 'summary', title: `${product.name} | Eurowindow`, description },
+    robots: getRobotsMetadata(),
     ...(canonical ? { alternates: { canonical } } : {})
   };
 }
@@ -32,7 +31,7 @@ export function generateMetadata({ params }) {
 export default function CatalogProductRoute({ params }) {
   const product = getCatalogProductByRoute(params.family, params.productSlug);
   if (!product) notFound();
-  const siteOrigin = origin();
+  const siteOrigin = getSiteOrigin();
   const canonicalUrl = siteOrigin ? new URL(pagePath(product), siteOrigin).toString() : undefined;
   return <ProductDetail product={product} canonicalUrl={canonicalUrl} siteOrigin={siteOrigin} />;
 }

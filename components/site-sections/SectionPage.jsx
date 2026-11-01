@@ -62,7 +62,7 @@ function PageHero({ segments, descriptor, eyebrow }) {
   const heroImage = policies || newsLanding ? '/images/sections/cua-kinh-hien-dai-minh-hoa.webp' : content.showrooms[0]?.image;
   return (
     <header className={'section-page-hero' + (showroom ? ' section-page-hero-showroom' : '') + (policies ? ' section-page-hero-policies' : '') + (newsLanding ? ' section-page-hero-news' : '') + (descriptor.type === 'article' ? ' section-page-hero-article' : '')}>
-      {(showroom || policies || newsLanding) && heroImage ? <><Image className="section-page-hero-image" src={heroImage} alt="" fill priority sizes="100vw" /><span className="section-page-hero-shade" aria-hidden="true" /></> : null}
+      {(showroom || policies || newsLanding) && heroImage ? <>{newsLanding ? <picture className="section-page-hero-picture"><source media="(max-width: 768px)" srcSet="/images/sections/cua-kinh-hien-dai-minh-hoa.mobile-640.webp 640w, /images/sections/cua-kinh-hien-dai-minh-hoa.mobile-1200.webp 1200w" sizes="100vw" /><Image className="section-page-hero-image" src={heroImage} alt="" fill priority sizes="100vw" /></picture> : <Image className="section-page-hero-image" src={heroImage} alt="" fill priority sizes="100vw" />}<span className="section-page-hero-shade" aria-hidden="true" /></> : null}
       <div className="wrap">
         <Breadcrumbs segments={segments} descriptor={descriptor} />
         <p className="eyebrow">{eyebrow}</p>
@@ -222,7 +222,7 @@ export function SectionPage({ segments = [] }) {
   if (descriptor.type === 'article') return <ArticleDetail article={descriptor.article} segments={segments} />;
   if (descriptor.type === 'policy') return <PolicyPage segments={segments} policy={descriptor.policy} />;
   if (descriptor.type === 'policies') return <><PageHero segments={segments} descriptor={descriptor} eyebrow="CHÍNH SÁCH" /><section className="section-content-area policy-content"><div className="wrap"><div className="policy-grid">{content.policies.map((item) => <article className="policy-card" key={item.slug}>
-    <div className="policy-card-image"><Image src={item.slug === 'bao-hanh' ? '/images/door-reference/upvc-Cua-di-uPVC-mo-quay-2-canh.jpg' : '/images/sections/cua-kinh-hien-dai-minh-hoa.webp'} alt={item.slug === 'bao-hanh' ? 'Chi tiết cửa Eurowindow' : 'Không gian sống với cửa kính Eurowindow'} width={760} height={760} sizes="(max-width: 700px) 100vw, 24vw" /></div>
+    <div className="policy-card-image"><Image src={item.slug === 'bao-hanh' ? '/images/door-reference/upvc-Cua-di-uPVC-mo-quay-2-canh.optimized.webp' : '/images/sections/cua-kinh-hien-dai-minh-hoa.webp'} alt={item.slug === 'bao-hanh' ? 'Chi tiết cửa Eurowindow' : 'Không gian sống với cửa kính Eurowindow'} width={760} height={760} sizes="(max-width: 700px) 100vw, 24vw" /></div>
     <div className="policy-card-body"><span className="policy-card-icon" aria-hidden="true">{item.slug === 'bao-hanh' ? <svg viewBox="0 0 24 24"><path d="M12 3 20 6v5c0 5-3.4 8.2-8 10-4.6-1.8-8-5-8-10V6l8-3Z"/><path d="m8.5 12 2.2 2.2 4.8-5"/></svg> : <svg viewBox="0 0 24 24"><rect x="4" y="10" width="16" height="11" rx="1"/><path d="M8 10V7a4 4 0 0 1 8 0v3m-4 4v3"/></svg>}</span>
       <p className="eyebrow">CHÍNH SÁCH</p><h2>{item.name}</h2><p className="policy-card-summary">{item.summary}</p><RouteLink className="policy-card-link" href={'/chinh-sach/' + item.slug + '/'}>Xem chính sách <span aria-hidden="true">→</span></RouteLink>
     </div>

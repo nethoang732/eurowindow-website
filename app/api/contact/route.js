@@ -41,6 +41,32 @@ function error(status, code, message, headers) {
   return jsonResponse({ success: false, code, message }, status, headers);
 }
 
+async function readBoundedBody(request, maxBytes) {
+  if (!request.body) return { tooLarge: false, text: '' };
+
+  const reader = request.body.getReader();
+  const chunks = [];
+  let totalBytes = 0;
+
+  try {
+    while (true) {
+      const { done, value } = await reader.read();
+      if (done) break;
+
+      totalBytes += value.byteLength;
+      if (totalBytes > maxBytes) {
+        await reader.cancel();
+        return { tooLarge: true, text: '' };
+      }
+      chunks.push(Buffer.from(value));
+    }
+  } finally {
+    reader.releaseLock();
+  }
+
+  return { tooLarge: false, text: Buffer.concat(chunks, totalBytes).toString('utf8') };
+}
+
 function clean(value, maxLength = 2000) {
   if (value === undefined || value === null) return '';
   return String(value).replace(/[\u0000-\u0008\u000B\u000C\u000E-\u001F\u007F]/g, '').trim().slice(0, maxLength);
@@ -256,11 +282,11 @@ export async function POST(request) {
 
   let input;
   try {
-    const rawBody = await request.text();
-    if (Buffer.byteLength(rawBody, 'utf8') > MAX_BODY_BYTES) {
+    const body = await readBoundedBody(request, MAX_BODY_BYTES);
+    if (body.tooLarge) {
       return error(413, 'PAYLOAD_TOO_LARGE', 'Thông tin gửi lên vượt quá giới hạn.', headers);
     }
-    input = JSON.parse(rawBody);
+    input = JSON.parse(body.text);
   } catch {
     return error(400, 'INVALID_JSON', 'Dữ liệu biểu mẫu không hợp lệ.', headers);
   }

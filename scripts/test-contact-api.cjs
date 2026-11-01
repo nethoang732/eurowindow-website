@@ -141,10 +141,33 @@ async function main() {
 
   try {
     await waitForNext(`${appOrigin}/api/contact`, child);
-    const endpoint = `${appOrigin}/api/contact`;
+    const endpoint = `${appOrigin}/api/contact/`;
     const invalid = await postLead(endpoint, { name: 'A', phone: '123', email: '' });
     assert.equal(invalid.status, 400, 'input validation should reject invalid details');
     assert.equal(apiCalls, 0, 'invalid details must not reach Supabase');
+
+    const oversized = await fetch(endpoint, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: new ReadableStream({
+        start(controller) {
+          controller.enqueue(new TextEncoder().encode(' '.repeat(16 * 1024 + 1)));
+          controller.close();
+        },
+      }),
+      duplex: 'half',
+      signal: AbortSignal.timeout(20000),
+    });
+    assert.equal(oversized.status, 413, 'streamed bodies beyond the configured limit must be rejected');
+    assert.equal(apiCalls, 0, 'oversized details must not reach Supabase');
+
+    const disallowedOrigin = await fetch(endpoint, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', Origin: 'https://untrusted.example' },
+      body: JSON.stringify({ name: 'Blocked Customer', phone: '09671110000' }),
+    });
+    assert.equal(disallowedOrigin.status, 403, 'untrusted browser origins must be rejected');
+    assert.equal(apiCalls, 0, 'disallowed origins must not reach Supabase');
 
     const payload = {
       name: 'Test Customer',
@@ -180,7 +203,13 @@ async function main() {
     assert.equal(databaseFailure.body.success, false);
     assert.equal(leads.size, 2);
 
-    console.log('Contact API smoke test passed: validation, secure service-role call, persistence, duplicate retry, email failure isolation, and database failure response.');
+    const finalAllowedRequest = await postLead(endpoint, { ...payload, phone: '0967111085', message: 'Rate limit boundary test' });
+    assert.equal(finalAllowedRequest.status, 503, 'the fifth request is within the configured rate window');
+    const rateLimited = await postLead(endpoint, { ...payload, phone: '0967111086', message: 'Rate limit exceeded test' });
+    assert.equal(rateLimited.status, 429, 'requests beyond the configured rate must be rejected');
+    assert.equal(leads.size, 2, 'rate-limited requests must not create leads');
+
+    console.log('Contact API smoke test passed: bounded request body, CORS, validation, rate limit, secure service-role call, persistence, duplicate retry, email failure isolation, and database failure response.');
   } finally {
     child.kill();
     mockServer.close();

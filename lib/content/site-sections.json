@@ -6,7 +6,7 @@
       "phone": "(84 - 28) 6278 8124 - 0903 11 8888",
       "email": "Showroom.mdc@eurowindow.biz",
       "tel": "+842862788124",
-      "image": "/images/sections/official/showroom-showroom-mac-dinh-chi-eurowindow.webp"
+      "image": "/images/sections/official/showroom-showroom-mac-dinh-chi-eurowindow.optimized.webp"
     },
     {
       "name": "SHOWROOM TÔN THẤT TÙNG",
@@ -30,7 +30,7 @@
       "phone": "(84-225) 3 956 111/ 3 956 222 - 0909 888 000",
       "email": "Showroom.hp@eurowindow.biz",
       "tel": "+842253956111",
-      "image": "/images/sections/official/showroom-showroom-hai-phong-eurowindow.webp"
+      "image": "/images/sections/official/showroom-showroom-hai-phong-eurowindow.optimized.webp"
     },
     {
       "name": "SHOWROOM QUẢNG NINH",
@@ -46,7 +46,7 @@
       "phone": "(84 - 237) 3964 961 - 0909 888 000",
       "email": "Showroom.th@eurowindow.biz",
       "tel": "+842373964961",
-      "image": "/images/sections/official/showroom-showroom-thanh-hoa-eurowindow.webp"
+      "image": "/images/sections/official/showroom-showroom-thanh-hoa-eurowindow.optimized.webp"
     },
     {
       "name": "SHOWROOM VINH",
@@ -54,7 +54,7 @@
       "phone": "(84 - 238) 3 588 808/3 588 807 - 0909 888 000",
       "email": "Showroom.vinh@eurowindow.biz",
       "tel": "+842383588808",
-      "image": "/images/sections/official/showroom-showroom-vinh-eurowindow.webp"
+      "image": "/images/sections/official/showroom-showroom-vinh-eurowindow.optimized.webp"
     },
     {
       "name": "SHOWROOM PHAN ĐĂNG LƯU",
@@ -70,7 +70,7 @@
       "phone": "(84 - 262) 393 61 61 - 0903 11 8888",
       "email": "Showroom.bmt@eurowindow.biz",
       "tel": "+842623936161",
-      "image": "/images/sections/official/showroom-showroom-buon-ma-thuot-eurowindow.webp"
+      "image": "/images/sections/official/showroom-showroom-buon-ma-thuot-eurowindow.optimized.webp"
     },
     {
       "name": "SHOWROOM NHA TRANG",
@@ -141,19 +141,19 @@
       "slug": "cang-hang-khong-quoc-te-phu-bai",
       "name": "CẢNG HÀNG KHÔNG PHÚ BÀI HUẾ",
       "category": "cong-trinh-cap-quoc-gia",
-      "image": "/images/sections/official/cong-trinh-cang-hang-khong-quoc-te-phu-bai-eurowindow.png"
+      "image": "/images/sections/official/cong-trinh-cang-hang-khong-quoc-te-phu-bai-eurowindow.optimized.webp"
     },
     {
       "slug": "benh-vien-viet-phap",
       "name": "Bệnh viện Việt Pháp",
       "category": "cong-trinh-cap-quoc-gia",
-      "image": "/images/sections/official/cong-trinh-benh-vien-viet-phap-eurowindow.jpg"
+      "image": "/images/sections/official/cong-trinh-benh-vien-viet-phap-eurowindow.optimized.webp"
     },
     {
       "slug": "diamond-crown-hai-phong",
       "name": "DIAMOND CROWN HẢI PHÒNG",
       "category": "toa-nha-van-phong-chung-cu",
-      "image": "/images/sections/official/cong-trinh-diamond-crown-hai-phong-eurowindow.png"
+      "image": "/images/sections/official/cong-trinh-diamond-crown-hai-phong-eurowindow.optimized.webp"
     },
     {
       "slug": "khach-san-da-nang-golden-bay",
@@ -178,7 +178,7 @@
       "slug": "khu-do-thi-sala",
       "name": "Khu đô thị Sala",
       "category": "cong-trinh-dan-dung",
-      "image": "/images/sections/official/cong-trinh-khu-do-thi-sala-eurowindow.jpg"
+      "image": "/images/sections/official/cong-trinh-khu-do-thi-sala-eurowindow.optimized.webp"
     }
   ],
   "newsCategories": [
@@ -205,7 +205,7 @@
   ],
   "articles": [
     {
-      "image": "/images/news/eurowindow-lan-thu-8-lien-tiep-dat-thuong-hieu-quoc-gia-viet-nam/01.webp",
+      "image": "/images/news/eurowindow-lan-thu-8-lien-tiep-dat-thuong-hieu-quoc-gia-viet-nam/01.optimized.webp",
       "body": [
         "Ba nhóm sản phẩm chủ lực của Eurowindow vừa được vinh danh Thương hiệu quốc gia Việt Nam 2026, đánh dấu kỳ thứ 8 liên tiếp doanh nghiệp có tên trong danh sách kể từ năm 2012.",
         "Ba nhóm sản phẩm cùng được công nhận",
@@ -253,7 +253,7 @@
       "date": "2026-10-12"
     },
     {
-      "image": "/images/news/eurowindow-dong-hanh-cung-gala-doanh-nhan-thang-long-2026-va-vinh-du-nhan-bang-khen-tu-vcci/01.webp",
+      "image": "/images/news/eurowindow-dong-hanh-cung-gala-doanh-nhan-thang-long-2026-va-vinh-du-nhan-bang-khen-tu-vcci/01.optimized.webp",
       "body": [
         "Tối ngày 06/10/2026, tại Khách sạn Hanoi Daewoo, Hiệp hội Doanh nghiệp TP. Hà Nội (HBA) đã tổ chức chương trình \"Gala Doanh nhân Thăng Long 2026\" – sự kiện thường niên quan trọng nhằm tôn vinh các doanh nhân, doanh nghiệp tiêu biểu có thành tích xuất sắc trong sản xuất kinh doanh và đóng góp tích cực cho cộng đồng.",
         "Đại diện Lãnh đạo Eurowindow cùng các đại biểu tham dự Lễ khai mạc Gala Doanh nhân Thăng Long 2026 tại Khách sạn Hanoi Daewoo",
@@ -275,7 +275,7 @@
       "date": "2026-10-07"
     },
     {
-      "image": "/images/news/the-le-chuong-trinh-khuyen-mai-sam-cua-don-sang-san-sang-rinh-xe/01.webp",
+      "image": "/images/news/the-le-chuong-trinh-khuyen-mai-sam-cua-don-sang-san-sang-rinh-xe/01.optimized.webp",
       "body": [
         "Từ ngày 30/09/2026 đến 30/11/2026, Công ty Cổ phần Eurowindow triển khai chương trình khuyến mại “Sắm cửa đón sang – Sẵn sàng rinh xế” dành cho khách hàng nhà riêng trên toàn quốc. Chương trình mang đến nhiều quyền lợi thiết thực cùng cơ hội sở hữu loạt giải thưởng giá trị, nổi bật là Mercedes-Benz C200 trị giá 1,599 tỷ đồng.",
         "1. Tên chương trình “SẮM CỬA ĐÓN SANG – SẴN SÀNG RINH XẾ”",
@@ -348,7 +348,7 @@
       "date": "2026-09-30"
     },
     {
-      "image": "/images/news/eurowindow-to-chuc-workshop-giai-phap-xanh-cho-can-nha-hien-dai-tai-thanh-hoa/01.webp",
+      "image": "/images/news/eurowindow-to-chuc-workshop-giai-phap-xanh-cho-can-nha-hien-dai-tai-thanh-hoa/01.optimized.webp",
       "body": [
         "Eurowindow vừa tổ chức Workshop “Giải Pháp Xanh Cho Căn Nhà Hiện Đại” tại Thanh Hóa, quy tụ đại diện Xhome Thanh Hóa cùng đội ngũ kiến trúc sư, tư vấn thiết kế. Nhiều sản phẩm, công nghệ mới và giải pháp tiết kiệm năng lượng đã được giới thiệu, mở ra những trao đổi chuyên môn về khả năng ứng dụng trong các công trình hiện đại.",
         "Workshop “Giải Pháp Xanh Cho Căn Nhà Hiện Đại” tại Thanh Hóa, quy tụ đại diện Xhome Thanh Hóa cùng đội ngũ kiến trúc sư, tư vấn thiết kế",
@@ -375,7 +375,7 @@
       "date": "2026-09-21"
     },
     {
-      "image": "/images/news/eurowindow-dong-hanh-cung-giai-golf-cdc-nhan-ky-niem-35-nam-thanh-lap/01.webp",
+      "image": "/images/news/eurowindow-dong-hanh-cung-giai-golf-cdc-nhan-ky-niem-35-nam-thanh-lap/01.optimized.webp",
       "body": [
         "Eurowindow đồng hành cùng Giải Golf CDC nhân kỷ niệm 35 năm thành lập, tiếp nối mối quan hệ hợp tác lâu năm giữa hai doanh nghiệp, đồng thời tăng cường giao lưu với các đối tác trong lĩnh vực kiến trúc, tư vấn thiết kế và xây dựng.",
         "Giải Golf CDC được tổ chức nhân dấu mốc 35 năm thành lập CDC, với sự tham dự của lãnh đạo các doanh nghiệp, đối tác, kiến trúc sư cùng đại diện nhiều đơn vị hoạt động trong lĩnh vực tư vấn thiết kế và xây dựng. Với vai trò 1 trong 2 Nhà tài trợ Kim cương, Eurowindow đồng hành cùng CDC tổ chức giải đấu, góp phần tạo nên không gian gặp gỡ, giao lưu giữa các đối tác trong ngành.",
