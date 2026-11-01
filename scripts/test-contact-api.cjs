@@ -131,6 +131,7 @@ async function main() {
       ...process.env,
       NODE_ENV: 'development',
       NEXT_TELEMETRY_DISABLED: '1',
+      CONTACT_SUBMISSIONS_ENABLED: 'true',
       SUPABASE_URL: mockOrigin,
       SUPABASE_SERVICE_ROLE_KEY: mockSupabaseKey,
       GOOGLE_APPS_SCRIPT_URL: `${mockOrigin}/macros/s/test/exec`,

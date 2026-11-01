@@ -38,6 +38,7 @@ export default function SiteShell({ initialMarkup = '' }) {
         rootRef.current.innerHTML = markup;
         window.__EUROWINDOW_BASE_PATH__ = basePath;
         window.__EUROWINDOW_CONTACT_API__ = process.env.NEXT_PUBLIC_CONTACT_API_URL || `${basePath}/api/contact`;
+        window.__EUROWINDOW_CONTACT_ENABLED__ = process.env.NEXT_PUBLIC_CONTACT_SUBMISSIONS_ENABLED === 'true';
         siteScript = document.createElement('script');
         siteScript.src = `${basePath}/site-script.js?v=ssr-reveal-20261031`;
         rootRef.current.appendChild(siteScript);

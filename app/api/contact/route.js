@@ -275,6 +275,10 @@ export async function POST(request) {
     return error(403, 'ORIGIN_NOT_ALLOWED', 'Không thể gửi biểu mẫu từ trang này.', headers);
   }
 
+  if (process.env.CONTACT_SUBMISSIONS_ENABLED !== 'true') {
+    return error(503, 'CONTACT_SUBMISSIONS_DISABLED', 'T\u00ednh n\u0103ng ti\u1ebfp nh\u1eadn y\u00eau c\u1ea7u \u0111ang \u0111\u01b0\u1ee3c ho\u00e0n thi\u1ec7n. Vui l\u00f2ng g\u1ecdi hotline 0967 111 082.', headers);
+  }
+
   const contentLength = Number(request.headers.get('content-length') || 0);
   if (contentLength > MAX_BODY_BYTES) {
     return error(413, 'PAYLOAD_TOO_LARGE', 'Thông tin gửi lên vượt quá giới hạn.', headers);
