@@ -12,6 +12,7 @@ const rateCounts = new Map();
 let emailFails = false;
 let databaseFails = false;
 let emailCount = 0;
+let successfulEmailCount = 0;
 let apiCalls = 0;
 const mockSupabaseKey = process.env.SUPABASE_TEST_KEY_MODE === 'legacy'
   ? 'eyJ.mock.legacy-service-role'
@@ -75,7 +76,9 @@ const mockServer = createServer(async (request, response) => {
       const body = await readBody(request);
       assert.equal(body.secret, 'mock-email-secret');
       emailCount += 1;
-      return send(response, 200, emailFails ? { success: false, error: 'mock_email_failure' } : { success: true });
+      if (emailFails) return send(response, 200, { success: false, error: 'mock_email_failure' });
+      successfulEmailCount += 1;
+      return send(response, 200, { success: true });
     }
     send(response, 404, { error: 'not found' });
   } catch (error) {
@@ -109,10 +112,10 @@ async function waitForNext(url, child) {
   throw new Error('Timed out waiting for Next.js development server.');
 }
 
-async function postLead(url, payload) {
+async function postLead(url, payload, clientIp = '127.0.0.1') {
   const response = await fetch(url, {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
+    headers: { 'Content-Type': 'application/json', 'x-real-ip': clientIp },
     body: JSON.stringify(payload),
     signal: AbortSignal.timeout(20000),
   });
@@ -122,16 +125,30 @@ async function postLead(url, payload) {
 async function main() {
   await new Promise((resolve, reject) => mockServer.listen(0, '127.0.0.1', (error) => error ? reject(error) : resolve()));
   const mockPort = mockServer.address().port;
+  const mockOrigin = `http://127.0.0.1:${mockPort}`;
+  const disabledPort = await reservePort();
+  const disabledOrigin = `http://127.0.0.1:${disabledPort}`;
+  const disabledChild = spawn(process.execPath, ['node_modules/next/dist/bin/next', 'dev', '-p', String(disabledPort)], {
+    cwd: root,
+    env: { ...process.env, NODE_ENV: 'development', CONTACT_SUBMISSIONS_ENABLED: 'false', NEXT_TELEMETRY_DISABLED: '1' },
+    stdio: 'inherit',
+  });
+  await waitForNext(`${disabledOrigin}/api/contact`, disabledChild);
+  const disabled = await postLead(`${disabledOrigin}/api/contact/`, { name: 'Test Customer', phone: '0967111082' });
+  assert.equal(disabled.status, 503, 'the API must remain closed unless explicitly enabled');
+  assert.equal(disabled.body.code, 'CONTACT_SUBMISSIONS_DISABLED');
+  disabledChild.kill();
+  await once(disabledChild, 'exit').catch(() => {});
+
   const appPort = await reservePort();
   const appOrigin = `http://127.0.0.1:${appPort}`;
-  const mockOrigin = `http://127.0.0.1:${mockPort}`;
   const child = spawn(process.execPath, ['node_modules/next/dist/bin/next', 'dev', '-p', String(appPort)], {
     cwd: root,
     env: {
       ...process.env,
       NODE_ENV: 'development',
-      NEXT_TELEMETRY_DISABLED: '1',
       CONTACT_SUBMISSIONS_ENABLED: 'true',
+      NEXT_TELEMETRY_DISABLED: '1',
       SUPABASE_URL: mockOrigin,
       SUPABASE_SERVICE_ROLE_KEY: mockSupabaseKey,
       GOOGLE_APPS_SCRIPT_URL: `${mockOrigin}/macros/s/test/exec`,
@@ -146,6 +163,16 @@ async function main() {
     const invalid = await postLead(endpoint, { name: 'A', phone: '123', email: '' });
     assert.equal(invalid.status, 400, 'input validation should reject invalid details');
     assert.equal(apiCalls, 0, 'invalid details must not reach Supabase');
+    const missingRequired = await postLead(endpoint, { email: 'test@example.com' });
+    assert.equal(missingRequired.status, 400, 'submissions missing required name and phone must be rejected');
+    assert.equal(apiCalls, 0, 'submissions missing required fields must not reach Supabase');
+    const invalidEmail = await postLead(endpoint, { name: 'Test Customer', phone: '09671110000', email: 'not-an-email' });
+    assert.equal(invalidEmail.status, 400, 'invalid email addresses must be rejected');
+    assert.equal(apiCalls, 0, 'invalid email addresses must not reach Supabase');
+
+    const spam = await postLead(endpoint, { name: 'Spam Customer', phone: '09671110000', website: 'https://spam.example' });
+    assert.equal(spam.status, 400, 'honeypot submissions must be rejected');
+    assert.equal(apiCalls, 0, 'honeypot submissions must not reach Supabase');
 
     const oversized = await fetch(endpoint, {
       method: 'POST',
@@ -198,18 +225,27 @@ async function main() {
     assert.equal(emailFailure.body.notificationStatus, 'failed');
     assert.equal(leads.size, 2);
 
+    await fetch(`${mockOrigin}/__test/toggle-email?fail=0`);
+    const emailRetry = await postLead(endpoint, { ...payload, phone: '0967111083', message: 'Email failure test' });
+    assert.equal(emailRetry.status, 200, 'retry after notification failure must keep the saved lead');
+    assert.equal(emailRetry.body.notificationStatus, 'sent');
+    assert.equal(leads.size, 2, 'notification retry must not create another lead');
+    assert.equal(emailCount, 3, 'retry should make one additional notification attempt');
+    assert.equal(successfulEmailCount, 2, 'successful initial and retry notifications should each send once');
     await fetch(`${mockOrigin}/__test/toggle-database?fail=1`);
     const databaseFailure = await postLead(endpoint, { ...payload, phone: '0967111084', message: 'Database failure test' });
     assert.equal(databaseFailure.status, 503, 'API must not claim success when persistence fails');
     assert.equal(databaseFailure.body.success, false);
     assert.equal(leads.size, 2);
 
-    const finalAllowedRequest = await postLead(endpoint, { ...payload, phone: '0967111085', message: 'Rate limit boundary test' });
-    assert.equal(finalAllowedRequest.status, 503, 'the fifth request is within the configured rate window');
-    const rateLimited = await postLead(endpoint, { ...payload, phone: '0967111086', message: 'Rate limit exceeded test' });
+    await fetch(`${mockOrigin}/__test/toggle-database?fail=0`);
+    for (let index = 0; index < 5; index += 1) {
+      const allowed = await postLead(endpoint, { ...payload, phone: `096711109${index}`, message: `Rate limit test ${index}` }, '192.0.2.40');
+      assert.equal(allowed.status, 200, `request ${index + 1} should fit in the rate window`);
+    }
+    const rateLimited = await postLead(endpoint, { ...payload, phone: '0967111099', message: 'Rate limit overflow test' }, '192.0.2.40');
     assert.equal(rateLimited.status, 429, 'requests beyond the configured rate must be rejected');
-    assert.equal(leads.size, 2, 'rate-limited requests must not create leads');
-
+    assert.equal(leads.size, 7, 'rate-limited requests must not create leads');
     console.log('Contact API smoke test passed: bounded request body, CORS, validation, rate limit, secure service-role call, persistence, duplicate retry, email failure isolation, and database failure response.');
   } finally {
     child.kill();

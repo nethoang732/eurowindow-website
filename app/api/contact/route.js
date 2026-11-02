@@ -212,10 +212,15 @@ async function updateNotificationStatus(config, leadId, status, errorCode = null
   if (!response.ok) throw new Error(`Supabase notification status update failed (${response.status})`);
 }
 
+function safeErrorCode(value, fallback) {
+  return typeof value === 'string' && /^[a-z0-9_]{1,64}$/.test(value) ? value : fallback;
+}
+
 async function sendEmailNotification(config, payload, lead, requestId, ipHash, submittedAt) {
   const appsScript = appsScriptEndpoint();
   if (!appsScript) {
     await updateNotificationStatus(config, lead.id, 'unconfigured', 'apps_script_not_configured');
+    console.error('Customer lead saved; Outlook notification is not configured.');
     return 'unconfigured';
   }
 
@@ -238,8 +243,9 @@ async function sendEmailNotification(config, payload, lead, requestId, ipHash, s
     });
     const result = await response.json().catch(() => null);
     if (!response.ok || result?.success !== true) {
-      await updateNotificationStatus(config, lead.id, 'failed', result?.error || `email_http_${response.status}`);
-      console.error('Customer lead saved; Outlook notification was not confirmed.', result?.error || response.status);
+      const failureCode = safeErrorCode(result?.error, `email_http_${response.status}`);
+      await updateNotificationStatus(config, lead.id, 'failed', failureCode);
+      console.error('Customer lead saved; Outlook notification was not confirmed.', { code: safeErrorCode(result?.error, 'email_delivery_failed'), status: response.status });
       return 'failed';
     }
     await updateNotificationStatus(config, lead.id, 'sent');
@@ -249,9 +255,9 @@ async function sendEmailNotification(config, payload, lead, requestId, ipHash, s
     try {
       await updateNotificationStatus(config, lead.id, 'failed', errorCode);
     } catch (statusError) {
-      console.error('Customer lead saved; unable to update notification status.', statusError);
+      console.error('Customer lead saved; unable to update notification status.', statusError?.name || 'notification_status_update_failed');
     }
-    console.error('Customer lead saved; Outlook notification failed.', cause);
+    console.error('Customer lead saved; Outlook notification failed.', errorCode);
     return 'failed';
   } finally {
     clearTimeout(timeout);
@@ -276,7 +282,7 @@ export async function POST(request) {
   }
 
   if (process.env.CONTACT_SUBMISSIONS_ENABLED !== 'true') {
-    return error(503, 'CONTACT_SUBMISSIONS_DISABLED', 'T\u00ednh n\u0103ng ti\u1ebfp nh\u1eadn y\u00eau c\u1ea7u \u0111ang \u0111\u01b0\u1ee3c ho\u00e0n thi\u1ec7n. Vui l\u00f2ng g\u1ecdi hotline 0967 111 082.', headers);
+    return error(503, 'CONTACT_SUBMISSIONS_DISABLED', 'Tính năng tiếp nhận yêu cầu đang được hoàn thiện. Vui lòng gọi hotline 0967 111 082.', headers);
   }
 
   const contentLength = Number(request.headers.get('content-length') || 0);
@@ -347,19 +353,19 @@ export async function POST(request) {
     });
     const result = await response.json().catch(() => null);
     if (!response.ok || !result || typeof result !== 'object') {
-      console.error('Supabase did not confirm customer lead persistence.', response.status, result?.code || result?.message);
+      console.error('Supabase did not confirm customer lead persistence.', response.status, result?.code || 'database_error');
       return error(503, 'LEAD_SAVE_FAILED', 'Chưa lưu được yêu cầu. Vui lòng thử lại hoặc gọi hotline 0967 111 082.', headers);
     }
     if (result.code === 'RATE_LIMITED') {
       return error(429, 'RATE_LIMITED', 'Bạn đã gửi nhiều yêu cầu trong thời gian ngắn. Vui lòng thử lại sau.', headers);
     }
     if (result.success !== true || !result.id || !result.customer_code) {
-      console.error('Supabase RPC returned an unexpected result.', result);
+      console.error('Supabase RPC returned an unexpected result.', result?.code || 'unexpected_rpc_result');
       return error(503, 'LEAD_SAVE_FAILED', 'Chưa lưu được yêu cầu. Vui lòng thử lại hoặc gọi hotline 0967 111 082.', headers);
     }
     lead = result;
   } catch (cause) {
-    console.error('Supabase lead persistence request failed.', cause);
+    console.error('Supabase lead persistence request failed.', cause?.name || 'database_request_failed');
     return error(503, 'LEAD_SAVE_FAILED', 'Chưa lưu được yêu cầu. Vui lòng thử lại hoặc gọi hotline 0967 111 082.', headers);
   } finally {
     clearTimeout(rpcTimeout);
@@ -372,7 +378,7 @@ export async function POST(request) {
     } catch (cause) {
       // Persistence already succeeded. Notification bookkeeping must not turn a saved lead into a failed form submission.
       notificationStatus = 'failed';
-      console.error('Customer lead persisted; notification processing needs attention.', cause);
+      console.error('Customer lead persisted; notification processing needs attention.', cause?.name || 'notification_processing_failed');
     }
   }
 
