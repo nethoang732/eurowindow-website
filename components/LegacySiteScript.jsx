@@ -6,6 +6,9 @@ const basePath = process.env.NEXT_PUBLIC_BASE_PATH || (process.env.GITHUB_ACTION
 
 export default function LegacySiteScript({ routeKey }) {
   useEffect(() => {
+    window.__EUROWINDOW_CONTACT_API__ = process.env.NEXT_PUBLIC_CONTACT_API_URL || `${basePath}/api/contact`;
+    window.__EUROWINDOW_CONTACT_ENABLED__ = process.env.NEXT_PUBLIC_CONTACT_SUBMISSIONS_ENABLED === 'true';
+
     if (typeof window.__EUROWINDOW_RENDER__ === 'function') {
       window.requestAnimationFrame(() => window.__EUROWINDOW_RENDER__());
       return;
