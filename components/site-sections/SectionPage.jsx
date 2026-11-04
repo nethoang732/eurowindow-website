@@ -229,12 +229,10 @@ export function SectionPage({ segments = [] }) {
   </article>)}</div></div></section></>;
   if (descriptor.type === 'videos') return <><PageHero segments={segments} descriptor={descriptor} eyebrow="VIDEO" /><VideoDirectory /></>;
   if (descriptor.type === 'project-category' || descriptor.type === 'projects') {
-    const projectsDescriptor = descriptor.category ? getSectionDescriptor(['cong-trinh-tieu-bieu']) : descriptor;
-    return <><PageHero segments={segments} descriptor={projectsDescriptor} eyebrow="CÔNG TRÌNH TIÊU BIỂU" /><section className="section-content-area"><div className="wrap"><ProjectDirectory projects={content.projects} categories={content.projectCategories} currentCategory={descriptor.category?.slug || ''} /></div></section></>;
+    return <><PageHero segments={segments} descriptor={descriptor} eyebrow="CÔNG TRÌNH TIÊU BIỂU" /><section className="section-content-area"><div className="wrap"><ProjectDirectory projects={content.projects} categories={content.projectCategories} currentCategory={descriptor.category?.slug || ''} /></div></section></>;
   }
   const articles = content.articles.filter((item) => item.image).map(({ slug, category, date, image, title, summary }) => ({ slug, category, date, image, title, summary }));
-  const newsDescriptor = descriptor.category ? getSectionDescriptor(['tin-tuc']) : descriptor;
-  return <><PageHero segments={segments} descriptor={newsDescriptor} eyebrow="TIN TỨC" /><section className="section-content-area news-content-area"><div className="wrap"><NewsDirectory articles={articles} categories={content.newsCategories} currentCategory={descriptor.category?.slug || ''} /></div></section></>;
+  return <><PageHero segments={segments} descriptor={descriptor} eyebrow="TIN TỨC" /><section className="section-content-area news-content-area"><div className="wrap"><NewsDirectory articles={articles} categories={content.newsCategories} currentCategory={descriptor.category?.slug || ''} /></div></section></>;
 }
 
 export function sectionPageExists(segments = []) {

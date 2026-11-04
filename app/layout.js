@@ -3,6 +3,21 @@ import InternalRouteNavigation from '../components/InternalRouteNavigation';
 import FloatingContactButtons from '../components/FloatingContactButtons';
 import ContactSuccessDialog from '../components/ContactSuccessDialog';
 import { getRobotsMetadata } from '../lib/content/site-section-utils';
+import { Be_Vietnam_Pro, Montserrat } from 'next/font/google';
+
+const beVietnamPro = Be_Vietnam_Pro({
+  subsets: ['vietnamese', 'latin'],
+  weight: ['400', '500', '600', '700'],
+  display: 'swap',
+  variable: '--font-be-vietnam-pro'
+});
+
+const montserrat = Montserrat({
+  subsets: ['vietnamese', 'latin'],
+  weight: ['400', '500', '600', '700', '800'],
+  display: 'swap',
+  variable: '--font-montserrat'
+});
 
 export const metadata = {
   robots: getRobotsMetadata(),
@@ -18,14 +33,10 @@ export const metadata = {
 export default function RootLayout({ children }) {
   const basePath = process.env.NEXT_PUBLIC_BASE_PATH || (process.env.GITHUB_ACTIONS === 'true' ? '/eurowindow-website' : '');
   return (
-    <html lang="vi" data-motion-mode="auto">
+    <html lang="vi" data-motion-mode="auto" className={`${beVietnamPro.variable} ${montserrat.variable}`}>
       <head>
         <meta name="theme-color" content="#102b4c" />
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&family=Montserrat:wght@400;500;600;700;800&display=swap" />
-        <script dangerouslySetInnerHTML={{ __html: "document.addEventListener('load',function(event){var target=event.target;if(target&&target.id==='eurowindow-google-fonts')target.media='all';if(target&&target.matches&&target.matches('link[data-deferred-stylesheet]'))target.media='all'},true)" }} />
-        <link id="eurowindow-google-fonts" href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet" media="print" />
+        <script dangerouslySetInnerHTML={{ __html: "document.addEventListener('load',function(event){var target=event.target;if(target&&target.matches&&target.matches('link[data-deferred-stylesheet]'))target.media='all'},true)" }} />
         <link rel="stylesheet" href={basePath + '/site.css?v=hero-playlist-v1-20261024'} />
         <link rel="stylesheet" href={basePath + '/site-navigation.css?v=mobile-menu-contrast-v1-20261030'} />
         <link rel="stylesheet" href={basePath + '/site-product-pages.css?v=full-site-visual-fix-2026-10-18'} />
