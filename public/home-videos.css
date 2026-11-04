@@ -318,7 +318,7 @@
 
   #main.home-page .home-video-section::before {
     background: linear-gradient(90deg, #f7f5f0ef, #f7f5f0d9),
-      url('/images/sections/nha-pho-hien-dai-minh-hoa.optimized.webp') center / cover no-repeat;
+      image-set(url('/images/sections/nha-pho-hien-dai-minh-hoa.mobile-640.webp') 1x, url('/images/sections/nha-pho-hien-dai-minh-hoa.mobile-1200.webp') 2x, url('/images/sections/nha-pho-hien-dai-minh-hoa.optimized.webp') 3x) center / cover no-repeat;
   }
 
   #main.home-page .home-video-wrap {

@@ -1,3 +1,8 @@
+export const metadata = {
+  title: 'Trang không tồn tại | Eurowindow',
+  robots: { index: false, follow: false }
+};
+
 export default function NotFound() {
   return (
     <main

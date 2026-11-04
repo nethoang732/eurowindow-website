@@ -103,11 +103,11 @@ const homepageCategoriesPattern = /(const categories=\[[\s\S]*?\];)/;
 if (!homepageCategoriesPattern.test(script)) throw new Error('Could not find the homepage product categories');
 script = script.replace(homepageCategoriesPattern, `$1
   const productCategoryImages={
-    'cua-nhom':{src:'/images/door-reference/nhom-Cua-nhom-mo-quay-2-canh.optimized.webp',alt:'Cửa nhôm kính hai cánh mở quay Eurowindow'},
-    'cua-upvc':{src:'/images/eurowindow-products/cua-di-upvc-2-canh-mo-truot-eurowindow.webp',alt:'Cửa đi uPVC hai cánh mở trượt Eurowindow'},
-    'cua-go':{src:'/images/eurowindow-products/cua-go-tu-nhien-eurowindow.webp',alt:'Cửa gỗ tự nhiên Eurowindow'},
-    'cua-cuon':{src:'/images/eurowindow-products/cua-cuon-nhom-khe-thoang-easd45-eurowindow.webp',alt:'Cửa cuốn nhôm khe thoáng EASD45 Eurowindow'},
-    'cua-thong-minh-the-he-moi':{src:'/images/eurowindow-products/cua-di-tu-dong-mo-truot-2-hoac-4-canh-eurowindow.webp',alt:'Cửa trượt tự động Eurowindow'},
+    'cua-nhom':{src:'/images/door-reference/nhom-Cua-nhom-mo-quay-2-canh.optimized.webp',srcset:'/images/door-reference/nhom-Cua-nhom-mo-quay-2-canh.optimized-480.webp 480w, /images/door-reference/nhom-Cua-nhom-mo-quay-2-canh.optimized-600.webp 600w, /images/door-reference/nhom-Cua-nhom-mo-quay-2-canh.optimized-720.webp 720w, /images/door-reference/nhom-Cua-nhom-mo-quay-2-canh.optimized.webp 1400w',sizes:'(max-width: 700px) min(82vw, 340px), (max-width: 1100px) 250px, 340px',alt:'Cửa nhôm kính hai cánh mở quay Eurowindow'},
+    'cua-upvc':{src:'/images/eurowindow-products/cua-di-upvc-2-canh-mo-truot-eurowindow.webp',srcset:'/images/eurowindow-products/cua-di-upvc-2-canh-mo-truot-eurowindow-480.webp 480w, /images/eurowindow-products/cua-di-upvc-2-canh-mo-truot-eurowindow-600.webp 600w, /images/eurowindow-products/cua-di-upvc-2-canh-mo-truot-eurowindow-720.webp 720w, /images/eurowindow-products/cua-di-upvc-2-canh-mo-truot-eurowindow.webp 800w',sizes:'(max-width: 700px) min(82vw, 340px), (max-width: 1100px) 250px, 340px',alt:'Cửa đi uPVC hai cánh mở trượt Eurowindow'},
+    'cua-go':{src:'/images/eurowindow-products/cua-go-tu-nhien-eurowindow.webp',srcset:'/images/eurowindow-products/cua-go-tu-nhien-eurowindow-480.webp 480w, /images/eurowindow-products/cua-go-tu-nhien-eurowindow-600.webp 600w, /images/eurowindow-products/cua-go-tu-nhien-eurowindow.webp 800w',sizes:'(max-width: 700px) min(82vw, 340px), (max-width: 1100px) 250px, 340px',alt:'Cửa gỗ tự nhiên Eurowindow'},
+    'cua-cuon':{src:'/images/eurowindow-products/cua-cuon-nhom-khe-thoang-easd45-eurowindow-home.webp',alt:'Cửa cuốn nhôm khe thoáng EASD45 Eurowindow'},
+    'cua-thong-minh-the-he-moi':{src:'/images/eurowindow-products/cua-di-tu-dong-mo-truot-2-hoac-4-canh-eurowindow.webp',srcset:'/images/eurowindow-products/cua-di-tu-dong-mo-truot-2-hoac-4-canh-eurowindow-720.webp 720w, /images/eurowindow-products/cua-di-tu-dong-mo-truot-2-hoac-4-canh-eurowindow.webp 800w',sizes:'(max-width: 700px) calc(100vw - 40px), (max-width: 1000px) calc(50vw - 41px), 24vw',alt:'Cửa trượt tự động Eurowindow'},
     'vach-kinh-mat-dung':{src:'/images/eurowindow-products/vach-nhom-kinh-unitized-eurowindow.webp',alt:'Vách kính mặt dựng Eurowindow'}
   };
   window.__EUROWINDOW_PRODUCT_CATEGORY_IMAGES__=productCategoryImages;
@@ -201,7 +201,7 @@ aluminumPage += `
       {name:'Cửa nhôm',type:'Nhôm kính',desc:'Cửa đi, cửa sổ và vách kính theo hệ nhôm, kiểu mở và cấu hình phù hợp công trình.',image:productCategoryImages['cua-nhom'].src,href:'/san-pham/cua-nhom/'},
       {name:'Cửa uPVC',type:'uPVC',desc:'Cửa đi và cửa sổ uPVC với nhiều kiểu mở cho nhà ở và công trình.',image:productCategoryImages['cua-upvc'].src,href:'/san-pham/cua-upvc/'},
       {name:'Cửa gỗ',type:'Gỗ tự nhiên & công nghiệp',desc:'Các dòng cửa gỗ với lựa chọn vật liệu và bề mặt hoàn thiện đa dạng.',image:productCategoryImages['cua-go'].src,href:'/san-pham/cua-go/'}
-    );    const renderCards=()=>cards.map(item=>'<article class="system-card"><a href="'+item.href+'"><img loading="lazy" alt="'+item.type+' '+item.name+'" src="'+item.image+'"><small>'+item.type+'</small><h3>'+item.name+'</h3><p>'+item.desc+'</p><span>Xem chi tiết <span>→</span></span></a></article>').join('');
+    );    const renderCards=()=>cards.map(item=>'<article class="system-card"><a href="'+item.href+'"><img loading="lazy" alt="'+item.type+' '+item.name+'" src="'+item.image+'"'+(categoryResponsiveAttrs(item.image)?' '+categoryResponsiveAttrs(item.image):'')+'><small>'+item.type+'</small><h3>'+item.name+'</h3><p>'+item.desc+'</p><span>Xem chi tiết <span>→</span></span></a></article>').join('');
     const heading=homePage?'<div class="section-head system-heading"><div><span class="eyebrow">03 / SẢN PHẨM</span><h2 class="serif">Các dòng cửa <span>nổi bật</span></h2><p>Giải pháp cửa hiện đại, đa dạng vật liệu, đáp ứng nhu cầu của từng công trình.</p></div><a class="button link system-all-link" href="/san-pham">Xem tất cả sản phẩm <span class="arrow" aria-hidden="true">→</span></a></div>':'<div class="section-head"><div><span class="eyebrow">03 / SẢN PHẨM</span><h2 class="serif">Các dòng cửa nổi bật</h2></div></div>';
     return '<section class="section system-section"><div class="wrap">'+heading+'<div class="system-marquee"'+(homePage?' role="region" aria-label="Các dòng cửa nổi bật"':'')+'><div class="system-track">'+renderCards()+'</div></div><div class="system-marquee-controls"><button class="system-marquee-arrow" data-system-prev type="button" aria-label="Xem nhóm cửa trước">&#8592;</button><button class="system-marquee-control" type="button" aria-pressed="false" aria-label="Tạm dừng chuyển động">Tạm dừng</button><button class="system-marquee-arrow" data-system-next type="button" aria-label="Xem nhóm cửa tiếp theo">&#8594;</button></div></div></section>';
   }
@@ -369,6 +369,8 @@ script = script.replace('  function observe(){', `  function setupHomeMotion(){
     const itemSelector='.hero-content > *, .hero-meta, .scroll-note, .intro-art, .intro-copy > *, .section-head h2, .section-head .eyebrow, .section-head p, .section-head .button, .category-grid .category-card, .system-marquee, .project-grid .project-card, .craft-image, .craft-copy > *, .story-photo, .story-copy > *, .quote-grid > div > *, .quote-form input:not([aria-hidden="true"]), .quote-form textarea, .quote-form select, .quote-form button, .news-grid .news-card, .article-image, .article-body > *';
     const items=new Set();
     sections.forEach(section=>{
+      // Keep the first viewport visible while hydration and motion observers initialize.
+      if(section.matches('.hero'))return;
       section.classList.add('home-section-motion');
       section.querySelectorAll(itemSelector).forEach((el,index)=>{
         if(el.classList.contains('reveal'))return;
