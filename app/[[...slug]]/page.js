@@ -64,8 +64,8 @@ export function generateMetadata({ params }) {
   const segments = params?.slug || [];
   if (segments.length === 0) {
     return addCanonicalMetadata({
-      title: 'Giải pháp cửa, kính cho công trình | Eurowindow',
-      description: 'Khám phá cửa, kính và vách kính Eurowindow cho nhà ở, văn phòng và công trình; tìm hiểu vật liệu, kiểu mở và ứng dụng theo từng vị trí.'
+      title: 'Eurowindow Miền Nam | Cửa nhôm kính và cửa gỗ',
+      description: 'Khám phá cửa nhôm kính, cửa uPVC và cửa gỗ Eurowindow; xem công trình tiêu biểu, tìm showroom và nhận tư vấn tại miền Nam.'
     }, '/');
   }
   const path = segments.join('/');
