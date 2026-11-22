@@ -18,16 +18,6 @@ function JsonLd({ data }) {
 
 export default function ProductDetail({ product: sourceProduct, canonicalUrl, siteOrigin }) {
   const product = applyEditorialContent(sourceProduct);
-  const imageUrls = siteOrigin
-    ? product.gallery.filter(item => !item.src.startsWith('data:') && !item.src.toLowerCase().endsWith('.svg')).map(item => new URL(item.src, siteOrigin).toString())
-    : undefined;
-  const productSchema = {
-    '@context': 'https://schema.org', '@type': 'Product',
-    name: product.name, description: product.description, category: product.category,
-    brand: { '@type': 'Brand', name: 'Eurowindow' },
-    ...(canonicalUrl ? { url: canonicalUrl } : {}),
-    ...(imageUrls?.length ? { image: imageUrls } : {})
-  };
   const breadcrumbSchema = {
     '@context': 'https://schema.org', '@type': 'BreadcrumbList',
     itemListElement: [
@@ -54,7 +44,7 @@ export default function ProductDetail({ product: sourceProduct, canonicalUrl, si
 
   return (
     <>
-      <JsonLd data={productSchema} /><JsonLd data={breadcrumbSchema} /><ProductHeader />
+      <JsonLd data={breadcrumbSchema} /><ProductHeader />
       <main id="main-content" className={`${styles.page} ${product.showBatchExtensions ? styles.batchPage : ""}`}>
         <section className={styles.hero} data-product-hero aria-labelledby="product-title">
           <div className={styles.wrap}>
